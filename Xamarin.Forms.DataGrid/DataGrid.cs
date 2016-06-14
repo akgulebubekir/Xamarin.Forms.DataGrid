@@ -192,7 +192,6 @@ namespace Xamarin.Forms.DataGrid
             {
                 Text = column.Title,
                 VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalTextAlignment = TextAlignment.Center,
                 TextColor = HeaderTextColor,
                 FontAttributes = FontAttributes.Bold,
@@ -200,34 +199,38 @@ namespace Xamarin.Forms.DataGrid
                 FontSize = HeaderFontSize,
             };
 
-            StackLayout view = new StackLayout
+            Grid grid = new Grid
             {
                 BackgroundColor = HeaderBackground,
-                Orientation = StackOrientation.Horizontal,
+                ColumnSpacing = 0,
             };
+
+            grid.ColumnDefinitions.Add(new ColumnDefinition(){ Width = new GridLength(1,GridUnitType.Star)});
+            grid.ColumnDefinitions.Add(new ColumnDefinition(){ Width = new GridLength(1,GridUnitType.Auto)});
+            grid.ColumnDefinitions.Add(new ColumnDefinition(){ Width = new GridLength(1,GridUnitType.Star)});
 
             if (IsSortable)
             {
                 var orderingIcon = new Image
                 {
                     VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center,
                     WidthRequest = 8,
                     HeightRequest = 6,
-                    Margin = new Thickness(5,0),
                 };
+
                 column.Params = orderingIcon;
-                view.Children.Add(orderingIcon);
+                grid.Children.Add(orderingIcon);
 
                 TapGestureRecognizer tgr = new TapGestureRecognizer();
                 tgr.Tapped += (s, e) => SortItems(Columns.IndexOf(column));
-                view.GestureRecognizers.Add(tgr);
+                grid.GestureRecognizers.Add(tgr);
             }
 
-            view.Children.Add(text);
+            grid.Children.Add(text);
+            Grid.SetColumn(text,1);
 
-
-
-            return view;
+            return grid;
         }
 
         private View GetHeader()
