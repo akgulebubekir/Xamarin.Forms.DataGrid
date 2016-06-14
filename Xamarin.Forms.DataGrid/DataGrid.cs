@@ -20,18 +20,18 @@ namespace Xamarin.Forms.DataGrid
 
         public static readonly BindableProperty BorderColorProperty =
             BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(DataGrid), Color.Black,
-                propertyChanged:(b,o,n)=> { (b as DataGrid)._listView.SeparatorColor = (Color)n; });
+                propertyChanged: (b, o, n) => { (b as DataGrid)._listView.SeparatorColor = (Color)n; });
 
         public static readonly BindableProperty RowsBackgroundColorPaletteProperty =
-            BindableProperty.Create(nameof(RowsBackgroundColorPalette), typeof(IList<Color>), typeof(DataGrid), new List<Color>() { Color.White });
+            BindableProperty.Create(nameof(RowsBackgroundColorPalette), typeof(PaletteCollection), typeof(DataGrid), new PaletteCollection { Color.White });
 
         public static readonly BindableProperty RowsTextColorPaletteProperty =
-            BindableProperty.Create(nameof(RowsTextColorPalette), typeof(IList<Color>), typeof(DataGrid), new List<Color>() { Color.Black });
+            BindableProperty.Create(nameof(RowsTextColorPalette), typeof(PaletteCollection), typeof(DataGrid), new PaletteCollection { Color.Black });
 
         public static readonly BindableProperty ColumnsProperty =
-            BindableProperty.Create(nameof(Columns), typeof(ColumnCollection), typeof(DataGrid), 
-                propertyChanged:(b,o,n)=>(b as DataGrid).CreateUI(),
-                defaultValueCreator: bindable =>{return new ColumnCollection();}
+            BindableProperty.Create(nameof(Columns), typeof(ColumnCollection), typeof(DataGrid),
+                propertyChanged: (b, o, n) => (b as DataGrid).CreateUI(),
+                defaultValueCreator: bindable => { return new ColumnCollection(); }
             );
 
         public static readonly BindableProperty ItemsSourceProperty =
@@ -40,7 +40,7 @@ namespace Xamarin.Forms.DataGrid
 
         public static readonly BindableProperty RowHeightProperty =
             BindableProperty.Create(nameof(RowHeight), typeof(int), typeof(DataGrid), 40,
-                propertyChanged: (b,o,n)=> { if (o != n) (b as DataGrid)._listView.RowHeight = (int)n; });
+                propertyChanged: (b, o, n) => { if (o != n) (b as DataGrid)._listView.RowHeight = (int)n; });
 
         public static readonly BindableProperty HeaderHeightProperty =
             BindableProperty.Create(nameof(HeaderHeight), typeof(int), typeof(DataGrid), 40);
@@ -53,7 +53,7 @@ namespace Xamarin.Forms.DataGrid
 
         public static readonly BindableProperty HeaderFontSizeProperty =
             BindableProperty.Create(nameof(HeaderFontSize), typeof(double), typeof(DataGrid), 13.0);
-        
+
         #endregion
 
         #region properties
@@ -75,15 +75,15 @@ namespace Xamarin.Forms.DataGrid
             set { SetValue(BorderColorProperty, value); }
         }
 
-        public IEnumerable<Color> RowsBackgroundColorPalette
+        public PaletteCollection RowsBackgroundColorPalette
         {
-            get { return (IEnumerable<Color>)GetValue(RowsBackgroundColorPaletteProperty); }
+            get { return (PaletteCollection)GetValue(RowsBackgroundColorPaletteProperty); }
             set { SetValue(RowsBackgroundColorPaletteProperty, value); }
         }
 
-        public IEnumerable<Color> RowsTextColorPalette
+        public PaletteCollection RowsTextColorPalette
         {
-            get { return (IEnumerable<Color>)GetValue(RowsTextColorPaletteProperty); }
+            get { return (PaletteCollection)GetValue(RowsTextColorPaletteProperty); }
             set { SetValue(RowsTextColorPaletteProperty, value); }
         }
 
@@ -108,7 +108,7 @@ namespace Xamarin.Forms.DataGrid
         public double HeaderFontSize
         {
             get { return (double)GetValue(HeaderFontSizeProperty); }
-            set { SetValue(HeaderFontSizeProperty,value); }
+            set { SetValue(HeaderFontSizeProperty, value); }
         }
 
         public int RowHeight
@@ -205,9 +205,9 @@ namespace Xamarin.Forms.DataGrid
                 ColumnSpacing = 0,
             };
 
-            grid.ColumnDefinitions.Add(new ColumnDefinition(){ Width = new GridLength(1,GridUnitType.Star)});
-            grid.ColumnDefinitions.Add(new ColumnDefinition(){ Width = new GridLength(1,GridUnitType.Auto)});
-            grid.ColumnDefinitions.Add(new ColumnDefinition(){ Width = new GridLength(1,GridUnitType.Star)});
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 
             if (IsSortable)
             {
@@ -228,7 +228,7 @@ namespace Xamarin.Forms.DataGrid
             }
 
             grid.Children.Add(text);
-            Grid.SetColumn(text,1);
+            Grid.SetColumn(text, 1);
 
             return grid;
         }
@@ -245,7 +245,7 @@ namespace Xamarin.Forms.DataGrid
                 BackgroundColor = BorderColor,
             };
 
-            foreach(var col in Columns)
+            foreach (var col in Columns)
             {
                 header.ColumnDefinitions.Add(new ColumnDefinition() { Width = col.Width });
 
@@ -292,12 +292,12 @@ namespace Xamarin.Forms.DataGrid
             {
                 sortedItems = item.OrderBy((x) => x.GetType().GetRuntimeProperty(Columns[propertyIndex].PropertyName).GetValue(x)).ToList();
                 _sortingOrders[propertyIndex] = SortingOrder.Ascendant;
-               sortingImage.Source = ImageSource.FromResource("Xamarin.Forms.DataGrid.up.png");
+                sortingImage.Source = ImageSource.FromResource("Xamarin.Forms.DataGrid.up.png");
             }
 
             foreach (var column in Columns)
             {
-                if ((column.Params as Image).Source!= null && Columns[propertyIndex] != column )
+                if ((column.Params as Image).Source != null && Columns[propertyIndex] != column)
                     (column.Params as Image).Source = null;
             }
 
