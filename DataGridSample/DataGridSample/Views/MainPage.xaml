@@ -9,7 +9,13 @@
   <ContentView BackgroundColor="White" Padding="20">
     
 
-    <dg:DataGrid ItemsSource="{Binding Teams}" RowHeight="45" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8" HeaderFontSize="15">
+    <dg:DataGrid ItemsSource="{Binding Teams}" RowHeight="45" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8">
+      <dg:DataGrid.HeaderFontSize>
+        <OnIdiom  x:TypeArguments="x:Double">
+          <OnIdiom.Tablet>15</OnIdiom.Tablet>
+          <OnIdiom.Phone>13</OnIdiom.Phone>
+        </OnIdiom>
+      </dg:DataGrid.HeaderFontSize>
       <dg:DataGrid.Columns>
         <dg:DataGridColumn Title="Team" PropertyName="Name" Width="3*"/>
         <dg:DataGridColumn Title="Win" PropertyName="Win" />
