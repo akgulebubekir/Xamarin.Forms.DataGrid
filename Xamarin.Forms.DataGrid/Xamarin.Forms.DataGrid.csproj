@@ -38,6 +38,7 @@
     <Compile Include="ColumnCollection.cs" />
     <Compile Include="DataGrid.cs" />
     <Compile Include="DataGridColumn.cs" />
+    <Compile Include="DataGridComponent.cs" />
     <Compile Include="DataGridRowTemplateSelector.cs" />
     <Compile Include="enums.cs" />
     <Compile Include="DataGridViewCell.cs" />
