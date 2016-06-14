@@ -59,9 +59,5 @@ DataGrid library for Xamarin.Forms Application.
 ```
 Screenshots
 -------------
-||Tablet Potrait|Tablet Landscape|Phone Landscape|
- ----------------- | ---------------------------- | ------------------
-| **iOS** | ![iPad Potrait](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/iPad_Potrait.png)| ![iPad Landscape](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/iPad_Landscape.png) |![iPhone Landscape](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/iPhone_Landscape.png)
-| **Android**|![Android Tablet Potrait](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/Android_Tablet_Potrait.png)| ![Android Tablet Landscape](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/Android_Tablet_Landscape.png) |![Android Phone Landscape](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/Android_Phone_Landscape.png)
-| **Windows**|![WinRT Potrait](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/WinRT_Ptrait.png)|![WinRT Landscape](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/WinRT_Landscape.png)|![Windows Phone Landscape](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/WinPhone_Landscape.png)
 
+![Screenshots](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/AllinOne.png)
