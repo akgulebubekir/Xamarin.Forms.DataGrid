@@ -16,8 +16,8 @@ namespace Xamarin.Forms.DataGrid
                 propertyChanged: (b, o, n) => (b as DataGridViewCell).CreateView());
 
         public static readonly BindableProperty IndexProperty =
-            BindableProperty.Create(nameof(Index),typeof(int),typeof(DataGridViewCell),0,
-                propertyChanged:(b,o,n) => (b as DataGridViewCell).UpdateBackgroundColor() );
+            BindableProperty.Create(nameof(Index), typeof(int), typeof(DataGridViewCell), 0,
+                propertyChanged: (b, o, n) => (b as DataGridViewCell).UpdateBackgroundColor());
         #endregion
 
         #region properties

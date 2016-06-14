@@ -66,7 +66,7 @@ namespace Xamarin.Forms.DataGrid
             set { SetValue(CellTemplateProperty,value); }
         }
 
-        public object Params{get;set;}
+        internal object Params{get;set;}
 
         public LayoutOptions HorizontalContentAlignment
         {
