@@ -10,8 +10,11 @@ namespace Xamarin.Forms.DataGrid
 {
     internal class DataGridRowTemplateSelector : DataTemplateSelector
     {
+        private static DataTemplate _dataGridRowTemplate;
+
         public DataGridRowTemplateSelector()
         {
+            _dataGridRowTemplate = new DataTemplate(typeof(DataGridViewCell));
         }
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
@@ -19,11 +22,10 @@ namespace Xamarin.Forms.DataGrid
             var listView = container as ListView;
             var dataGrid = listView.Parent as DataGrid;
 
-            DataTemplate template = new DataTemplate(typeof(DataGridViewCell));
-            template.SetValue(DataGridViewCell.DataGridProperty, dataGrid);
-            template.SetValue(DataGridViewCell.IndexProperty, dataGrid.ItemsSource.Cast<object>().ToList().IndexOf(item));
+            _dataGridRowTemplate.SetValue(DataGridViewCell.DataGridProperty, dataGrid);
+            _dataGridRowTemplate.SetValue(DataGridViewCell.IndexProperty, dataGrid.ItemsSource.Cast<object>().ToList().IndexOf(item));
 
-            return template;
+            return _dataGridRowTemplate;
         }
     }
 }
