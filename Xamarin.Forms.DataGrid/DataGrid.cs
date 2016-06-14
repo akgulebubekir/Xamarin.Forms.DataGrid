@@ -268,35 +268,31 @@ namespace Xamarin.Forms.DataGrid
             if (ItemsSource == null || ItemsSource.Cast<object>().Count() <= 1)
                 return;
 
-            List<Object> item = new List<Object>();
+            List<object> item = new List<object>();
             foreach (var itm in ItemsSource)
                 item.Add(itm);
 
-            List<Object> sortedItems;
+            List<object> sortedItems = null;
 
 
             if (!IsSortable)
                 throw new InvalidOperationException("This DataGrid is not sortable");
             if (Columns[propertyIndex].PropertyName == null)
+                throw new InvalidOperationException("Please set the PropertyName property of Column");
 
-                throw new InvalidOperationException("Please set the DataProperty property of Column");
+            Image sortingImage = Columns[propertyIndex].Params as Image;
+
             if (_sortingOrders[propertyIndex] != SortingOrder.Descendant)
             {
-                int i = 0;
-                var itm = item[0].GetType().GetRuntimeProperty(Columns[propertyIndex].PropertyName).GetValue(item[0]);
-                if (itm is decimal)
-                    i++;
-                if (itm is double)
-                    i++;
                 sortedItems = item.OrderByDescending((x) => x.GetType().GetRuntimeProperty(Columns[propertyIndex].PropertyName).GetValue(x)).ToList();
                 _sortingOrders[propertyIndex] = SortingOrder.Descendant;
-                (Columns[propertyIndex].Params as Image).Source = ImageSource.FromResource("Xamarin.Forms.DataGrid.down.png");
+                sortingImage.Source = ImageSource.FromResource("Xamarin.Forms.DataGrid.down.png");
             }
             else
             {
                 sortedItems = item.OrderBy((x) => x.GetType().GetRuntimeProperty(Columns[propertyIndex].PropertyName).GetValue(x)).ToList();
                 _sortingOrders[propertyIndex] = SortingOrder.Ascendant;
-                (Columns[propertyIndex].Params as Image).Source = ImageSource.FromResource("Xamarin.Forms.DataGrid.up.png");
+               sortingImage.Source = ImageSource.FromResource("Xamarin.Forms.DataGrid.up.png");
             }
 
             foreach (var column in Columns)
