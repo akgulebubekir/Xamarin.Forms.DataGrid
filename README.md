@@ -7,11 +7,11 @@ DataGrid library for Xamarin.Forms Application.
 
 
 > **Supported Platforms**
-	> - Android
-	>- iOS
-	>- UWP
-	>- Windows Store
-	>- Windows Phone
+  >- Android
+  >- iOS
+  >- UWP
+  >- Windows Store
+  >- Windows Phone
 
 #### <i class="icon-pencil"></i> Usage
 ```
@@ -57,7 +57,7 @@ DataGrid library for Xamarin.Forms Application.
   </dg:DataGrid.Resources>
 </dg:DataGrid>
 ```
-Screenshots
+Screenshots ([see all](https://github.com/akgulebubekir/Xamarin.Forms.DataGrid/tree/master/Screenshots))
 -------------
 
 ![Screenshots](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/AllinOne.png)
