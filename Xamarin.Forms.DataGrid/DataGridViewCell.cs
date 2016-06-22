@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Xamarin.Forms.DataGrid
 {
-    public class DataGridViewCell:ViewCell
+    internal sealed class DataGridViewCell:ViewCell
     {
 
         #region Bindable Properties
@@ -18,9 +19,16 @@ namespace Xamarin.Forms.DataGrid
         public static readonly BindableProperty IndexProperty =
             BindableProperty.Create(nameof(Index), typeof(int), typeof(DataGridViewCell), 0,
                 propertyChanged: (b, o, n) => (b as DataGridViewCell).UpdateBackgroundColor());
+
         #endregion
 
         #region properties
+
+        protected override void OnBindingContextChanged()
+        {
+            base.OnBindingContextChanged();
+            UpdateBackgroundColor();
+        }
 
         public DataGrid DataGrid
         {
@@ -47,6 +55,7 @@ namespace Xamarin.Forms.DataGrid
         public DataGridViewCell()
         {
         }
+
 
         #region UIMethods
         private void CreateView()
@@ -95,10 +104,14 @@ namespace Xamarin.Forms.DataGrid
 
         private void UpdateBackgroundColor()
         {
-            _bgColor = DataGrid.RowsBackgroundColorPalette.ElementAtOrDefault(Index % DataGrid.RowsBackgroundColorPalette.Count());
-            _textColor = DataGrid.RowsTextColorPalette.ElementAtOrDefault(Index % DataGrid.RowsTextColorPalette.Count());
+            int index = Index;
+            if (Parent != null && Parent is ListView)
+                index = (Parent as ListView).ItemsSource.Cast<object>().ToList().IndexOf(BindingContext);
 
-            foreach(var v in _mainLayout.Children)
+            _bgColor = DataGrid.RowsBackgroundColorPalette.ElementAtOrDefault(index % DataGrid.RowsBackgroundColorPalette.Count());
+            _textColor = DataGrid.RowsTextColorPalette.ElementAtOrDefault(index % DataGrid.RowsTextColorPalette.Count());
+
+            foreach (var v in _mainLayout.Children)
             {
                 v.BackgroundColor = _bgColor;
                 if (v is ContentView && (v as ContentView).Content is Label)
