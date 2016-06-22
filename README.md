@@ -66,4 +66,4 @@ DataGrid library for Xamarin.Forms Application.
 Screenshots ([see all](https://github.com/akgulebubekir/Xamarin.Forms.DataGrid/tree/master/Screenshots))
 -------------
 
-![Screenshots](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/AllinOne.png)
+![Screenshots](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/master/Screenshots/AllinOne.png)
