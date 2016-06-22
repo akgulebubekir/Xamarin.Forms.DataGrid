@@ -7,25 +7,26 @@ DataGrid library for Xamarin.Forms Application.
 
 
 > **Supported Platforms**
-	> - Android
-	>- iOS
-	>- UWP
-	>- Windows Store
-	>- Windows Phone
+  >- Android
+  >- iOS
+  >- UWP
+  >- Windows Store
+  >- Windows Phone
 
 #### <i class="icon-pencil"></i> Usage
 ```
     xmlns:dg="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
     xmlns:conv="clr-namespace:DataGridSample.Views.Converters;assembly=DataGridSample"
 
-    <dg:DataGrid ItemsSource="{Binding Teams}" RowHeight="70" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8">
-      <dg:DataGrid.HeaderFontSize>
-        <OnIdiom  x:TypeArguments="x:Double">
-          <OnIdiom.Tablet>15</OnIdiom.Tablet>
-          <OnIdiom.Phone>12</OnIdiom.Phone>
-        </OnIdiom>
-      </dg:DataGrid.HeaderFontSize>
-      <dg:DataGrid.Columns>
+<dg:DataGrid ItemsSource="{Binding Teams}" RowHeight="45" HeaderHeight="50" 
+             BorderColor="#CCCCCC" HeaderBackground="#E0E6F8">
+  <dg:DataGrid.HeaderFontSize>
+    <OnIdiom  x:TypeArguments="x:Double">
+      <OnIdiom.Tablet>15</OnIdiom.Tablet>
+      <OnIdiom.Phone>13</OnIdiom.Phone>
+    </OnIdiom>
+  </dg:DataGrid.HeaderFontSize>
+  <dg:DataGrid.Columns>
         <dg:DataGridColumn Title="Logo" PropertyName="Logo" Width="100">
           <dg:DataGridColumn.CellTemplate>
             <DataTemplate>
@@ -48,21 +49,21 @@ DataGrid library for Xamarin.Forms Application.
             </DataTemplate>
           </dg:DataGridColumn.CellTemplate>
         </dg:DataGridColumn>
-      </dg:DataGrid.Columns>
-      <dg:DataGrid.RowsBackgroundColorPalette>
-        <dg:PaletteCollection>
-          <Color>#F2F2F2</Color>
-          <Color>#FFFFFF</Color>
-        </dg:PaletteCollection>
-      </dg:DataGrid.RowsBackgroundColorPalette>
-      <dg:DataGrid.Resources>
-        <ResourceDictionary>
-          <conv:StreakToColorConverter x:Key="StreakToColorConverter"/>
-        </ResourceDictionary>
-      </dg:DataGrid.Resources>
-    </dg:DataGrid>
+  </dg:DataGrid.Columns>
+  <dg:DataGrid.RowsBackgroundColorPalette>
+    <dg:PaletteCollection>
+      <Color>#F2F2F2</Color>
+      <Color>#FFFFFF</Color>
+    </dg:PaletteCollection>
+  </dg:DataGrid.RowsBackgroundColorPalette>
+  <dg:DataGrid.Resources>
+    <ResourceDictionary>
+      <conv:StreakToColorConverter x:Key="StreakToColorConverter"/>
+    </ResourceDictionary>
+  </dg:DataGrid.Resources>
+</dg:DataGrid>
 ```
-Screenshots
+Screenshots ([see all](https://github.com/akgulebubekir/Xamarin.Forms.DataGrid/tree/master/Screenshots))
 -------------
 
 ![Screenshots](https://raw.githubusercontent.com/akgulebubekir/Xamarin.Forms.DataGrid/dev/Screenshots/AllinOne.png)
