@@ -143,6 +143,51 @@
       <Name>DataGridSample</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\nop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\nuggets.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\okc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ptb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\sas.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\suns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\timberwolves.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\gsw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\hou.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\jazz.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\kings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\lac.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\lakers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\mavs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\mem.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

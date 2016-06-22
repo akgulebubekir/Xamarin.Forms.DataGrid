@@ -125,6 +125,21 @@
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="gsw.png" />
+    <Content Include="hou.png" />
+    <Content Include="jazz.png" />
+    <Content Include="kings.png" />
+    <Content Include="lac.png" />
+    <Content Include="lakers.png" />
+    <Content Include="mavs.png" />
+    <Content Include="mem.png" />
+    <Content Include="nop.png" />
+    <Content Include="nuggets.png" />
+    <Content Include="okc.png" />
+    <Content Include="ptb.png" />
+    <Content Include="sas.png" />
+    <Content Include="suns.png" />
+    <Content Include="timberwolves.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

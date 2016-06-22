@@ -9,7 +9,8 @@
     "Home": "39-2",
     "Road": "34-7",
     "Last10": "8-2",
-    "Streak": "W 4"
+    "Streak": "W 4",
+    "Logo": "gsw.png"
   },
   {
     "Name": "San Antonio",
@@ -21,7 +22,8 @@
     "Home": "40-1",
     "Road": "27-14",
     "Last10": "6-4",
-    "Streak": "W 2"
+    "Streak": "W 2",
+    "Logo": "sas.png"
   },
   {
     "Name": "Oklahoma City",
@@ -33,7 +35,8 @@
     "Home": "32-9",
     "Road": "23-18",
     "Last10": "5-5",
-    "Streak": "L 1"
+    "Streak": "L 1",
+    "Logo": "okc.png"
   },
   {
     "Name": "L.A. Clippers",
@@ -45,7 +48,8 @@
     "Home": "29-12",
     "Road": "24-17",
     "Last10": "8-2",
-    "Streak": "L 1"
+    "Streak": "L 1",
+    "Logo": "lac.png"
   },
   {
     "Name": "Portland",
@@ -57,7 +61,8 @@
     "Home": "28-13",
     "Road": "16-25",
     "Last10": "7-3",
-    "Streak": "W 1"
+    "Streak": "W 1",
+    "Logo": "ptb.png"
   },
   {
     "Name": "Dallas",
@@ -69,7 +74,8 @@
     "Home": "23-18",
     "Road": "19-22",
     "Last10": "7-3",
-    "Streak": "L 1"
+    "Streak": "L 1",
+    "Logo": "mavs.png"
   },
   {
     "Name": "Memphis",
@@ -81,7 +87,8 @@
     "Home": "26-15",
     "Road": "16-25",
     "Last10": "1-9",
-    "Streak": "L 4"
+    "Streak": "L 4",
+    "Logo": "mem.png"
   },
   {
     "Name": "Houston",
@@ -93,7 +100,8 @@
     "Home": "23-18",
     "Road": "18-23",
     "Last10": "6-4",
-    "Streak": "W 3"
+    "Streak": "W 3",
+    "Logo": "hou.png"
   },
   {
     "Name": "Utah",
@@ -105,7 +113,8 @@
     "Home": "24-17",
     "Road": "16-25",
     "Last10": "5-5",
-    "Streak": "L 2"
+    "Streak": "L 2",
+    "Logo": "jazz.png"
   },
   {
     "Name": "Sacramento",
@@ -117,7 +126,8 @@
     "Home": "18-23",
     "Road": "15-26",
     "Last10": "5-5",
-    "Streak": "L 1"
+    "Streak": "L 1",
+    "Logo": "kings.png"
   },
   {
     "Name": "Denver",
@@ -129,7 +139,8 @@
     "Home": "18-23",
     "Road": "15-26",
     "Last10": "3-7",
-    "Streak": "L 2"
+    "Streak": "L 2",
+    "Logo": "nuggets.png"
   },
   {
     "Name": "New Orleans",
@@ -141,7 +152,8 @@
     "Home": "21-20",
     "Road": "9-32",
     "Last10": "4-6",
-    "Streak": "L 3"
+    "Streak": "L 3",
+    "Logo": "nop.png"
   },
   {
     "Name": "Minnesota",
@@ -153,7 +165,8 @@
     "Home": "14-27",
     "Road": "15-26",
     "Last10": "5-5",
-    "Streak": "W 1"
+    "Streak": "W 1",
+    "Logo": "timberwolves.png"
   },
   {
     "Name": "Phoenix",
@@ -165,7 +178,8 @@
     "Home": "14-27",
     "Road": "9-32",
     "Last10": "3-7",
-    "Streak": "W 1"
+    "Streak": "W 1",
+    "Logo": "suns.png"
   },
   {
     "Name": "L.A. Lakers",
@@ -177,6 +191,7 @@
     "Home": "12-29",
     "Road": "5-36",
     "Last10": "2-8",
-    "Streak": "W 1"
+    "Streak": "W 1",
+    "Logo": "lakers.png"
   }
 ]

@@ -27,22 +27,28 @@ DataGrid library for Xamarin.Forms Application.
     </OnIdiom>
   </dg:DataGrid.HeaderFontSize>
   <dg:DataGrid.Columns>
-    <dg:DataGridColumn Title="Team" PropertyName="Name" Width="3*"/>
-    <dg:DataGridColumn Title="Win" PropertyName="Win" />
-    <dg:DataGridColumn Title="Loose" PropertyName="Loose" />
-    <dg:DataGridColumn Title="Home" PropertyName="Home"/>
-    <dg:DataGridColumn Title="Road" PropertyName="Road"/>
-    <dg:DataGridColumn Title="Percentage" PropertyName="Percentage" StringFormat="{}{0:0.00}" />
-    <dg:DataGridColumn Title="Streak" PropertyName="Streak" Width="0.7*">
-      <dg:DataGridColumn.CellTemplate>
-        <DataTemplate>
-          <ContentView HorizontalOptions="Fill" VerticalOptions="Fill"
-                       BackgroundColor="{Binding Streak,Converter={StaticResource StreakToColorConverter}}">
-            <Label Text="{Binding Streak}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
-          </ContentView>
-        </DataTemplate>
-      </dg:DataGridColumn.CellTemplate>
-    </dg:DataGridColumn>
+        <dg:DataGridColumn Title="Logo" PropertyName="Logo" Width="100">
+          <dg:DataGridColumn.CellTemplate>
+            <DataTemplate>
+              <Image Source="{Binding Logo}" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" HeightRequest="60" />
+            </DataTemplate>
+          </dg:DataGridColumn.CellTemplate>
+        </dg:DataGridColumn>
+        <dg:DataGridColumn Title="Team" PropertyName="Name" Width="2*"/>
+        <dg:DataGridColumn Title="Win" PropertyName="Win" Width="0.95*"/>
+        <dg:DataGridColumn Title="Loose" PropertyName="Loose"  Width="1*"/>
+        <dg:DataGridColumn Title="Home" PropertyName="Home"/>
+        <dg:DataGridColumn Title="Percentage" PropertyName="Percentage" StringFormat="{}{0:0.00}" />
+        <dg:DataGridColumn Title="Streak" PropertyName="Streak" Width="0.7*">
+          <dg:DataGridColumn.CellTemplate>
+            <DataTemplate>
+              <ContentView HorizontalOptions="Fill" VerticalOptions="Fill" 
+                           BackgroundColor="{Binding Streak,Converter={StaticResource StreakToColorConverter}}">
+                <Label Text="{Binding Streak}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
+              </ContentView>
+            </DataTemplate>
+          </dg:DataGridColumn.CellTemplate>
+        </dg:DataGridColumn>
   </dg:DataGrid.Columns>
   <dg:DataGrid.RowsBackgroundColorPalette>
     <dg:PaletteCollection>

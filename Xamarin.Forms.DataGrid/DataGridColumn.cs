@@ -12,7 +12,7 @@ namespace Xamarin.Forms.DataGrid
         #region bindable properties
         public static readonly BindableProperty WidthProperty =
             BindableProperty.Create(nameof(Width), typeof(GridLength), typeof(DataGridColumn), new GridLength(1, GridUnitType.Star),
-                propertyChanged: (b,o,n)=> { if (o != n) (b as DataGridColumn).OnSizeChanged(); });
+                propertyChanged: (b, o, n) => { if (o != n) (b as DataGridColumn).OnSizeChanged(); });
 
         public static readonly BindableProperty TitleProperty =
             BindableProperty.Create(nameof(Title), typeof(string), typeof(DataGridColumn), string.Empty);
@@ -63,10 +63,10 @@ namespace Xamarin.Forms.DataGrid
         public DataTemplate CellTemplate
         {
             get { return (DataTemplate)GetValue(CellTemplateProperty); }
-            set { SetValue(CellTemplateProperty,value); }
+            set { SetValue(CellTemplateProperty, value); }
         }
 
-        internal object Params{get;set;}
+        internal object Params { get; set; }
 
         public LayoutOptions HorizontalContentAlignment
         {
@@ -79,7 +79,7 @@ namespace Xamarin.Forms.DataGrid
             get { return (LayoutOptions)GetValue(VerticalContentAlignmentProperty); }
             set { SetValue(VerticalContentAlignmentProperty, value); }
         }
-        
+
         #endregion
 
         public DataGridColumn()

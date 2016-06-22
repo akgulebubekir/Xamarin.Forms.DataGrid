@@ -18,5 +18,6 @@ namespace DataGridSample.Models
         public string Road { get; set; }
         public string Last10 { get; set; }
         public string Streak { get; set; }
+        public string Logo { get; set; }
     }
 }
