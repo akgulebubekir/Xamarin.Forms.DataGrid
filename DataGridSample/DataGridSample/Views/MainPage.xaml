@@ -9,7 +9,8 @@
   <ContentView BackgroundColor="White" Padding="20">
     
 
-    <dg:DataGrid ItemsSource="{Binding Teams}" RowHeight="70" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8">
+    <dg:DataGrid ItemsSource="{Binding Teams}" SelectionEnabled="True" SelectedItem="{Binding SelectedTeam}"
+                 RowHeight="70" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8">
       <dg:DataGrid.HeaderFontSize>
         <OnIdiom  x:TypeArguments="x:Double">
           <OnIdiom.Tablet>15</OnIdiom.Tablet>

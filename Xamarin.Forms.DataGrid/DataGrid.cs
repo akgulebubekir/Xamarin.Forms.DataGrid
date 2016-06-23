@@ -54,6 +54,16 @@ namespace Xamarin.Forms.DataGrid
         public static readonly BindableProperty HeaderFontSizeProperty =
             BindableProperty.Create(nameof(HeaderFontSize), typeof(double), typeof(DataGrid), 13.0);
 
+        public static readonly BindableProperty SelectedItemProperty =
+            BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(DataGrid), null,BindingMode.TwoWay,
+                propertyChanged:(b,o,n)=> {
+                    if ((b as DataGrid)._listView.SelectedItem != n)
+                        (b as DataGrid)._listView.SelectedItem = n; }
+                );
+
+        public static readonly BindableProperty SelectionEnabledProperty =
+            BindableProperty.Create(nameof(SelectedItem), typeof(bool), typeof(DataGrid), false);
+
         #endregion
 
         #region properties
@@ -129,6 +139,18 @@ namespace Xamarin.Forms.DataGrid
             set { SetValue(IsSortableProperty, value); }
         }
 
+        public bool SelectionEnabled
+        {
+            get { return (bool)GetValue(SelectionEnabledProperty); }
+            set { SetValue(SelectionEnabledProperty, value); }
+        }
+
+        public object SelectedItem
+        {
+            get { return GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
+        }
+
         #endregion
 
         #region fields
@@ -157,7 +179,10 @@ namespace Xamarin.Forms.DataGrid
 
             _listView.ItemSelected += (s, e) =>
             {
-                _listView.SelectedItem = null;
+                if (SelectionEnabled)
+                    SelectedItem = _listView.SelectedItem;
+                else
+                    _listView.SelectedItem = null;
             };
         }
         #endregion

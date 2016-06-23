@@ -17,6 +17,17 @@ namespace DataGridSample.ViewModels
             set { teams = value; OnPropertyChanged(nameof(Teams)); }
         }
 
+        private Team selectedItem;
+        public Team SelectedTeam
+        {
+            get { return selectedItem; }
+            set
+            {
+                selectedItem = value;
+                System.Diagnostics.Debug.WriteLine("Team Selected : "+ value.Name);
+            }
+        }
+
         public MainViewModel()
         {
             Teams = Utils.DummyDataProvider.GetTeams();
