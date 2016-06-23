@@ -14,12 +14,12 @@ DataGrid library for Xamarin.Forms Application.
   >- Windows Phone
 
 #### <i class="icon-pencil"></i> Usage
-```
+```xaml
     xmlns:dg="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
     xmlns:conv="clr-namespace:DataGridSample.Views.Converters;assembly=DataGridSample"
 
-<dg:DataGrid ItemsSource="{Binding Teams}" RowHeight="45" HeaderHeight="50" 
-             BorderColor="#CCCCCC" HeaderBackground="#E0E6F8">
+  <dg:DataGrid ItemsSource="{Binding Teams}" SelectionEnabled="True" SelectedItem="{Binding SelectedTeam}"
+               RowHeight="70" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8">
   <dg:DataGrid.HeaderFontSize>
     <OnIdiom  x:TypeArguments="x:Double">
       <OnIdiom.Tablet>15</OnIdiom.Tablet>
