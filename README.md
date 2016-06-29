@@ -4,8 +4,12 @@ Xamarin.Forms.DataGrid
 
 DataGrid library for Xamarin.Forms Application.
 
+>You can install the package from **NuGet Package Manager**  [(Xamarin.Forms.DataGrid)](https://www.nuget.org/packages/Xamarin.Forms.DataGrid/)
 
-
+```sh
+    pm> Install-Package Xamarin.Forms.DataGrid
+```
+    
 > **Supported Platforms**
   >- Android
   >- iOS
