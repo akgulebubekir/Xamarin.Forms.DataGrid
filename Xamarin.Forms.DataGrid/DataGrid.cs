@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 
 using Xamarin.Forms;
 using System.Collections;
+using System.Windows.Input;
 
 namespace Xamarin.Forms.DataGrid
 {
@@ -64,6 +65,28 @@ namespace Xamarin.Forms.DataGrid
         public static readonly BindableProperty SelectionEnabledProperty =
             BindableProperty.Create(nameof(SelectedItem), typeof(bool), typeof(DataGrid), false);
 
+        public static readonly BindableProperty PullToRefreshCommandProperty =
+            BindableProperty.Create(nameof(PullToRefreshCommand), typeof(ICommand), typeof(DataGrid), null,
+                propertyChanged: (b, o, n) =>
+                {
+                    if (n == null)
+                    {
+                        (b as DataGrid)._listView.IsPullToRefreshEnabled = false;
+                        (b as DataGrid)._listView.RefreshCommand = null;
+                    }
+                    else
+                    {
+                        (b as DataGrid)._listView.IsPullToRefreshEnabled = true;
+                        (b as DataGrid)._listView.RefreshCommand = n as ICommand;
+                    }
+                });
+
+        public static readonly BindableProperty IsRefreshingProperty =
+            BindableProperty.Create(nameof(IsRefreshing), typeof(bool), typeof(DataGrid), false, BindingMode.TwoWay,
+                propertyChanged: (b, o, n) => 
+                {
+                    (b as DataGrid)._listView.IsRefreshing = (bool)n;
+                });
         #endregion
 
         #region properties
@@ -149,6 +172,18 @@ namespace Xamarin.Forms.DataGrid
         {
             get { return GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
+        }
+
+        public ICommand PullToRefreshCommand
+        {
+            get { return (ICommand)GetValue(PullToRefreshCommandProperty); }
+            set { SetValue(PullToRefreshCommandProperty, value); }
+        }
+
+        public bool IsRefreshing
+        {
+            get { return (bool)GetValue(IsRefreshingProperty); }
+            set { SetValue(IsRefreshingProperty, value); }
         }
 
         #endregion
