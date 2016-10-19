@@ -23,7 +23,8 @@ DataGrid library for Xamarin.Forms Application.
     xmlns:conv="clr-namespace:DataGridSample.Views.Converters;assembly=DataGridSample"
 
   <dg:DataGrid ItemsSource="{Binding Teams}" SelectionEnabled="True" SelectedItem="{Binding SelectedTeam}"
-               RowHeight="70" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8">
+               RowHeight="70" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8"
+               PullToRefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
   <dg:DataGrid.HeaderFontSize>
     <OnIdiom  x:TypeArguments="x:Double">
       <OnIdiom.Tablet>15</OnIdiom.Tablet>
