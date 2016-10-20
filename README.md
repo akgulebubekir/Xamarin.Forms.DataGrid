@@ -18,6 +18,10 @@ DataGrid library for Xamarin.Forms Application.
   >- Windows Phone
 
 #### <i class="icon-pencil"></i> Usage
+
+> You should call `Xamarin.Forms.DataGrid.DataGridComponent.Init()` before using from Xaml.
+
+
 ```xaml
     xmlns:dg="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
     xmlns:conv="clr-namespace:DataGridSample.Views.Converters;assembly=DataGridSample"
