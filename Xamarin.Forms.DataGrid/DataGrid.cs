@@ -12,6 +12,8 @@ namespace Xamarin.Forms.DataGrid
 {
     public class DataGrid : Grid
     {
+        public event EventHandler<SelectedItemChangedEventArgs> ItemSelected;
+
         #region Bindable properties
         public static readonly BindableProperty HeaderBackgroundProperty =
             BindableProperty.Create(nameof(HeaderBackground), typeof(Color), typeof(DataGrid), Color.Aqua);
@@ -218,6 +220,8 @@ namespace Xamarin.Forms.DataGrid
                     SelectedItem = _listView.SelectedItem;
                 else
                     _listView.SelectedItem = null;
+
+                ItemSelected?.Invoke(this, e);
             };
         }
         #endregion
