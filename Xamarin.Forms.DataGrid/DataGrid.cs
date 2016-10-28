@@ -12,7 +12,7 @@ namespace Xamarin.Forms.DataGrid
 {
     public class DataGrid : Grid
     {
-        #region binding properties
+        #region Bindable properties
         public static readonly BindableProperty HeaderBackgroundProperty =
             BindableProperty.Create(nameof(HeaderBackground), typeof(Color), typeof(DataGrid), Color.Aqua);
 
@@ -63,7 +63,7 @@ namespace Xamarin.Forms.DataGrid
                 );
 
         public static readonly BindableProperty SelectionEnabledProperty =
-            BindableProperty.Create(nameof(SelectedItem), typeof(bool), typeof(DataGrid), false);
+            BindableProperty.Create(nameof(SelectionEnabled), typeof(bool), typeof(DataGrid), false);
 
         public static readonly BindableProperty PullToRefreshCommandProperty =
             BindableProperty.Create(nameof(PullToRefreshCommand), typeof(ICommand), typeof(DataGrid), null,
