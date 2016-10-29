@@ -12,6 +12,7 @@ namespace Xamarin.Forms.DataGrid
 {
     public class DataGrid : Grid
     {
+        public event EventHandler Refreshing;
         public event EventHandler<SelectedItemChangedEventArgs> ItemSelected;
 
         #region Bindable properties
@@ -222,6 +223,11 @@ namespace Xamarin.Forms.DataGrid
                     _listView.SelectedItem = null;
 
                 ItemSelected?.Invoke(this, e);
+            };
+
+            _listView.Refreshing += (s, e) => 
+            {
+                Refreshing?.Invoke(this, e);
             };
         }
         #endregion
