@@ -90,6 +90,13 @@ namespace Xamarin.Forms.DataGrid
                 {
                     (b as DataGrid)._listView.IsRefreshing = (bool)n;
                 });
+
+        public static readonly BindableProperty BorderThicknessProperty =
+            BindableProperty.Create(nameof(BorderThickness), typeof(Thickness), typeof(DataGrid), new Thickness(0.5));
+
+        public static BindableProperty HeaderBordersVisibleProperty =
+            BindableProperty.Create(nameof(HeaderBordersVisible), typeof(bool), typeof(DataGrid), true);
+    
         #endregion
 
         #region properties
@@ -187,6 +194,18 @@ namespace Xamarin.Forms.DataGrid
         {
             get { return (bool)GetValue(IsRefreshingProperty); }
             set { SetValue(IsRefreshingProperty, value); }
+        }
+
+        public Thickness BorderThickness
+        {
+            get { return (Thickness)GetValue(BorderThicknessProperty); }
+            set { SetValue(BorderThicknessProperty, value); }
+        }
+
+        public bool HeaderBordersVisible
+        {
+            get { return (bool)GetValue(HeaderBordersVisibleProperty); }
+            set { SetValue(HeaderBordersVisibleProperty, value); }
         }
 
         #endregion
@@ -308,11 +327,11 @@ namespace Xamarin.Forms.DataGrid
             var header = new Grid
             {
                 HeightRequest = HeaderHeight,
-                Padding = 1,
+                Padding = (HeaderBordersVisible) ? BorderThickness.HorizontalThickness : 0,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 RowSpacing = 0,
-                ColumnSpacing = 1,
-                BackgroundColor = BorderColor,
+                ColumnSpacing = (HeaderBordersVisible)? BorderThickness.HorizontalThickness : 0,
+                BackgroundColor = (HeaderBordersVisible) ? BorderColor : HeaderBackground,
             };
 
             foreach (var col in Columns)

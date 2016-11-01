@@ -67,8 +67,9 @@ namespace Xamarin.Forms.DataGrid
             {
                 BackgroundColor = DataGrid.BorderColor,
                 RowSpacing = 0,
-                ColumnSpacing = 1,
-                Padding = new Thickness(1, 0, 1, 1),
+                ColumnSpacing = DataGrid.BorderThickness.HorizontalThickness,
+                Padding = new Thickness(DataGrid.BorderThickness.HorizontalThickness/2,             
+                                        DataGrid.BorderThickness.VerticalThickness/2),
             };
 
             foreach (var col in DataGrid.Columns)
