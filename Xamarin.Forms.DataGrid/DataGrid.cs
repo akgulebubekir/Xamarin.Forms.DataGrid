@@ -94,7 +94,7 @@ namespace Xamarin.Forms.DataGrid
         public static readonly BindableProperty BorderThicknessProperty =
             BindableProperty.Create(nameof(BorderThickness), typeof(Thickness), typeof(DataGrid), new Thickness(0.5));
 
-        public static BindableProperty HeaderBordersVisibleProperty =
+        public static readonly BindableProperty HeaderBordersVisibleProperty =
             BindableProperty.Create(nameof(HeaderBordersVisible), typeof(bool), typeof(DataGrid), true);
     
         #endregion
