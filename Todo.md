@@ -6,3 +6,9 @@
 >- Header & Cell's Font Family: User should be able to set Font Family
 
 >- Frozen Columns
+
+>- Placeholder : A template that shows on null valued cells.
+
+>- Footer : A single Row that shows at the end of DataGrid
+
+>- Grouping: DataGrid Items will be groupable and those groups could have Header & Footer
