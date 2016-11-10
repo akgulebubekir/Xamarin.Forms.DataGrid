@@ -12,3 +12,5 @@
 >- Footer : A single Row that shows at the end of DataGrid
 
 >- Grouping: DataGrid Items will be groupable and those groups could have Header & Footer
+
+>- Customizable sorting icons : Use could able to customize sorting icon
