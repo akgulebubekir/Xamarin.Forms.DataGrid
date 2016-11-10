@@ -19,7 +19,7 @@
         </OnIdiom>
       </dg:DataGrid.HeaderFontSize>
       <dg:DataGrid.Columns>
-        <dg:DataGridColumn Title="Logo" PropertyName="Logo" Width="100">
+        <dg:DataGridColumn Title="Logo" PropertyName="Logo" Width="100" SortingEnabled="False">
           <dg:DataGridColumn.CellTemplate>
             <DataTemplate>
               <Image Source="{Binding Logo}" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" HeightRequest="60" />

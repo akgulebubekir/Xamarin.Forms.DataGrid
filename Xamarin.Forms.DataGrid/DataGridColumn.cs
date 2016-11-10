@@ -32,6 +32,9 @@ namespace Xamarin.Forms.DataGrid
         public static readonly BindableProperty VerticalContentAlignmentProperty =
             BindableProperty.Create(nameof(VerticalContentAlignment), typeof(LayoutOptions), typeof(DataGridColumn), LayoutOptions.Center);
 
+        public static readonly BindableProperty SortingEnabledProperty =
+            BindableProperty.Create(nameof(SortingEnabled), typeof(bool), typeof(DataGridColumn), true);
+
         #endregion
 
         #region properties
@@ -78,6 +81,12 @@ namespace Xamarin.Forms.DataGrid
         {
             get { return (LayoutOptions)GetValue(VerticalContentAlignmentProperty); }
             set { SetValue(VerticalContentAlignmentProperty, value); }
+        }
+
+        public bool SortingEnabled
+        {
+            get { return (bool)GetValue(SortingEnabledProperty); }
+            set { SetValue(SortingEnabledProperty, value); }
         }
 
         #endregion

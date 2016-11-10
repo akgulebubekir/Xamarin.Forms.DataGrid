@@ -96,7 +96,14 @@ namespace Xamarin.Forms.DataGrid
 
         public static readonly BindableProperty HeaderBordersVisibleProperty =
             BindableProperty.Create(nameof(HeaderBordersVisible), typeof(bool), typeof(DataGrid), true);
-    
+
+        public static readonly BindableProperty SortedColumnIndexProperty =
+            BindableProperty.Create(nameof(SortedColumnIndex), typeof(int), typeof(DataGrid), -1, BindingMode.TwoWay,
+                propertyChanged: (b, o, n) => 
+                {
+                    if (o != n && (int)n >= 0)
+                        (b as DataGrid).SortItems((int)n);
+                });
         #endregion
 
         #region properties
@@ -206,6 +213,12 @@ namespace Xamarin.Forms.DataGrid
         {
             get { return (bool)GetValue(HeaderBordersVisibleProperty); }
             set { SetValue(HeaderBordersVisibleProperty, value); }
+        }
+
+        public int SortedColumnIndex
+        {
+            get { return (int)GetValue(SortedColumnIndexProperty); }
+            set { SetValue(SortedColumnIndexProperty, value); }
         }
 
         #endregion
@@ -354,7 +367,7 @@ namespace Xamarin.Forms.DataGrid
         #region Sorting methods
         private void SortItems(int propertyIndex)
         {
-            if (ItemsSource == null || ItemsSource.Cast<object>().Count() <= 1)
+            if (ItemsSource == null || ItemsSource.Cast<object>().Count() < 1 || !Columns[propertyIndex].SortingEnabled)
                 return;
 
             List<object> item = new List<object>();
@@ -362,7 +375,6 @@ namespace Xamarin.Forms.DataGrid
                 item.Add(itm);
 
             List<object> sortedItems = null;
-
 
             if (!IsSortable)
                 throw new InvalidOperationException("This DataGrid is not sortable");
@@ -391,6 +403,8 @@ namespace Xamarin.Forms.DataGrid
             }
 
             _listView.ItemsSource = sortedItems;
+
+            SortedColumnIndex = propertyIndex;
         }
         #endregion
     }
