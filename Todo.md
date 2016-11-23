@@ -16,3 +16,5 @@
 >- Grouping: DataGrid Items will be groupable and those groups could have Header & Footer
 
 >- Customizable sorting icons : Use could able to customize sorting icon
+
+>- Highlight active row and add active row color as bindable property
