@@ -5,7 +5,7 @@
 
 >- ~~SortingEnabled Property for each column : Some columns might not need to sorting because of contains unsortable data like image etc.~~
 
->- Header & Cell's Font Family: User should be able to set Font Family
+>- ~~Header & Cell's Font Family: User should be able to set Font Family~~
 
 >- Frozen Columns
 
@@ -15,6 +15,6 @@
 
 >- Grouping: DataGrid Items will be groupable and those groups could have Header & Footer
 
->- Customizable sorting icons : Use could able to customize sorting icon
+>-~~ Customizable sorting icons : Use could able to customize sorting icon~~
 
 >- Highlight active row and add active row color as bindable property
