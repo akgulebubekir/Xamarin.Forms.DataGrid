@@ -21,7 +21,7 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(PropertyName), typeof(string), typeof(DataGridColumn), null);
 
 		public static readonly BindableProperty StringFormatProperty =
-			BindableProperty.Create(nameof(StringFormat), typeof(string), typeof(DataGrid), null);
+			BindableProperty.Create(nameof(StringFormat), typeof(string), typeof(DataGridColumn), null);
 
 		public static readonly BindableProperty CellTemplateProperty =
 			BindableProperty.Create(nameof(CellTemplate), typeof(DataTemplate), typeof(DataGridColumn), null);
@@ -30,7 +30,7 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(HorizontalHeaderAlignment), typeof(LayoutOptions), typeof(DataGridColumn), LayoutOptions.Center);
 
 		public static readonly BindableProperty VerticalHeaderAlignmentProperty =
-			BindableProperty.Create(nameof(VerticalHeaderAlignment), typeof(LayoutOptions), typeof(DataGrid), LayoutOptions.Center);
+			BindableProperty.Create(nameof(VerticalHeaderAlignment), typeof(LayoutOptions), typeof(DataGridColumn), LayoutOptions.Center);
 
 		public static readonly BindableProperty HorizontalContentAlignmentProperty =
 			BindableProperty.Create(nameof(HorizontalContentAlignment), typeof(LayoutOptions), typeof(DataGridColumn), LayoutOptions.Center);
