@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Xamarin.Forms.DataGrid
 {
-   internal enum SortingOrder
-    {
-        Ascendant,
-        Descendant,
-        NotDetermined,
-    }
+	internal enum SortingOrder
+	{
+		Ascendant,
+		Descendant,
+		NotDetermined,
+	}
 }

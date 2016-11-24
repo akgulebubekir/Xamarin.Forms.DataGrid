@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace Xamarin.Forms.DataGrid
 {
-    public class PaletteCollection:List<Color>
-    {
-    }
+	public class PaletteCollection : List<Color>
+	{
+	}
 }

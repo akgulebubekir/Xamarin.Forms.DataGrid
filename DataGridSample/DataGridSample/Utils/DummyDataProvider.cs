@@ -11,20 +11,20 @@ using DataGridSample.Models;
 
 namespace DataGridSample.Utils
 {
-    static class DummyDataProvider
-    {
-        public static List<Team> GetTeams()
-        {
-            var assembly = typeof(DummyDataProvider).GetTypeInfo().Assembly;
-            Stream stream = assembly.GetManifestResourceStream("DataGridSample.teams.json");
-            string json = string.Empty;
+	static class DummyDataProvider
+	{
+		public static List<Team> GetTeams()
+		{
+			var assembly = typeof(DummyDataProvider).GetTypeInfo().Assembly;
+			Stream stream = assembly.GetManifestResourceStream("DataGridSample.teams.json");
+			string json = string.Empty;
 
-            using (var reader = new StreamReader(stream))
-            {
-                json = reader.ReadToEnd();
-            }
+			using (var reader = new StreamReader(stream))
+			{
+				json = reader.ReadToEnd();
+			}
 
-           return JsonConvert.DeserializeObject<List<Team>>(json);
-        }
-    }
+			return JsonConvert.DeserializeObject<List<Team>>(json);
+		}
+	}
 }

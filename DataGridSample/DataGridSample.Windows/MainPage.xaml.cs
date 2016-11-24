@@ -15,13 +15,13 @@ using Windows.UI.Xaml.Navigation;
 
 namespace DataGridSample.Windows
 {
-    public sealed partial class MainPage
-    {
-        public MainPage()
-        {
-            this.InitializeComponent();
+	public sealed partial class MainPage
+	{
+		public MainPage()
+		{
+			this.InitializeComponent();
 
-            LoadApplication(new DataGridSample.App());
-        }
-    }
+			LoadApplication(new DataGridSample.App());
+		}
+	}
 }

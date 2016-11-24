@@ -7,7 +7,7 @@
              xmlns:conv="clr-namespace:DataGridSample.Views.Converters;assembly=DataGridSample"
              >
   <ContentView BackgroundColor="White" Padding="20">
-    
+
 
     <dg:DataGrid ItemsSource="{Binding Teams}" SelectionEnabled="True" SelectedItem="{Binding SelectedTeam}"
                  RowHeight="70" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8"
@@ -34,7 +34,7 @@
         <dg:DataGridColumn Title="Streak" PropertyName="Streak" Width="0.7*">
           <dg:DataGridColumn.CellTemplate>
             <DataTemplate>
-              <ContentView HorizontalOptions="Fill" VerticalOptions="Fill" 
+              <ContentView HorizontalOptions="Fill" VerticalOptions="Fill"
                            BackgroundColor="{Binding Streak,Converter={StaticResource StreakToColorConverter}}">
                 <Label Text="{Binding Streak}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
               </ContentView>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Xamarin.Forms.DataGrid
 {
-    public sealed class ColumnCollection : List<DataGridColumn>
-    {
-    }
+	public sealed class ColumnCollection : List<DataGridColumn>
+	{
+	}
 }
