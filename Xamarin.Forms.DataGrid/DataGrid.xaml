@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid x:Name="self"
+      xmlns="http://xamarin.com/schemas/2014/forms"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:local="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
+      x:Class="Xamarin.Forms.DataGrid.DataGrid"
+      Padding="0"
+      RowSpacing="0">
+
+  <Grid.RowDefinitions>
+    <RowDefinition Height="{Binding HeaderHeight, Source={x:Reference self}}"/>
+    <RowDefinition Height="*"/>
+  </Grid.RowDefinitions>
+
+  <ListView x:Name="_listView" Grid.Row="1"
+            CachingStrategy="RecycleElement"
+            SeparatorVisibility="None"
+            ItemsSource="{Binding ItemsSource,Source={x:Reference self}}"
+            RowHeight="{Binding RowHeight, Source={x:Reference self}}">
+    <ListView.ItemTemplate>
+      <local:DataGridRowTemplateSelector/>
+    </ListView.ItemTemplate>
+  </ListView>
+
+</Grid>

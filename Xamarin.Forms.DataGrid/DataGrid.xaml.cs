@@ -10,7 +10,8 @@ using System.Windows.Input;
 
 namespace Xamarin.Forms.DataGrid
 {
-	public class DataGrid : Grid
+	[Xaml.XamlCompilation(Xaml.XamlCompilationOptions.Compile)]
+	public partial class DataGrid : Grid
 	{
 		public event EventHandler Refreshing;
 		public event EventHandler<SelectedItemChangedEventArgs> ItemSelected;
@@ -39,12 +40,10 @@ namespace Xamarin.Forms.DataGrid
 			);
 
 		public static readonly BindableProperty ItemsSourceProperty =
-			BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable), typeof(DataGrid), null,
-				propertyChanged: (b, o, n) => { (b as DataGrid)._listView.ItemsSource = n as IEnumerable; });
+			BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable), typeof(DataGrid), null);
 
 		public static readonly BindableProperty RowHeightProperty =
-			BindableProperty.Create(nameof(RowHeight), typeof(int), typeof(DataGrid), 40,
-				propertyChanged: (b, o, n) => { if (o != n) (b as DataGrid)._listView.RowHeight = (int)n; });
+			BindableProperty.Create(nameof(RowHeight), typeof(int), typeof(DataGrid), 40);
 
 		public static readonly BindableProperty HeaderHeightProperty =
 			BindableProperty.Create(nameof(HeaderHeight), typeof(int), typeof(DataGrid), 40);
@@ -228,7 +227,6 @@ namespace Xamarin.Forms.DataGrid
 		#region fields
 
 		Dictionary<int, SortingOrder> _sortingOrders;
-		ListView _listView;
 		View _headerView;
 
 		#endregion
@@ -236,18 +234,8 @@ namespace Xamarin.Forms.DataGrid
 		#region ctor
 		public DataGrid()
 		{
+			InitializeComponent();
 			_sortingOrders = new Dictionary<int, SortingOrder>();
-
-			Padding = 0;
-			RowSpacing = 0;
-			BackgroundColor = Color.White;
-			VerticalOptions = LayoutOptions.Fill;
-
-			_listView = new ListView(ListViewCachingStrategy.RecycleElement)
-			{
-				SeparatorVisibility = SeparatorVisibility.None,
-				ItemTemplate = new DataGridRowTemplateSelector(),
-			};
 
 			_listView.ItemSelected += (s, e) =>
 			{
@@ -266,7 +254,6 @@ namespace Xamarin.Forms.DataGrid
 		}
 		#endregion
 
-		//TODO Move UI Creation method into Bindable properties
 		protected override void OnParentSet()
 		{
 			base.OnParentSet();
@@ -275,17 +262,12 @@ namespace Xamarin.Forms.DataGrid
 
 		private void CreateUI()
 		{
-			RowDefinitions.Clear();
-
-			RowDefinitions.Add(new RowDefinition() { Height = new GridLength(HeaderHeight, GridUnitType.Absolute) });
-			RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+			//if Columns changed
+			if (_headerView != null)
+				Children.Remove(_headerView);
 
 			_headerView = GetHeader();
-
 			Children.Add(_headerView);
-			Children.Add(_listView);
-
-			SetRow(_listView, 1);
 		}
 
 		#region header creation methods
@@ -312,7 +294,6 @@ namespace Xamarin.Forms.DataGrid
 
 			grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 			grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
-			grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 
 			if (IsSortable)
 			{
@@ -322,10 +303,12 @@ namespace Xamarin.Forms.DataGrid
 					HorizontalOptions = LayoutOptions.Center,
 					WidthRequest = 8,
 					HeightRequest = 6,
+					Margin = new Thickness(0, 0, 4, 0),
 				};
 
 				column.Params = orderingIcon;
 				grid.Children.Add(orderingIcon);
+				Grid.SetColumn(orderingIcon, 1);
 
 				TapGestureRecognizer tgr = new TapGestureRecognizer();
 				tgr.Tapped += (s, e) => SortItems(Columns.IndexOf(column));
@@ -334,7 +317,6 @@ namespace Xamarin.Forms.DataGrid
 
 			grid.Children.Add(text);
 
-			Grid.SetColumnSpan(text, 3);
 			return grid;
 		}
 
@@ -410,6 +392,7 @@ namespace Xamarin.Forms.DataGrid
 			SortedColumnIndex = propertyIndex;
 		}
 		#endregion
-	}
 
+
+	}
 }
