@@ -12,6 +12,22 @@
     <RowDefinition Height="*"/>
   </Grid.RowDefinitions>
 
+  <ContentView x:Name="Header">
+    <ContentView.Resources>
+      <ResourceDictionary>
+        <!--Default Header Style-->
+        <Style TargetType="Label">
+          <Setter Property="FontSize" Value="{Binding HeaderFontSize, Source={x:Reference self}}"/>
+          <Setter Property="FontAttributes" Value="Bold"/>
+          <Setter Property="HorizontalOptions" Value="Center"/>
+          <Setter Property="VerticalOptions" Value="Center"/>
+          <Setter Property="TextColor" Value="{Binding HeaderTextColor,Source={x:Reference self}}"/>
+          <Setter Property="LineBreakMode" Value="WordWrap"/>
+        </Style>
+      </ResourceDictionary>
+    </ContentView.Resources>
+  </ContentView>
+  
   <ListView x:Name="_listView" Grid.Row="1"
             CachingStrategy="RecycleElement"
             SeparatorVisibility="None"
@@ -21,5 +37,4 @@
       <local:DataGridRowTemplateSelector/>
     </ListView.ItemTemplate>
   </ListView>
-
 </Grid>

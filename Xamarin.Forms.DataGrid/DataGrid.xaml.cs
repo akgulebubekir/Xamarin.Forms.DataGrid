@@ -105,6 +105,10 @@ namespace Xamarin.Forms.DataGrid
 					if (o != n && (int)n >= 0)
 						(b as DataGrid).SortItems((int)n);
 				});
+
+		public static readonly BindableProperty HeaderLabelStyleProperty =
+			BindableProperty.Create(nameof(HeaderLabelStyle), typeof(Style), typeof(DataGrid));
+
 		#endregion
 
 		#region properties
@@ -222,6 +226,12 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(SortedColumnIndexProperty, value); }
 		}
 
+		public Style HeaderLabelStyle
+		{
+			get { return (Style)GetValue(HeaderLabelStyleProperty); }
+			set { SetValue(HeaderLabelStyleProperty, value); }
+		}
+
 		#endregion
 
 		#region fields
@@ -235,6 +245,7 @@ namespace Xamarin.Forms.DataGrid
 		public DataGrid()
 		{
 			InitializeComponent();
+
 			_sortingOrders = new Dictionary<int, SortingOrder>();
 
 			_listView.ItemSelected += (s, e) =>
@@ -267,24 +278,22 @@ namespace Xamarin.Forms.DataGrid
 				Children.Remove(_headerView);
 
 			_headerView = GetHeader();
-			Children.Add(_headerView);
+			Header.Content = _headerView;
 		}
 
 		#region header creation methods
 
 		private View GetHeaderViewForColumn(DataGridColumn column)
 		{
+			var t = this.Resources;
+
 			Label text = new Label
 			{
 				Text = column.Title,
-				VerticalOptions = column.VerticalHeaderAlignment,
-				HorizontalOptions = column.HorizontalHeaderAlignment,
-				HorizontalTextAlignment = TextAlignment.Center,
-				TextColor = HeaderTextColor,
-				FontAttributes = FontAttributes.Bold,
-				LineBreakMode = LineBreakMode.WordWrap,
-				FontSize = HeaderFontSize,
 			};
+
+			if (HeaderLabelStyle != null)
+				text.Style = HeaderLabelStyle;
 
 			Grid grid = new Grid
 			{
