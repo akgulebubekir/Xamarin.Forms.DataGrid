@@ -295,7 +295,8 @@ namespace Xamarin.Forms.DataGrid
 			Label text = new Label
 			{
 				Text = column.Title,
-				VerticalOptions = LayoutOptions.Center,
+				VerticalOptions = column.VerticalHeaderAlignment,
+				HorizontalOptions = column.HorizontalHeaderAlignment,
 				HorizontalTextAlignment = TextAlignment.Center,
 				TextColor = HeaderTextColor,
 				FontAttributes = FontAttributes.Bold,
@@ -332,8 +333,8 @@ namespace Xamarin.Forms.DataGrid
 			}
 
 			grid.Children.Add(text);
-			Grid.SetColumn(text, 1);
 
+			Grid.SetColumnSpan(text, 3);
 			return grid;
 		}
 
