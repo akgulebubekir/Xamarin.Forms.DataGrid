@@ -109,6 +109,11 @@ namespace Xamarin.Forms.DataGrid
 		public static readonly BindableProperty HeaderLabelStyleProperty =
 			BindableProperty.Create(nameof(HeaderLabelStyle), typeof(Style), typeof(DataGrid));
 
+		public static readonly BindableProperty AscendingIconProperty =
+			BindableProperty.Create(nameof(AscendingIcon), typeof(string), typeof(DataGrid), "Xamarin.Forms.DataGrid.up.png");
+
+		public static readonly BindableProperty DescendingIconProperty =
+			BindableProperty.Create(nameof(DescendingIcon), typeof(string), typeof(DataGrid), "Xamarin.Forms.DataGrid.down.png");
 		#endregion
 
 		#region properties
@@ -232,6 +237,17 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(HeaderLabelStyleProperty, value); }
 		}
 
+		public string AscendingIcon
+		{
+			get { return (string)GetValue(AscendingIconProperty); }
+			set { SetValue(AscendingIconProperty, value); }
+		}
+
+		public string DescendingIcon
+		{
+			get { return (string)GetValue(DescendingIconProperty); }
+			set { SetValue(DescendingIconProperty, value); }
+		}
 		#endregion
 
 		#region fields
@@ -285,8 +301,6 @@ namespace Xamarin.Forms.DataGrid
 
 		private View GetHeaderViewForColumn(DataGridColumn column)
 		{
-			var t = this.Resources;
-
 			Label text = new Label
 			{
 				Text = column.Title,
@@ -381,13 +395,21 @@ namespace Xamarin.Forms.DataGrid
 			{
 				sortedItems = item.OrderByDescending((x) => x.GetType().GetRuntimeProperty(Columns[propertyIndex].PropertyName).GetValue(x)).ToList();
 				_sortingOrders[propertyIndex] = SortingOrder.Descendant;
-				sortingImage.Source = ImageSource.FromResource("Xamarin.Forms.DataGrid.down.png");
+
+				if (DescendingIconProperty.DefaultValue.ToString() != DescendingIcon)
+					sortingImage.Source = ImageSource.FromFile(DescendingIcon);
+				else
+					sortingImage.Source = ImageSource.FromResource(DescendingIcon);
 			}
 			else
 			{
 				sortedItems = item.OrderBy((x) => x.GetType().GetRuntimeProperty(Columns[propertyIndex].PropertyName).GetValue(x)).ToList();
 				_sortingOrders[propertyIndex] = SortingOrder.Ascendant;
-				sortingImage.Source = ImageSource.FromResource("Xamarin.Forms.DataGrid.up.png");
+
+				if (AscendingIconProperty.DefaultValue.ToString() != AscendingIcon)
+					sortingImage.Source = ImageSource.FromFile(AscendingIcon);
+				else
+					sortingImage.Source = ImageSource.FromResource(AscendingIcon);
 			}
 
 			foreach (var column in Columns)
