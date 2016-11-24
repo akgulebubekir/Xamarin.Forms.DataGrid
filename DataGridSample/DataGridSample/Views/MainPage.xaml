@@ -26,7 +26,7 @@
             </DataTemplate>
           </dg:DataGridColumn.CellTemplate>
         </dg:DataGridColumn>
-        <dg:DataGridColumn Title="Team" PropertyName="Name" Width="2*" HorizontalHeaderAlignment="Start"/>
+        <dg:DataGridColumn Title="Team" PropertyName="Name" Width="2*"/>
         <dg:DataGridColumn Title="Win" PropertyName="Win" Width="0.95*"/>
         <dg:DataGridColumn Title="Loose" PropertyName="Loose"  Width="1*"/>
         <dg:DataGridColumn Title="Home" PropertyName="Home"/>

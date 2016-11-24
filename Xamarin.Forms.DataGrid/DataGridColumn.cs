@@ -26,12 +26,6 @@ namespace Xamarin.Forms.DataGrid
 		public static readonly BindableProperty CellTemplateProperty =
 			BindableProperty.Create(nameof(CellTemplate), typeof(DataTemplate), typeof(DataGridColumn), null);
 
-		public static readonly BindableProperty HorizontalHeaderAlignmentProperty =
-			BindableProperty.Create(nameof(HorizontalHeaderAlignment), typeof(LayoutOptions), typeof(DataGridColumn), LayoutOptions.Center);
-
-		public static readonly BindableProperty VerticalHeaderAlignmentProperty =
-			BindableProperty.Create(nameof(VerticalHeaderAlignment), typeof(LayoutOptions), typeof(DataGridColumn), LayoutOptions.Center);
-
 		public static readonly BindableProperty HorizontalContentAlignmentProperty =
 			BindableProperty.Create(nameof(HorizontalContentAlignment), typeof(LayoutOptions), typeof(DataGridColumn), LayoutOptions.Center);
 
@@ -75,18 +69,6 @@ namespace Xamarin.Forms.DataGrid
 		}
 
 		internal object Params { get; set; }
-
-		public LayoutOptions HorizontalHeaderAlignment
-		{
-			get { return (LayoutOptions)GetValue(HorizontalHeaderAlignmentProperty); }
-			set { SetValue(HorizontalHeaderAlignmentProperty, value); }
-		}
-
-		public LayoutOptions VerticalHeaderAlignment
-		{
-			get { return (LayoutOptions)GetValue(VerticalHeaderAlignmentProperty); }
-			set { SetValue(VerticalHeaderAlignmentProperty, value); }
-		}
 
 		public LayoutOptions HorizontalContentAlignment
 		{
