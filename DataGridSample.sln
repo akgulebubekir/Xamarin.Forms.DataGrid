@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridSample.Droid", "DataGridSample\DataGridSample.Droid\DataGridSample.Droid.csproj", "{2CB32ECF-C28D-48FA-9A3A-CB09B513261D}"
 EndProject
@@ -258,6 +258,8 @@ Global
 		{9A0DE858-B8DC-49EB-9700-62BE0E3E6342}.AppStore|x86.Build.0 = Release|x86
 		{9A0DE858-B8DC-49EB-9700-62BE0E3E6342}.AppStore|x86.Deploy.0 = Release|x86
 		{9A0DE858-B8DC-49EB-9700-62BE0E3E6342}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9A0DE858-B8DC-49EB-9700-62BE0E3E6342}.Debug|Any CPU.Build.0 = Debug|x86
+		{9A0DE858-B8DC-49EB-9700-62BE0E3E6342}.Debug|Any CPU.Deploy.0 = Debug|x86
 		{9A0DE858-B8DC-49EB-9700-62BE0E3E6342}.Debug|ARM.ActiveCfg = Debug|ARM
 		{9A0DE858-B8DC-49EB-9700-62BE0E3E6342}.Debug|ARM.Build.0 = Debug|ARM
 		{9A0DE858-B8DC-49EB-9700-62BE0E3E6342}.Debug|ARM.Deploy.0 = Debug|ARM

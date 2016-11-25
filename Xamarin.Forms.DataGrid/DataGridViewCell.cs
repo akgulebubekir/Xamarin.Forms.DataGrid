@@ -108,6 +108,7 @@ namespace Xamarin.Forms.DataGrid
 		private void UpdateBackgroundColor()
 		{
 			int index = Index;
+
 			//TODO Report Xamarin bug because of value not binding on recycling cell
 			if (Parent != null && Parent is ListView)
 				index = (Parent as ListView).ItemsSource.Cast<object>().ToList().IndexOf(BindingContext);
