@@ -1,11 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
-using System.Collections.ObjectModel;
-
-using Xamarin.Forms;
-using System.Collections;
 using System.Windows.Input;
 
 namespace Xamarin.Forms.DataGrid
@@ -40,7 +38,30 @@ namespace Xamarin.Forms.DataGrid
 			);
 
 		public static readonly BindableProperty ItemsSourceProperty =
-			BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable), typeof(DataGrid), null);
+			BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable), typeof(DataGrid), propertyChanged: ((b,
+					value, newValue) =>
+				{
+					var grid = b as DataGrid;
+					if (grid == null) return;
+
+					INotifyCollectionChanged newCollection = newValue as INotifyCollectionChanged;
+					if (newCollection == null) return;
+
+					NotifyCollectionChangedEventHandler aa = (sender, args) =>
+					{
+						if (grid.SortedColumnIndex > 0)
+							grid.SortItems(grid.SortedColumnIndex);
+					};
+
+					newCollection.CollectionChanged += aa;
+
+					INotifyCollectionChanged oldCollection = value as INotifyCollectionChanged;
+					if (oldCollection != null)
+						oldCollection.CollectionChanged += aa;
+
+					if (grid.SortedColumnIndex > 0)
+						grid.SortItems(grid.SortedColumnIndex);
+				}));
 
 		public static readonly BindableProperty RowHeightProperty =
 			BindableProperty.Create(nameof(RowHeight), typeof(int), typeof(DataGrid), 40);
@@ -334,7 +355,19 @@ namespace Xamarin.Forms.DataGrid
 				Grid.SetColumn(orderingIcon, 1);
 
 				TapGestureRecognizer tgr = new TapGestureRecognizer();
-				tgr.Tapped += (s, e) => SortItems(Columns.IndexOf(column));
+				tgr.Tapped += (s, e) =>
+				{
+					var propertyIndex = Columns.IndexOf(column);
+					if (_sortingOrders[propertyIndex] == SortingOrder.Ascendant)
+					{
+						_sortingOrders[propertyIndex] = SortingOrder.Descendant;
+					}
+					else
+					{
+						_sortingOrders[propertyIndex] = SortingOrder.Ascendant;
+					}
+					SortItems(propertyIndex);
+				};
 				grid.GestureRecognizers.Add(tgr);
 			}
 
@@ -391,7 +424,7 @@ namespace Xamarin.Forms.DataGrid
 
 			Image sortingImage = Columns[propertyIndex].Params as Image;
 
-			if (_sortingOrders[propertyIndex] != SortingOrder.Descendant)
+			if (_sortingOrders[propertyIndex] == SortingOrder.Descendant)
 			{
 				sortedItems = item.OrderByDescending((x) => x.GetType().GetRuntimeProperty(Columns[propertyIndex].PropertyName).GetValue(x)).ToList();
 				_sortingOrders[propertyIndex] = SortingOrder.Descendant;
