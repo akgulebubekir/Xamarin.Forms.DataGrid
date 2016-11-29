@@ -320,7 +320,7 @@ namespace Xamarin.Forms.DataGrid
 
 			if (IsSortable)
 			{
-				var orderingIcon = new Image
+				column.SortingIcon = new Image
 				{
 					VerticalOptions = LayoutOptions.Center,
 					HorizontalOptions = LayoutOptions.Center,
@@ -329,9 +329,8 @@ namespace Xamarin.Forms.DataGrid
 					Margin = new Thickness(0, 0, 4, 0),
 				};
 
-				column.Params = orderingIcon;
-				grid.Children.Add(orderingIcon);
-				Grid.SetColumn(orderingIcon, 1);
+				grid.Children.Add(column.SortingIcon);
+				Grid.SetColumn(column.SortingIcon, 1);
 
 				TapGestureRecognizer tgr = new TapGestureRecognizer();
 				tgr.Tapped += (s, e) => SortItems(Columns.IndexOf(column));
@@ -375,55 +374,54 @@ namespace Xamarin.Forms.DataGrid
 		#region Sorting methods
 		private void SortItems(int propertyIndex)
 		{
-			if (ItemsSource == null || ItemsSource.Cast<object>().Count() < 1 || !Columns[propertyIndex].SortingEnabled)
+			if (ItemsSource == null || !Columns[propertyIndex].SortingEnabled)
 				return;
 
-			List<object> item = new List<object>();
-			foreach (var itm in ItemsSource)
-				item.Add(itm);
-
-			List<object> sortedItems = null;
+			var items = ItemsSource.Cast<object>();
+			var column = Columns[propertyIndex];
 
 			if (!IsSortable)
 				throw new InvalidOperationException("This DataGrid is not sortable");
-			if (Columns[propertyIndex].PropertyName == null)
+			if (column.PropertyName == null)
 				throw new InvalidOperationException("Please set the PropertyName property of Column");
 
-			Image sortingImage = Columns[propertyIndex].Params as Image;
-
+			//Descending
 			if (_sortingOrders[propertyIndex] != SortingOrder.Descendant)
 			{
-				sortedItems = item.OrderByDescending((x) => x.GetType().GetRuntimeProperty(Columns[propertyIndex].PropertyName).GetValue(x)).ToList();
+				items = items.OrderByDescending((x) => x.GetType().GetRuntimeProperty(column.PropertyName).GetValue(x)).ToList();
 				_sortingOrders[propertyIndex] = SortingOrder.Descendant;
 
 				if (DescendingIconProperty.DefaultValue.ToString() != DescendingIcon)
-					sortingImage.Source = ImageSource.FromFile(DescendingIcon);
+					column.SortingIcon.Source = ImageSource.FromFile(DescendingIcon);
 				else
-					sortingImage.Source = ImageSource.FromResource(DescendingIcon);
+					column.SortingIcon.Source = ImageSource.FromResource(DescendingIcon);
 			}
+			//Ascending
 			else
 			{
-				sortedItems = item.OrderBy((x) => x.GetType().GetRuntimeProperty(Columns[propertyIndex].PropertyName).GetValue(x)).ToList();
+				items = items.OrderBy((x) => x.GetType().GetRuntimeProperty(column.PropertyName).GetValue(x)).ToList();
 				_sortingOrders[propertyIndex] = SortingOrder.Ascendant;
 
 				if (AscendingIconProperty.DefaultValue.ToString() != AscendingIcon)
-					sortingImage.Source = ImageSource.FromFile(AscendingIcon);
+					column.SortingIcon.Source = ImageSource.FromFile(AscendingIcon);
 				else
-					sortingImage.Source = ImageSource.FromResource(AscendingIcon);
+					column.SortingIcon.Source = ImageSource.FromResource(AscendingIcon);
 			}
 
-			foreach (var column in Columns)
+			for (int i = 0; i < Columns.Count; i++)
 			{
-				if ((column.Params as Image).Source != null && Columns[propertyIndex] != column)
-					(column.Params as Image).Source = null;
+				if (i != propertyIndex)
+				{
+					Columns[i].SortingIcon.Source = null;
+					_sortingOrders[i] = SortingOrder.NotDetermined;
+				}
+
+				_listView.ItemsSource = items;
+				SortedColumnIndex = propertyIndex;
 			}
+			#endregion
 
-			_listView.ItemsSource = sortedItems;
 
-			SortedColumnIndex = propertyIndex;
 		}
-		#endregion
-
-
 	}
 }

@@ -68,7 +68,7 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(CellTemplateProperty, value); }
 		}
 
-		internal object Params { get; set; }
+		internal Image SortingIcon { get; set; }
 
 		public LayoutOptions HorizontalContentAlignment
 		{
