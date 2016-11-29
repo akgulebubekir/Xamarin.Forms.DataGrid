@@ -333,7 +333,14 @@ namespace Xamarin.Forms.DataGrid
 				Grid.SetColumn(column.SortingIcon, 1);
 
 				TapGestureRecognizer tgr = new TapGestureRecognizer();
-				tgr.Tapped += (s, e) => SortItems(Columns.IndexOf(column));
+				tgr.Tapped += (s, e) =>
+				{
+					int index = Columns.IndexOf(column);
+					if (index == SortedColumnIndex)
+						SortItems(index);
+					else
+						SortedColumnIndex = index;
+				};
 				grid.GestureRecognizers.Add(tgr);
 			}
 
