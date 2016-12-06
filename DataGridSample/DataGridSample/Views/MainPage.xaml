@@ -9,7 +9,7 @@
   <ContentView BackgroundColor="White" Padding="20">
     
 
-    <dg:DataGrid ItemsSource="{Binding Teams}" SelectionEnabled="False" SelectedItem="{Binding SelectedTeam}"
+    <dg:DataGrid ItemsSource="{Binding Teams}" SelectionEnabled="True" SelectedItem="{Binding SelectedTeam}"
                  RowHeight="70" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8"
                  PullToRefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}"
                  ActiveRowColor="#8899aa">
