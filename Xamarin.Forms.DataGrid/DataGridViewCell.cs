@@ -27,7 +27,7 @@ namespace Xamarin.Forms.DataGrid
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
-            UpdateBackgroundColor();
+            UpdateBackgroundColor(BindingContext.Equals(_previouslySelectedBindingContext));
         }
 
         public DataGrid DataGrid
@@ -45,6 +45,8 @@ namespace Xamarin.Forms.DataGrid
         #endregion
 
         #region Fields
+        static DataGridViewCell _previouslySelectedViewCell;
+        static object _previouslySelectedBindingContext;
 
         Grid _mainLayout;
         Color _bgColor;
@@ -55,9 +57,23 @@ namespace Xamarin.Forms.DataGrid
         public DataGridViewCell()
         {
         }
-
-
+        
         #region UIMethods
+
+        protected override void OnTapped()
+        {
+            base.OnTapped();
+            if (!DataGrid.IsEnabled || !DataGrid.SelectionEnabled) return;
+
+            _previouslySelectedViewCell?.UpdateBackgroundColor();
+
+            _bgColor = DataGrid.ActiveRowColor;
+            ChangeColor(_bgColor);
+
+            _previouslySelectedViewCell = this;
+            _previouslySelectedBindingContext = BindingContext;
+        }
+
         private void CreateView()
         {
             _bgColor = DataGrid.RowsBackgroundColorPalette.ElementAtOrDefault(Index % DataGrid.RowsBackgroundColorPalette.Count());
@@ -103,21 +119,32 @@ namespace Xamarin.Forms.DataGrid
             View = _mainLayout;
         }
 
-        private void UpdateBackgroundColor()
+        private void UpdateBackgroundColor(bool isSelected = false)
         {
             int index = Index;
             //TODO Report Xamarin bug because of value not binding on recycling cell
-            if (Parent != null && Parent is ListView)
-                index = (Parent as ListView).ItemsSource.Cast<object>().ToList().IndexOf(BindingContext);
+            var listView = Parent as ListView;
+            if (listView != null)
+            {
+                index = listView.ItemsSource.Cast<object>().ToList().IndexOf(BindingContext);
+            }
 
-            _bgColor = DataGrid.RowsBackgroundColorPalette.ElementAtOrDefault(index % DataGrid.RowsBackgroundColorPalette.Count());
-            _textColor = DataGrid.RowsTextColorPalette.ElementAtOrDefault(index % DataGrid.RowsTextColorPalette.Count());
+            _bgColor = isSelected ?
+                DataGrid.ActiveRowColor :
+                DataGrid.RowsBackgroundColorPalette.ElementAtOrDefault(index % DataGrid.RowsBackgroundColorPalette.Count);
+            _textColor = DataGrid.RowsTextColorPalette.ElementAtOrDefault(index % DataGrid.RowsTextColorPalette.Count);
 
+            ChangeColor(_bgColor);
+        }
+
+        private void ChangeColor(Color color)
+        {
             foreach (var v in _mainLayout.Children)
             {
-                v.BackgroundColor = _bgColor;
-                if (v is ContentView && (v as ContentView).Content is Label)
-                    ((v as ContentView).Content as Label).TextColor = _textColor;
+                v.BackgroundColor = color;
+                var contentView = v as ContentView;
+                if (contentView?.Content is Label)
+                    ((Label)contentView.Content).TextColor = _textColor;
             }
         }
         #endregion
