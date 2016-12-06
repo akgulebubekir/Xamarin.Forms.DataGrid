@@ -16,8 +16,11 @@ namespace Xamarin.Forms.DataGrid
 		public event EventHandler Refreshing;
 		public event EventHandler<SelectedItemChangedEventArgs> ItemSelected;
 
-		#region Bindable properties
-		public static readonly BindableProperty HeaderBackgroundProperty =
+        #region Bindable properties
+        public static readonly BindableProperty ActiveRowColorProperty =
+            BindableProperty.Create(nameof(ActiveRowColor), typeof(Color), typeof(DataGrid), Color.FromRgb(128, 144, 160));
+
+        public static readonly BindableProperty HeaderBackgroundProperty =
 			BindableProperty.Create(nameof(HeaderBackground), typeof(Color), typeof(DataGrid), Color.Aqua);
 
 		public static readonly BindableProperty HeaderTextColorProperty =
@@ -114,10 +117,16 @@ namespace Xamarin.Forms.DataGrid
 
 		public static readonly BindableProperty DescendingIconProperty =
 			BindableProperty.Create(nameof(DescendingIcon), typeof(string), typeof(DataGrid), "Xamarin.Forms.DataGrid.down.png");
-		#endregion
+        #endregion
 
-		#region properties
-		public Color HeaderBackground
+        #region properties
+        public Color ActiveRowColor
+        {
+            get { return (Color)GetValue(ActiveRowColorProperty); }
+            set { SetValue(ActiveRowColorProperty, value); }
+        }
+
+        public Color HeaderBackground
 		{
 			get { return (Color)GetValue(HeaderBackgroundProperty); }
 			set { SetValue(HeaderBackgroundProperty, value); }
