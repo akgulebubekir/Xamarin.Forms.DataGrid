@@ -320,7 +320,6 @@ namespace Xamarin.Forms.DataGrid
 
 			Grid grid = new Grid
 			{
-				BackgroundColor = HeaderBackground,
 				ColumnSpacing = 0,
 			};
 

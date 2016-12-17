@@ -24,6 +24,9 @@
           <Setter Property="TextColor" Value="{Binding HeaderTextColor,Source={x:Reference self}}"/>
           <Setter Property="LineBreakMode" Value="WordWrap"/>
         </Style>
+				<Style TargetType="Grid">
+					<Setter Property="BackgroundColor" Value="{Binding HeaderBackground,Source={x:Reference self}}"/>
+				</Style>
       </ResourceDictionary>
     </ContentView.Resources>
   </ContentView>
