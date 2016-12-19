@@ -27,8 +27,9 @@ namespace Xamarin.Forms.DataGrid
 		protected override void OnBindingContextChanged()
 		{
 			base.OnBindingContextChanged();
-            UpdateBackgroundColor(BindingContext.Equals(_previouslySelectedBindingContext));
-        }
+			if (BindingContext != null)
+				UpdateBackgroundColor(BindingContext.Equals(_previouslySelectedBindingContext));
+		}
 
 		public DataGrid DataGrid
 		{
@@ -42,13 +43,13 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(IndexProperty, value); }
 		}
 
-        #endregion
+		#endregion
 
-        #region Fields
-        static DataGridViewCell _previouslySelectedViewCell;
-        static object _previouslySelectedBindingContext;
+		#region Fields
+		static DataGridViewCell _previouslySelectedViewCell;
+		static object _previouslySelectedBindingContext;
 
-        Grid _mainLayout;
+		Grid _mainLayout;
 		Color _bgColor;
 		Color _textColor;
 
@@ -59,23 +60,23 @@ namespace Xamarin.Forms.DataGrid
 		}
 
 
-        #region UIMethods
+		#region UIMethods
 
-        protected override void OnTapped()
-        {
-            base.OnTapped();
-            if (!DataGrid.IsEnabled || !DataGrid.SelectionEnabled) return;
+		protected override void OnTapped()
+		{
+			base.OnTapped();
+			if (!DataGrid.IsEnabled || !DataGrid.SelectionEnabled) return;
 
-            _previouslySelectedViewCell?.UpdateBackgroundColor();
+			_previouslySelectedViewCell?.UpdateBackgroundColor();
 
-            _bgColor = DataGrid.ActiveRowColor;
-            ChangeColor(_bgColor);
+			_bgColor = DataGrid.ActiveRowColor;
+			ChangeColor(_bgColor);
 
-            _previouslySelectedViewCell = this;
-            _previouslySelectedBindingContext = BindingContext;
-        }
+			_previouslySelectedViewCell = this;
+			_previouslySelectedBindingContext = BindingContext;
+		}
 
-        private void CreateView()
+		private void CreateView()
 		{
 			_bgColor = DataGrid.RowsBackgroundColorPalette.ElementAtOrDefault(Index % DataGrid.RowsBackgroundColorPalette.Count());
 			_textColor = DataGrid.RowsTextColorPalette.ElementAtOrDefault(Index % DataGrid.RowsTextColorPalette.Count());
@@ -122,34 +123,34 @@ namespace Xamarin.Forms.DataGrid
 			View = _mainLayout;
 		}
 
-        private void UpdateBackgroundColor(bool isSelected = false)
-        {
-            int index = Index;
-            //TODO Report Xamarin bug because of value not binding on recycling cell
-            var listView = Parent as ListView;
-            if (listView != null)
-            {
-                index = listView.ItemsSource.Cast<object>().ToList().IndexOf(BindingContext);
-            }
+		private void UpdateBackgroundColor(bool isSelected = false)
+		{
+			int index = Index;
+			//TODO Report Xamarin bug because of value not binding on recycling cell
+			var listView = Parent as ListView;
+			if (listView != null)
+			{
+				index = listView.ItemsSource.Cast<object>().ToList().IndexOf(BindingContext);
+			}
 
-            _bgColor = isSelected ?
-                DataGrid.ActiveRowColor :
-                DataGrid.RowsBackgroundColorPalette.ElementAtOrDefault(index % DataGrid.RowsBackgroundColorPalette.Count);
-            _textColor = DataGrid.RowsTextColorPalette.ElementAtOrDefault(index % DataGrid.RowsTextColorPalette.Count);
+			_bgColor = isSelected ?
+				DataGrid.ActiveRowColor :
+				DataGrid.RowsBackgroundColorPalette.ElementAtOrDefault(index % DataGrid.RowsBackgroundColorPalette.Count);
+			_textColor = DataGrid.RowsTextColorPalette.ElementAtOrDefault(index % DataGrid.RowsTextColorPalette.Count);
 
-            ChangeColor(_bgColor);
-        }
+			ChangeColor(_bgColor);
+		}
 
-        private void ChangeColor(Color color)
-        {
-            foreach (var v in _mainLayout.Children)
-            {
-                v.BackgroundColor = color;
-                var contentView = v as ContentView;
-                if (contentView?.Content is Label)
-                    ((Label)contentView.Content).TextColor = _textColor;
-            }
-        }
-        #endregion
-    }
+		private void ChangeColor(Color color)
+		{
+			foreach (var v in _mainLayout.Children)
+			{
+				v.BackgroundColor = color;
+				var contentView = v as ContentView;
+				if (contentView?.Content is Label)
+					((Label)contentView.Content).TextColor = _textColor;
+			}
+		}
+		#endregion
+	}
 }
