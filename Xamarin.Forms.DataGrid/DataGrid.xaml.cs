@@ -16,12 +16,19 @@ namespace Xamarin.Forms.DataGrid
 		public event EventHandler Refreshing;
 		public event EventHandler<SelectedItemChangedEventArgs> ItemSelected;
 
-        #region Bindable properties
-        public static readonly BindableProperty ActiveRowColorProperty =
-            BindableProperty.Create(nameof(ActiveRowColor), typeof(Color), typeof(DataGrid), Color.FromRgb(128, 144, 160));
+		#region Bindable properties
+		public static readonly BindableProperty ActiveRowColorProperty =
+			BindableProperty.Create(nameof(ActiveRowColor), typeof(Color), typeof(DataGrid), Color.FromRgb(128, 144, 160));
 
-        public static readonly BindableProperty HeaderBackgroundProperty =
-			BindableProperty.Create(nameof(HeaderBackground), typeof(Color), typeof(DataGrid), Color.Aqua);
+		public static readonly BindableProperty HeaderBackgroundProperty =
+			BindableProperty.Create(nameof(HeaderBackground), typeof(Color), typeof(DataGrid), Color.White,
+				propertyChanged: (b, o, n) =>
+				{
+					if ((b as DataGrid)._headerView == null)
+						return;
+					if (!(b as DataGrid).HeaderBordersVisible)
+						(b as DataGrid)._headerView.BackgroundColor = (Color)n;
+				});
 
 		public static readonly BindableProperty HeaderTextColorProperty =
 			BindableProperty.Create(nameof(HeaderTextColor), typeof(Color), typeof(DataGrid), Color.Black);
@@ -99,7 +106,16 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(BorderThickness), typeof(Thickness), typeof(DataGrid), new Thickness(0.5));
 
 		public static readonly BindableProperty HeaderBordersVisibleProperty =
-			BindableProperty.Create(nameof(HeaderBordersVisible), typeof(bool), typeof(DataGrid), true);
+			BindableProperty.Create(nameof(HeaderBordersVisible), typeof(bool), typeof(DataGrid), true,
+				propertyChanged: (b, o, n) =>
+				{
+					if ((b as DataGrid)._headerView == null)
+						return;
+					if (!(bool)n)
+						(b as DataGrid)._headerView.BackgroundColor = (b as DataGrid).HeaderBackground;
+					else
+						(b as DataGrid)._headerView.BackgroundColor = (b as DataGrid).BorderColor;
+				});
 
 		public static readonly BindableProperty SortedColumnIndexProperty =
 			BindableProperty.Create(nameof(SortedColumnIndex), typeof(int), typeof(DataGrid), -1, BindingMode.TwoWay,
@@ -117,16 +133,16 @@ namespace Xamarin.Forms.DataGrid
 
 		public static readonly BindableProperty DescendingIconProperty =
 			BindableProperty.Create(nameof(DescendingIcon), typeof(string), typeof(DataGrid), "Xamarin.Forms.DataGrid.down.png");
-        #endregion
+		#endregion
 
-        #region properties
-        public Color ActiveRowColor
-        {
-            get { return (Color)GetValue(ActiveRowColorProperty); }
-            set { SetValue(ActiveRowColorProperty, value); }
-        }
+		#region properties
+		public Color ActiveRowColor
+		{
+			get { return (Color)GetValue(ActiveRowColorProperty); }
+			set { SetValue(ActiveRowColorProperty, value); }
+		}
 
-        public Color HeaderBackground
+		public Color HeaderBackground
 		{
 			get { return (Color)GetValue(HeaderBackgroundProperty); }
 			set { SetValue(HeaderBackgroundProperty, value); }
