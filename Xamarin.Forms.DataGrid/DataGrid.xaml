@@ -27,6 +27,20 @@
 				<Style TargetType="Grid">
 					<Setter Property="BackgroundColor" Value="{Binding HeaderBackground,Source={x:Reference self}}"/>
 				</Style>
+				<Style x:Key="ImageStyleBase" TargetType="Image">
+					<Setter Property="Aspect" Value="AspectFill"/>
+					<Setter Property="VerticalOptions" Value="Center"/>
+					<Setter Property="HorizontalOptions" Value="Center"/>
+					<Setter Property="HeightRequest" Value="5"/>
+					<Setter Property="WidthRequest" Value="9"/>
+					<Setter Property="Margin" Value="0,0,4,0"/>
+				</Style>
+				<Style x:Key="AscendingIconStyle" TargetType="Image" BasedOn="{StaticResource ImageStyleBase}">
+					<Setter Property="Source" Value="{Binding AscendingIcon, Source={x:Reference self}}"/>
+				</Style>
+				<Style x:Key="DescendingIconStyle" TargetType="Image" BasedOn="{StaticResource ImageStyleBase}">
+					<Setter Property="Source" Value="{Binding DescendingIcon, Source={x:Reference self}}"/>
+				</Style>
       </ResourceDictionary>
     </ContentView.Resources>
   </ContentView>

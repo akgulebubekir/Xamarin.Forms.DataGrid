@@ -129,10 +129,16 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(HeaderLabelStyle), typeof(Style), typeof(DataGrid));
 
 		public static readonly BindableProperty AscendingIconProperty =
-			BindableProperty.Create(nameof(AscendingIcon), typeof(string), typeof(DataGrid), "Xamarin.Forms.DataGrid.up.png");
+			BindableProperty.Create(nameof(AscendingIcon), typeof(ImageSource), typeof(DataGrid), ImageSource.FromResource("Xamarin.Forms.DataGrid.up.png"));
 
 		public static readonly BindableProperty DescendingIconProperty =
-			BindableProperty.Create(nameof(DescendingIcon), typeof(string), typeof(DataGrid), "Xamarin.Forms.DataGrid.down.png");
+			BindableProperty.Create(nameof(DescendingIcon), typeof(ImageSource), typeof(DataGrid), ImageSource.FromResource("Xamarin.Forms.DataGrid.down.png"));
+
+		public static readonly BindableProperty DesccendingIconStyleProperty =
+			BindableProperty.Create(nameof(DescendingIconStyle), typeof(Style), typeof(DataGrid), null);
+
+		public static readonly BindableProperty AscendingIconStyleProperty =
+			BindableProperty.Create(nameof(AscendingIconStyle), typeof(Style), typeof(DataGrid), null);
 		#endregion
 
 		#region properties
@@ -262,16 +268,28 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(HeaderLabelStyleProperty, value); }
 		}
 
-		public string AscendingIcon
+		public ImageSource AscendingIcon
 		{
-			get { return (string)GetValue(AscendingIconProperty); }
+			get { return (ImageSource)GetValue(AscendingIconProperty); }
 			set { SetValue(AscendingIconProperty, value); }
 		}
 
-		public string DescendingIcon
+		public ImageSource DescendingIcon
 		{
-			get { return (string)GetValue(DescendingIconProperty); }
+			get { return (ImageSource)GetValue(DescendingIconProperty); }
 			set { SetValue(DescendingIconProperty, value); }
+		}
+
+		public Style AscendingIconStyle
+		{
+			get { return (Style)GetValue(AscendingIconStyleProperty); }
+			set { SetValue(AscendingIconStyleProperty, value); }
+		}
+
+		public Style DescendingIconStyle
+		{
+			get { return (Style)GetValue(DesccendingIconStyleProperty); }
+			set { SetValue(DesccendingIconStyleProperty, value); }
 		}
 		#endregion
 
@@ -346,11 +364,7 @@ namespace Xamarin.Forms.DataGrid
 			{
 				column.SortingIcon = new Image
 				{
-					VerticalOptions = LayoutOptions.Center,
-					HorizontalOptions = LayoutOptions.Center,
-					WidthRequest = 8,
-					HeightRequest = 6,
-					Margin = new Thickness(0, 0, 4, 0),
+					Style = (Style)Header.Resources["ImageStyleBase"],
 				};
 
 				grid.Children.Add(column.SortingIcon);
@@ -422,10 +436,14 @@ namespace Xamarin.Forms.DataGrid
 				items = items.OrderByDescending((x) => x.GetType().GetRuntimeProperty(column.PropertyName).GetValue(x)).ToList();
 				_sortingOrders[propertyIndex] = SortingOrder.Descendant;
 
-				if (DescendingIconProperty.DefaultValue.ToString() != DescendingIcon)
-					column.SortingIcon.Source = ImageSource.FromFile(DescendingIcon);
-				else
-					column.SortingIcon.Source = ImageSource.FromResource(DescendingIcon);
+				column.SortingIcon.Style = DescendingIconStyle ?? (Style)Header.Resources["DescendingIconStyle"];
+
+				//Support DescendingIcon property (if setted)
+				if (!column.SortingIcon.Style.Setters.Any(x => x.Property == Image.SourceProperty))
+				{
+					if (DescendingIconProperty.DefaultValue != DescendingIcon)
+						column.SortingIcon.Source = DescendingIcon;
+				}
 			}
 			//Ascending
 			else
@@ -433,10 +451,14 @@ namespace Xamarin.Forms.DataGrid
 				items = items.OrderBy((x) => x.GetType().GetRuntimeProperty(column.PropertyName).GetValue(x)).ToList();
 				_sortingOrders[propertyIndex] = SortingOrder.Ascendant;
 
-				if (AscendingIconProperty.DefaultValue.ToString() != AscendingIcon)
-					column.SortingIcon.Source = ImageSource.FromFile(AscendingIcon);
-				else
-					column.SortingIcon.Source = ImageSource.FromResource(AscendingIcon);
+				column.SortingIcon.Style = AscendingIconStyle ?? (Style)Header.Resources["AscendingIconStyle"];
+
+				//Support AscendingIcon property (if setted)
+				if (AscendingIconProperty.DefaultValue != AscendingIcon || !column.SortingIcon.Style.Setters.Any(x => x.Property == Image.SourceProperty))
+				{
+					if (AscendingIconProperty.DefaultValue != AscendingIcon)
+						column.SortingIcon.Source = AscendingIcon;
+				}
 			}
 
 			for (int i = 0; i < Columns.Count; i++)
