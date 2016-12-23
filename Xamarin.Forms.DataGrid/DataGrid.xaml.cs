@@ -134,7 +134,7 @@ namespace Xamarin.Forms.DataGrid
 		public static readonly BindableProperty DescendingIconProperty =
 			BindableProperty.Create(nameof(DescendingIcon), typeof(ImageSource), typeof(DataGrid), ImageSource.FromResource("Xamarin.Forms.DataGrid.down.png"));
 
-		public static readonly BindableProperty DesccendingIconStyleProperty =
+		public static readonly BindableProperty DescendingIconStyleProperty =
 			BindableProperty.Create(nameof(DescendingIconStyle), typeof(Style), typeof(DataGrid), null);
 
 		public static readonly BindableProperty AscendingIconStyleProperty =
@@ -288,8 +288,8 @@ namespace Xamarin.Forms.DataGrid
 
 		public Style DescendingIconStyle
 		{
-			get { return (Style)GetValue(DesccendingIconStyleProperty); }
-			set { SetValue(DesccendingIconStyleProperty, value); }
+			get { return (Style)GetValue(DescendingIconStyleProperty); }
+			set { SetValue(DescendingIconStyleProperty, value); }
 		}
 		#endregion
 
