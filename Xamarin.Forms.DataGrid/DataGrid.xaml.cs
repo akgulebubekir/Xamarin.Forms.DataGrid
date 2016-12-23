@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Collections;
 using System.Windows.Input;
+using System.Collections.Specialized;
 
 namespace Xamarin.Forms.DataGrid
 {
@@ -50,7 +51,18 @@ namespace Xamarin.Forms.DataGrid
 			);
 
 		public static readonly BindableProperty ItemsSourceProperty =
-			BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable), typeof(DataGrid), null);
+			BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable), typeof(DataGrid), null,
+				propertyChanged: (b, o, n) =>
+				{
+					//ObservableCollection Tracking 
+					if (n is INotifyCollectionChanged)
+						(n as INotifyCollectionChanged).CollectionChanged += (list, arg) =>
+						{
+							DataGrid self = b as DataGrid;
+							if (list == (b as DataGrid).ItemsSource && self._listView.ItemsSource != list)
+								self.SortItems(self.SortedColumnIndex, false);
+						};
+				});
 
 		public static readonly BindableProperty RowHeightProperty =
 			BindableProperty.Create(nameof(RowHeight), typeof(int), typeof(DataGrid), 40);
@@ -324,6 +336,7 @@ namespace Xamarin.Forms.DataGrid
 		}
 		#endregion
 
+		#region UI Methods
 		protected override void OnParentSet()
 		{
 			base.OnParentSet();
@@ -339,6 +352,7 @@ namespace Xamarin.Forms.DataGrid
 			_headerView = GetHeader();
 			Header.Content = _headerView;
 		}
+		#endregion
 
 		#region header creation methods
 
@@ -470,7 +484,7 @@ namespace Xamarin.Forms.DataGrid
 
 			_sortingOrders[propertyIndex] = order;
 			SortedColumnIndex = propertyIndex;
-			#endregion
 		}
+		#endregion
 	}
 }
