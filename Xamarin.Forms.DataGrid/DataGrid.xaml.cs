@@ -38,7 +38,7 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(DataGrid), Color.Black,
 				propertyChanged: (b, o, n) =>
 				{
-					(b as DataGrid)._listView.BackgroundColor = (Color)n;
+					//TODO reload ListView
 					if ((b as DataGrid).HeaderBordersVisible)
 						(b as DataGrid)._headerView.BackgroundColor = (Color)n;
 				});
@@ -392,6 +392,9 @@ namespace Xamarin.Forms.DataGrid
 		private void InitHeaderView()
 		{
 			_headerView.Children.Clear();
+
+			_headerView.Padding = new Thickness(BorderThickness.Left, BorderThickness.Top, BorderThickness.Right, 0);
+			_headerView.ColumnSpacing = BorderThickness.HorizontalThickness / 2;
 
 			foreach (var col in Columns)
 			{
