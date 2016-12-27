@@ -38,7 +38,7 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(DataGrid), Color.Black,
 				propertyChanged: (b, o, n) =>
 				{
-					//TODO Update cell's border color also
+					(b as DataGrid)._listView.BackgroundColor = (Color)n;
 					if ((b as DataGrid).HeaderBordersVisible)
 						(b as DataGrid)._headerView.BackgroundColor = (Color)n;
 				});
