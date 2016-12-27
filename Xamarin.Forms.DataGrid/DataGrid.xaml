@@ -8,15 +8,15 @@
       RowSpacing="0">
 
   <Grid.RowDefinitions>
-    <RowDefinition Height="{Binding HeaderHeight, Source={x:Reference self}}"/>
+    <RowDefinition Height="Auto"/>
     <RowDefinition Height="*"/>
   </Grid.RowDefinitions>
 
-  <ContentView x:Name="Header">
-    <ContentView.Resources>
+  <Grid x:Name="_headerView" RowSpacing="0">
+    <Grid.Resources>
       <ResourceDictionary>
         <!--Default Header Style-->
-        <Style TargetType="Label">
+        <Style x:Key="HeaderDefaultStyle" TargetType="Label">
           <Setter Property="FontSize" Value="{Binding HeaderFontSize, Source={x:Reference self}}"/>
           <Setter Property="FontAttributes" Value="Bold"/>
           <Setter Property="HorizontalOptions" Value="Center"/>
@@ -42,8 +42,8 @@
 					<Setter Property="Source" Value="{Binding DescendingIcon, Source={x:Reference self}}"/>
 				</Style>
       </ResourceDictionary>
-    </ContentView.Resources>
-  </ContentView>
+    </Grid.Resources>
+  </Grid>
   
   <ListView x:Name="_listView" Grid.Row="1"
             CachingStrategy="RecycleElement"

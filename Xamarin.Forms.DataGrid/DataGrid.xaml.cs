@@ -36,7 +36,12 @@ namespace Xamarin.Forms.DataGrid
 
 		public static readonly BindableProperty BorderColorProperty =
 			BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(DataGrid), Color.Black,
-				propertyChanged: (b, o, n) => { (b as DataGrid)._listView.SeparatorColor = (Color)n; });
+				propertyChanged: (b, o, n) =>
+				{
+					//TODO Update cell's border color also
+					if ((b as DataGrid).HeaderBordersVisible)
+						(b as DataGrid)._headerView.BackgroundColor = (Color)n;
+				});
 
 		public static readonly BindableProperty RowsBackgroundColorPaletteProperty =
 			BindableProperty.Create(nameof(RowsBackgroundColorPalette), typeof(PaletteCollection), typeof(DataGrid), new PaletteCollection { Color.White });
@@ -46,7 +51,7 @@ namespace Xamarin.Forms.DataGrid
 
 		public static readonly BindableProperty ColumnsProperty =
 			BindableProperty.Create(nameof(Columns), typeof(ColumnCollection), typeof(DataGrid),
-				propertyChanged: (b, o, n) => (b as DataGrid).CreateUI(),
+				propertyChanged: (b, o, n) => (b as DataGrid).InitHeaderView(),
 				defaultValueCreator: bindable => { return new ColumnCollection(); }
 			);
 
@@ -68,7 +73,8 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(RowHeight), typeof(int), typeof(DataGrid), 40);
 
 		public static readonly BindableProperty HeaderHeightProperty =
-			BindableProperty.Create(nameof(HeaderHeight), typeof(int), typeof(DataGrid), 40);
+			BindableProperty.Create(nameof(HeaderHeight), typeof(int), typeof(DataGrid), 40,
+				propertyChanged: (b, o, n) => (b as DataGrid)._headerView.HeightRequest = (int)n);
 
 		public static readonly BindableProperty IsSortableProperty =
 			BindableProperty.Create(nameof(IsSortable), typeof(bool), typeof(DataGrid), true);
@@ -109,25 +115,19 @@ namespace Xamarin.Forms.DataGrid
 
 		public static readonly BindableProperty IsRefreshingProperty =
 			BindableProperty.Create(nameof(IsRefreshing), typeof(bool), typeof(DataGrid), false, BindingMode.TwoWay,
-				propertyChanged: (b, o, n) =>
-				{
-					(b as DataGrid)._listView.IsRefreshing = (bool)n;
-				});
+				propertyChanged: (b, o, n) => (b as DataGrid)._listView.IsRefreshing = (bool)n);
 
 		public static readonly BindableProperty BorderThicknessProperty =
-			BindableProperty.Create(nameof(BorderThickness), typeof(Thickness), typeof(DataGrid), new Thickness(0.5));
+			BindableProperty.Create(nameof(BorderThickness), typeof(Thickness), typeof(DataGrid), new Thickness(1),
+				propertyChanged: (b, o, n) =>
+				{
+					(b as DataGrid)._headerView.ColumnSpacing = ((Thickness)n).HorizontalThickness/2;
+					(b as DataGrid)._headerView.Padding = ((Thickness)n).HorizontalThickness/2;
+				});
 
 		public static readonly BindableProperty HeaderBordersVisibleProperty =
 			BindableProperty.Create(nameof(HeaderBordersVisible), typeof(bool), typeof(DataGrid), true,
-				propertyChanged: (b, o, n) =>
-				{
-					if ((b as DataGrid)._headerView == null)
-						return;
-					if (!(bool)n)
-						(b as DataGrid)._headerView.BackgroundColor = (b as DataGrid).HeaderBackground;
-					else
-						(b as DataGrid)._headerView.BackgroundColor = (b as DataGrid).BorderColor;
-				});
+				propertyChanged: (b, o, n) => (b as DataGrid)._headerView.BackgroundColor = (bool)n ? (b as DataGrid).BorderColor : (b as DataGrid).HeaderBackground);
 
 		public static readonly BindableProperty SortedColumnIndexProperty =
 			BindableProperty.Create(nameof(SortedColumnIndex), typeof(int), typeof(DataGrid), -1, BindingMode.TwoWay,
@@ -308,7 +308,6 @@ namespace Xamarin.Forms.DataGrid
 		#region fields
 
 		Dictionary<int, SortingOrder> _sortingOrders;
-		View _headerView;
 
 		#endregion
 
@@ -340,17 +339,7 @@ namespace Xamarin.Forms.DataGrid
 		protected override void OnParentSet()
 		{
 			base.OnParentSet();
-			CreateUI();
-		}
-
-		private void CreateUI()
-		{
-			//if Columns changed
-			if (_headerView != null)
-				Children.Remove(_headerView);
-
-			_headerView = GetHeader();
-			Header.Content = _headerView;
+			InitHeaderView();
 		}
 		#endregion
 
@@ -361,10 +350,9 @@ namespace Xamarin.Forms.DataGrid
 			Label text = new Label
 			{
 				Text = column.Title,
+				Style = HeaderLabelStyle ?? (Style)_headerView.Resources["HeaderDefaultStyle"]
 			};
 
-			if (HeaderLabelStyle != null)
-				text.Style = HeaderLabelStyle;
 
 			Grid grid = new Grid
 			{
@@ -378,7 +366,7 @@ namespace Xamarin.Forms.DataGrid
 			{
 				column.SortingIcon = new Image
 				{
-					Style = (Style)Header.Resources["ImageStyleBase"],
+					Style = (Style)_headerView.Resources["ImageStyleBase"],
 				};
 
 				grid.Children.Add(column.SortingIcon);
@@ -401,31 +389,21 @@ namespace Xamarin.Forms.DataGrid
 			return grid;
 		}
 
-		private View GetHeader()
+		private void InitHeaderView()
 		{
-			var header = new Grid
-			{
-				HeightRequest = HeaderHeight,
-				Padding = (HeaderBordersVisible) ? BorderThickness.HorizontalThickness : 0,
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				RowSpacing = 0,
-				ColumnSpacing = (HeaderBordersVisible) ? BorderThickness.HorizontalThickness : 0,
-				BackgroundColor = (HeaderBordersVisible) ? BorderColor : HeaderBackground,
-			};
+			_headerView.Children.Clear();
 
 			foreach (var col in Columns)
 			{
-				header.ColumnDefinitions.Add(new ColumnDefinition() { Width = col.Width });
+				_headerView.ColumnDefinitions.Add(new ColumnDefinition { Width = col.Width });
 
 				var cell = GetHeaderViewForColumn(col);
 
-				header.Children.Add(cell);
+				_headerView.Children.Add(cell);
 				Grid.SetColumn(cell, Columns.IndexOf(col));
 
 				_sortingOrders.Add(Columns.IndexOf(col), SortingOrder.None);
 			}
-
-			return header;
 		}
 
 		#endregion
@@ -458,8 +436,8 @@ namespace Xamarin.Forms.DataGrid
 			if (changeOrder)
 			{
 				column.SortingIcon.Style = (order == SortingOrder.Descendant) ?
-					AscendingIconStyle ?? (Style)Header.Resources["DescendingIconStyle"] :
-					DescendingIconStyle ?? (Style)Header.Resources["AscendingIconStyle"];
+					AscendingIconStyle ?? (Style)_headerView.Resources["DescendingIconStyle"] :
+					DescendingIconStyle ?? (Style)_headerView.Resources["AscendingIconStyle"];
 
 				//Support DescendingIcon property (if setted)
 				if (!column.SortingIcon.Style.Setters.Any(x => x.Property == Image.SourceProperty))
