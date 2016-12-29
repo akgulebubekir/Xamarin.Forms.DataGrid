@@ -1,6 +1,6 @@
 
 Xamarin.Forms.DataGrid
-===================
+======================
 
 DataGrid library for Xamarin.Forms Application.
 
@@ -14,10 +14,10 @@ DataGrid library for Xamarin.Forms Application.
   >- Android
   >- iOS
   >- UWP
-  >- Windows Store
+  >- Windows Store(WinRT)
   >- Windows Phone
 
-#### <i class="icon-pencil"></i> Usage
+#### <i class="icon-pencil"></i> Usage ([See all](https://github.com/akgulebubekir/Xamarin.Forms.DataGrid/blob/master/Samples.md))
 
 > You should call `Xamarin.Forms.DataGrid.DataGridComponent.Init()` before using from Xaml.
 
