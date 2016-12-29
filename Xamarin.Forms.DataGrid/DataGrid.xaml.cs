@@ -121,8 +121,8 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(BorderThickness), typeof(Thickness), typeof(DataGrid), new Thickness(1),
 				propertyChanged: (b, o, n) =>
 				{
-					(b as DataGrid)._headerView.ColumnSpacing = ((Thickness)n).HorizontalThickness/2;
-					(b as DataGrid)._headerView.Padding = ((Thickness)n).HorizontalThickness/2;
+					(b as DataGrid)._headerView.ColumnSpacing = ((Thickness)n).HorizontalThickness / 2;
+					(b as DataGrid)._headerView.Padding = ((Thickness)n).HorizontalThickness / 2;
 				});
 
 		public static readonly BindableProperty HeaderBordersVisibleProperty =
@@ -414,13 +414,13 @@ namespace Xamarin.Forms.DataGrid
 		#region Sorting methods
 		private void SortItems(int propertyIndex, bool changeOrder = true)
 		{
+			if (ItemsSource == null || !Columns[propertyIndex].SortingEnabled)
+				return;
+
 			if (!IsSortable)
 				throw new InvalidOperationException("This DataGrid is not sortable");
 			else if (Columns[propertyIndex].PropertyName == null)
 				throw new InvalidOperationException("Please set the PropertyName property of Column");
-
-			if (ItemsSource == null || !Columns[propertyIndex].SortingEnabled)
-				return;
 
 			var items = ItemsSource.Cast<object>();
 			var column = Columns[propertyIndex];
