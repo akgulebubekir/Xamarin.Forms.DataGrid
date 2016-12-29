@@ -7,6 +7,7 @@
 
 ### Custom Sorting Image ###
 > Note : Default sorting icon size is 9x5(w*h). If you need to use bigger icon you need to override `AscendingIconStyle` and `DescendingIconStyle` like below.
+
 ```xaml
     xmlns:dg="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
     xmlns:conv="clr-namespace:DataGridSample.Views.Converters;assembly=DataGridSample"
