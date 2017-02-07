@@ -59,14 +59,20 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable), typeof(DataGrid), null,
 				propertyChanged: (b, o, n) =>
 				{
+					DataGrid self = b as DataGrid;
 					//ObservableCollection Tracking 
 					if (n is INotifyCollectionChanged)
 						(n as INotifyCollectionChanged).CollectionChanged += (list, arg) =>
 						{
-							DataGrid self = b as DataGrid;
 							if (list == (b as DataGrid).ItemsSource && self._listView.ItemsSource != list)
 								self.SortItems(self.SortedColumnIndex, false);
 						};
+					else
+					{
+						self._listView.ItemsSource = n as IEnumerable;
+						if (self.IsSortable && self.SortedColumnIndex >= 0)
+							self.SortItems(self.SortedColumnIndex, false);
+					}
 				});
 
 		public static readonly BindableProperty RowHeightProperty =
