@@ -347,20 +347,19 @@ namespace Xamarin.Forms.DataGrid
 
 		private View GetHeaderViewForColumn(DataGridColumn column)
 		{
-			Label text = new Label
+			column.HeaderLabel = new Label
 			{
 				Text = column.Title,
-				Style = HeaderLabelStyle ?? (Style)_headerView.Resources["HeaderDefaultStyle"]
+				Style = column.HeaderLabelStyle ?? this.HeaderLabelStyle ?? (Style)_headerView.Resources["HeaderDefaultStyle"]
 			};
-
 
 			Grid grid = new Grid
 			{
 				ColumnSpacing = 0,
 			};
 
-			grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
-			grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
+			grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+			grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) });
 
 			if (IsSortable)
 			{
@@ -384,7 +383,7 @@ namespace Xamarin.Forms.DataGrid
 				grid.GestureRecognizers.Add(tgr);
 			}
 
-			grid.Children.Add(text);
+			grid.Children.Add(column.HeaderLabel);
 
 			return grid;
 		}
