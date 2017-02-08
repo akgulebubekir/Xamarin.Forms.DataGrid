@@ -86,10 +86,13 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(IsSortable), typeof(bool), typeof(DataGrid), true);
 
 		public static readonly BindableProperty FontSizeProperty =
-			BindableProperty.Create(nameof(FontSizeProperty), typeof(double), typeof(DataGrid), 13.0);
+			BindableProperty.Create(nameof(FontSize), typeof(double), typeof(DataGrid), 13.0);
 
 		public static readonly BindableProperty HeaderFontSizeProperty =
 			BindableProperty.Create(nameof(HeaderFontSize), typeof(double), typeof(DataGrid), 13.0);
+
+		public static readonly BindableProperty FontFamilyProperty =
+			BindableProperty.Create(nameof(FontFamily), typeof(string), typeof(DataGrid), Font.Default.FontFamily);
 
 		public static readonly BindableProperty SelectedItemProperty =
 			BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(DataGrid), null, BindingMode.TwoWay,
@@ -218,6 +221,12 @@ namespace Xamarin.Forms.DataGrid
 		{
 			get { return (double)GetValue(HeaderFontSizeProperty); }
 			set { SetValue(HeaderFontSizeProperty, value); }
+		}
+
+		public string FontFamily
+		{
+			get { return (string)GetValue(FontFamilyProperty); }
+			set { SetValue(FontFamilyProperty, value); }
 		}
 
 		public int RowHeight
