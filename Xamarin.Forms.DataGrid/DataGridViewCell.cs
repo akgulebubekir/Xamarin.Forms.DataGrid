@@ -107,6 +107,8 @@ namespace Xamarin.Forms.DataGrid
 						LineBreakMode = LineBreakMode.WordWrap,
 					};
 					text.SetBinding(Label.TextProperty, new Binding(col.PropertyName, BindingMode.Default, stringFormat: col.StringFormat));
+					text.SetBinding(Label.FontSizeProperty, new Binding(DataGrid.FontSizeProperty.PropertyName, BindingMode.Default, source: DataGrid));
+					text.SetBinding(Label.FontFamilyProperty, new Binding(DataGrid.FontFamilyProperty.PropertyName, BindingMode.Default, source: DataGrid));
 
 					cell = new ContentView
 					{
