@@ -18,7 +18,6 @@
 				<!--Default Header Style-->
 				<Style x:Key="HeaderDefaultStyle" TargetType="Label">
 					<Setter Property="FontSize" Value="{Binding HeaderFontSize, Source={x:Reference self}}"/>
-          				<Setter Property="FontFamily" Value="{Binding HeaderFontFamily, Source={x:Reference self}}"/>
 					<Setter Property="FontAttributes" Value="Bold"/>
 					<Setter Property="HorizontalOptions" Value="Center"/>
 					<Setter Property="VerticalOptions" Value="Center"/>

@@ -94,9 +94,6 @@ namespace Xamarin.Forms.DataGrid
 		public static readonly BindableProperty FontFamilyProperty =
 			BindableProperty.Create(nameof(FontFamily), typeof(string), typeof(DataGrid), Font.Default.FontFamily);
 
-		public static readonly BindableProperty HeaderFontFamilyProperty =
-			BindableProperty.Create(nameof(HeaderFontFamily), typeof(string), typeof(DataGrid), Font.Default.FontFamily);
-
 		public static readonly BindableProperty SelectedItemProperty =
 			BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(DataGrid), null, BindingMode.TwoWay,
 				propertyChanged: (b, o, n) =>
@@ -230,12 +227,6 @@ namespace Xamarin.Forms.DataGrid
 		{
 			get { return (string)GetValue(FontFamilyProperty); }
 			set { SetValue(FontFamilyProperty, value); }
-		}
-
-		public string HeaderFontFamily
-		{
-			get { return (string)GetValue(HeaderFontFamilyProperty); }
-			set { SetValue(HeaderFontFamilyProperty, value); }
 		}
 
 		public int RowHeight
