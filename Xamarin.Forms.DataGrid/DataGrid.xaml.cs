@@ -60,20 +60,28 @@ namespace Xamarin.Forms.DataGrid
 				propertyChanged: (b, o, n) =>
 				{
 					DataGrid self = b as DataGrid;
+
 					//ObservableCollection Tracking 
-					if (n is INotifyCollectionChanged)
-						(n as INotifyCollectionChanged).CollectionChanged += (list, arg) =>
-						{
-							if (list == (b as DataGrid).ItemsSource && self._listView.ItemsSource != list)
-								self.SortItems(self.SortedColumnIndex, false);
-						};
-					else
+					if (o != null && o is INotifyCollectionChanged)
+						(o as INotifyCollectionChanged).CollectionChanged -= self.HandleItemsSourceCollectionChanged;
+
+					if (n != null)
 					{
+						if (n is INotifyCollectionChanged)
+							(n as INotifyCollectionChanged).CollectionChanged += self.HandleItemsSourceCollectionChanged;
+
 						self._listView.ItemsSource = n as IEnumerable;
+
 						if (self.IsSortable && self.SortedColumnIndex >= 0)
 							self.SortItems(self.SortedColumnIndex, false);
 					}
 				});
+
+		void HandleItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (IsSortable && SortedColumnIndex >= 0)
+				SortItems(SortedColumnIndex, false);
+		}
 
 		public static readonly BindableProperty RowHeightProperty =
 			BindableProperty.Create(nameof(RowHeight), typeof(int), typeof(DataGrid), 40);
