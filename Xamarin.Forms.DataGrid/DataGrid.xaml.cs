@@ -446,6 +446,8 @@ namespace Xamarin.Forms.DataGrid
 
 			if (changeOrder)
 				order = _sortingOrders[propertyIndex] == SortingOrder.Descendant ? SortingOrder.Ascendant : SortingOrder.Descendant;
+			else
+				order = _sortingOrders[propertyIndex] == SortingOrder.Descendant ? SortingOrder.Descendant : SortingOrder.Ascendant;
 
 			//Sort
 			if (order == SortingOrder.Descendant)
@@ -454,7 +456,7 @@ namespace Xamarin.Forms.DataGrid
 				items = items.OrderBy((x) => x.GetType().GetRuntimeProperty(column.PropertyName).GetValue(x)).ToList();
 
 			//Update sorting icon
-			if (changeOrder)
+			if (changeOrder || column.SortingIcon.Source == null)
 			{
 				column.SortingIcon.Style = (order == SortingOrder.Descendant) ?
 					AscendingIconStyle ?? (Style)_headerView.Resources["DescendingIconStyle"] :
