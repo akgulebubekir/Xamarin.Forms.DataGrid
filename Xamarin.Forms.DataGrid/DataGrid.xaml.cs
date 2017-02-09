@@ -175,6 +175,7 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(HeaderBackgroundProperty, value); }
 		}
 
+		[Obsolete("Please use HeaderLabelStyle")]
 		public Color HeaderTextColor
 		{
 			get { return (Color)GetValue(HeaderTextColorProperty); }
@@ -217,6 +218,7 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(FontSizeProperty, value); }
 		}
 
+		[Obsolete("Please use HeaderLabelStyle")]
 		public double HeaderFontSize
 		{
 			get { return (double)GetValue(HeaderFontSizeProperty); }
