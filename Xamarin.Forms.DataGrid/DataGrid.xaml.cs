@@ -432,7 +432,7 @@ namespace Xamarin.Forms.DataGrid
 		#region Sorting methods
 		private void SortItems(int propertyIndex, bool changeOrder = true)
 		{
-			if (ItemsSource == null || Columns.Count < propertyIndex && !Columns[propertyIndex].SortingEnabled)
+			if (ItemsSource == null || Columns.Count < propertyIndex || !Columns[propertyIndex].SortingEnabled)
 				return;
 
 			if (!IsSortable)
