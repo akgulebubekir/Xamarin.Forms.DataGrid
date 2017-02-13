@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,9 +22,13 @@ namespace Xamarin.Forms.DataGrid
 		{
 			var listView = container as ListView;
 			var dataGrid = listView.Parent as DataGrid;
+			var items = dataGrid.InternalItems;
 
 			_dataGridRowTemplate.SetValue(DataGridViewCell.DataGridProperty, dataGrid);
-			_dataGridRowTemplate.SetValue(DataGridViewCell.IndexProperty, listView.ItemsSource.Cast<object>().ToList().IndexOf(item));
+
+			if (items != null)
+				_dataGridRowTemplate.SetValue(DataGridViewCell.IndexProperty, items.IndexOf(item));
+
 
 			return _dataGridRowTemplate;
 		}

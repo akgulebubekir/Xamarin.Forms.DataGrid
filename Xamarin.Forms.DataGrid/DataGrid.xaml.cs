@@ -70,17 +70,14 @@ namespace Xamarin.Forms.DataGrid
 						if (n is INotifyCollectionChanged)
 							(n as INotifyCollectionChanged).CollectionChanged += self.HandleItemsSourceCollectionChanged;
 
-						self._listView.ItemsSource = n as IEnumerable;
 
-						if (self.IsSortable && self.SortedColumnIndex >= 0)
-							self.SortItems(self.SortedColumnIndex, false);
+						self.InternalItems = new List<object>(((IEnumerable)n).Cast<object>());
 					}
 				});
 
 		void HandleItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			if (IsSortable && SortedColumnIndex >= 0)
-				SortItems(SortedColumnIndex, false);
+			InternalItems = new List<object>(((IEnumerable)sender).Cast<object>());
 		}
 
 		public static readonly BindableProperty RowHeightProperty =
@@ -212,6 +209,22 @@ namespace Xamarin.Forms.DataGrid
 		{
 			get { return (IEnumerable)GetValue(ItemsSourceProperty); }
 			set { SetValue(ItemsSourceProperty, value); }
+		}
+
+		IList<object> _internalItems;
+
+		internal IList<object> InternalItems
+		{
+			get { return _internalItems; }
+			set
+			{
+				_internalItems = value;
+
+				if (IsSortable && SortedColumnIndex >= 0)
+					SortItems(SortedColumnIndex, false);
+				else
+					_listView.ItemsSource = _internalItems;
+			}
 		}
 
 		public ColumnCollection Columns
@@ -440,7 +453,7 @@ namespace Xamarin.Forms.DataGrid
 		#region Sorting methods
 		private void SortItems(int propertyIndex, bool changeOrder = true)
 		{
-			if (ItemsSource == null || Columns.Count < propertyIndex || !Columns[propertyIndex].SortingEnabled)
+			if (InternalItems == null || Columns.Count < propertyIndex || !Columns[propertyIndex].SortingEnabled)
 				return;
 
 			if (!IsSortable)
@@ -448,7 +461,7 @@ namespace Xamarin.Forms.DataGrid
 			else if (Columns[propertyIndex].PropertyName == null)
 				throw new InvalidOperationException("Please set the PropertyName property of Column");
 
-			var items = ItemsSource.Cast<object>();
+			var items = InternalItems;
 			var column = Columns[propertyIndex];
 			SortingOrder order = _sortingOrders[propertyIndex];
 
@@ -489,10 +502,12 @@ namespace Xamarin.Forms.DataGrid
 				}
 			}
 
-			_listView.ItemsSource = items;
+			_internalItems = items;
 
 			_sortingOrders[propertyIndex] = order;
 			SortedColumnIndex = propertyIndex;
+
+			_listView.ItemsSource = _internalItems;
 		}
 		#endregion
 	}

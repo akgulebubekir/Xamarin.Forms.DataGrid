@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -128,12 +129,10 @@ namespace Xamarin.Forms.DataGrid
 		private void UpdateBackgroundColor(bool isSelected = false)
 		{
 			int index = Index;
-			//TODO Report Xamarin bug because of value not binding on recycling cell
-			var listView = Parent as ListView;
-			if (listView != null)
-			{
-				index = listView.ItemsSource.Cast<object>().ToList().IndexOf(BindingContext);
-			}
+			var items = DataGrid?.InternalItems;
+			
+			if (items != null)
+				index = items.IndexOf(BindingContext);
 
 			_bgColor = isSelected ?
 				DataGrid.ActiveRowColor :
