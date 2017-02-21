@@ -42,7 +42,7 @@
     <Compile Include="DataGridColumn.cs" />
     <Compile Include="DataGridComponent.cs" />
     <Compile Include="DataGridRowTemplateSelector.cs" />
-    <Compile Include="enums.cs" />
+    <Compile Include="SortingOrder.cs" />
     <Compile Include="DataGridViewCell.cs" />
     <Compile Include="PaletteCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
