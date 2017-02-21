@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+﻿using System.Linq;
 
 namespace Xamarin.Forms.DataGrid
 {
@@ -55,13 +49,7 @@ namespace Xamarin.Forms.DataGrid
 
 		#endregion
 
-		public DataGridViewCell()
-		{
-		}
-
-
 		#region UIMethods
-
 		protected override void OnTapped()
 		{
 			base.OnTapped();

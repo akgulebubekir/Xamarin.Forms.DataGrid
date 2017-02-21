@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Collections.ObjectModel;
-
-using Xamarin.Forms;
 using System.Collections;
 using System.Windows.Input;
 using System.Collections.Specialized;
