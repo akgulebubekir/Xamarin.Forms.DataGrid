@@ -93,9 +93,10 @@ namespace Xamarin.Forms.DataGrid
 				if (col.CellTemplate != null)
                 {
                     cell = new ContentView() { Content = col.CellTemplate.CreateContent() as View };
-                    if (col.PropertyPath != null)
+                    if (col.PropertyName != null)
                     {
-                        cell.BindingContext = ReflectionUtils.GetValueByPath(RowContext, col.PropertyPath);
+                        cell.SetBinding(BindableObject.BindingContextProperty, 
+                            new Binding(col.PropertyName, source: RowContext));
                     }
                 }
 				else
@@ -107,7 +108,7 @@ namespace Xamarin.Forms.DataGrid
 						VerticalOptions = col.VerticalContentAlignment,
 						LineBreakMode = LineBreakMode.WordWrap,
 					};
-					text.SetBinding(Label.TextProperty, new Binding(col.PropertyPath, BindingMode.Default, stringFormat: col.StringFormat));
+					text.SetBinding(Label.TextProperty, new Binding(col.PropertyName, BindingMode.Default, stringFormat: col.StringFormat));
 					text.SetBinding(Label.FontSizeProperty, new Binding(DataGrid.FontSizeProperty.PropertyName, BindingMode.Default, source: DataGrid));
 					text.SetBinding(Label.FontFamilyProperty, new Binding(DataGrid.FontFamilyProperty.PropertyName, BindingMode.Default, source: DataGrid));
 
