@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Xamarin.Forms.DataGrid.Utils;
 
 namespace Xamarin.Forms.DataGrid
 {
@@ -14,11 +15,12 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(Index), typeof(int), typeof(DataGridViewCell), 0,
 				propertyChanged: (b, o, n) => (b as DataGridViewCell).UpdateBackgroundColor());
 
-		#endregion
+        public static readonly BindableProperty RowContextProperty =
+            BindableProperty.Create(nameof(RowContext), typeof(object), typeof(DataGridViewCell), null);
+        #endregion
 
-		#region properties
-
-		protected override void OnBindingContextChanged()
+        #region properties
+        protected override void OnBindingContextChanged()
 		{
 			base.OnBindingContextChanged();
 			if (BindingContext != null)
@@ -37,10 +39,15 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(IndexProperty, value); }
 		}
 
-		#endregion
+        public object RowContext
+        {
+            get { return GetValue(RowContextProperty); }
+            set { SetValue(RowContextProperty, value); }
+        }
+        #endregion
 
-		#region Fields
-		static DataGridViewCell _previouslySelectedViewCell;
+        #region Fields
+        static DataGridViewCell _previouslySelectedViewCell;
 		static object _previouslySelectedBindingContext;
 
 		Grid _mainLayout;
@@ -84,7 +91,14 @@ namespace Xamarin.Forms.DataGrid
 				View cell;
 
 				if (col.CellTemplate != null)
-					cell = new ContentView() { Content = col.CellTemplate.CreateContent() as View };
+                {
+                    cell = new ContentView() { Content = col.CellTemplate.CreateContent() as View };
+                    if (col.PropertyName != null)
+                    {
+                        cell.SetBinding(BindableObject.BindingContextProperty, 
+                            new Binding(col.PropertyName, source: RowContext));
+                    }
+                }
 				else
 				{
 					var text = new Label
@@ -106,7 +120,7 @@ namespace Xamarin.Forms.DataGrid
 					};
 				}
 
-				_mainLayout.Children.Add(cell);
+                _mainLayout.Children.Add(cell);
 				Grid.SetColumn(cell, DataGrid.Columns.IndexOf(col));
 			}
 
