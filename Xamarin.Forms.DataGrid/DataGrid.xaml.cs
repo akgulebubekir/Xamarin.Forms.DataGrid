@@ -57,6 +57,12 @@ namespace Xamarin.Forms.DataGrid
 				propertyChanged: (b, o, n) =>
 				{
 					DataGrid self = b as DataGrid;
+
+					if (self.NoDataView != null && (self.ItemsSource == null || self.ItemsSource.Cast<object>().Count() == 0))
+						self._noDataView.IsVisible = true;
+					else if (self._noDataView.IsVisible)
+						self._noDataView.IsVisible = false;
+
 					//ObservableCollection Tracking 
 					if (n is INotifyCollectionChanged)
 						(n as INotifyCollectionChanged).CollectionChanged += (list, arg) =>
@@ -157,6 +163,14 @@ namespace Xamarin.Forms.DataGrid
 
 		public static readonly BindableProperty AscendingIconStyleProperty =
 			BindableProperty.Create(nameof(AscendingIconStyle), typeof(Style), typeof(DataGrid), null);
+
+		public static readonly BindableProperty NoDataViewProperty =
+			BindableProperty.Create(nameof(NoDataView), typeof(View), typeof(DataGrid),
+				propertyChanged: (b, o, n) =>
+				{
+					if (o != n)
+						(b as DataGrid)._noDataView.Content = n as View;
+				});
 		#endregion
 
 		#region properties
@@ -316,6 +330,12 @@ namespace Xamarin.Forms.DataGrid
 		{
 			get { return (Style)GetValue(DescendingIconStyleProperty); }
 			set { SetValue(DescendingIconStyleProperty, value); }
+		}
+
+		public View NoDataView
+		{
+			get { return (View)GetValue(NoDataViewProperty); }
+			set { SetValue(NoDataViewProperty, value); }
 		}
 		#endregion
 

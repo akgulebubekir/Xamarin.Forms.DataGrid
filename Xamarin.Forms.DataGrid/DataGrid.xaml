@@ -54,4 +54,6 @@
 			<local:DataGridRowTemplateSelector/>
 		</ListView.ItemTemplate>
 	</ListView>
+	<ContentView x:Name="_noDataView" Grid.RowSpan="2" IsVisible="False"/>
+
 </Grid>
