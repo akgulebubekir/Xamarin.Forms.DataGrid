@@ -16,7 +16,8 @@ namespace Xamarin.Forms.DataGrid
 			var listView = container as ListView;
 			var dataGrid = listView.Parent as DataGrid;
 
-			_dataGridRowTemplate.SetValue(DataGridViewCell.DataGridProperty, dataGrid);
+            _dataGridRowTemplate.SetValue(DataGridViewCell.RowContextProperty, item);
+            _dataGridRowTemplate.SetValue(DataGridViewCell.DataGridProperty, dataGrid);
 			_dataGridRowTemplate.SetValue(DataGridViewCell.IndexProperty, listView.ItemsSource.Cast<object>().ToList().IndexOf(item));
 
 			return _dataGridRowTemplate;

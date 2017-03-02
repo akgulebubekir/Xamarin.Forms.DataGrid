@@ -12,8 +12,8 @@ namespace Xamarin.Forms.DataGrid
 		public static readonly BindableProperty TitleProperty =
 			BindableProperty.Create(nameof(Title), typeof(string), typeof(DataGridColumn), string.Empty);
 
-		public static readonly BindableProperty PopertyNameProperty =
-			BindableProperty.Create(nameof(PropertyName), typeof(string), typeof(DataGridColumn), null);
+		public static readonly BindableProperty PropertyPathProperty =
+			BindableProperty.Create(nameof(PropertyPath), typeof(string), typeof(DataGridColumn), null);
 
 		public static readonly BindableProperty StringFormatProperty =
 			BindableProperty.Create(nameof(StringFormat), typeof(string), typeof(DataGridColumn), null);
@@ -54,10 +54,10 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(TitleProperty, value); }
 		}
 
-		public string PropertyName
+		public string PropertyPath
 		{
-			get { return (string)GetValue(PopertyNameProperty); }
-			set { SetValue(PopertyNameProperty, value); }
+			get { return (string)GetValue(PropertyPathProperty); }
+			set { SetValue(PropertyPathProperty, value); }
 		}
 
 		public string StringFormat
