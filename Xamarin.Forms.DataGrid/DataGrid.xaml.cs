@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Collections;
 using System.Windows.Input;
 using System.Collections.Specialized;
+using Xamarin.Forms.DataGrid.Utils;
 
 namespace Xamarin.Forms.DataGrid
 {
@@ -468,9 +469,9 @@ namespace Xamarin.Forms.DataGrid
 
 			//Sort
 			if (order == SortingOrder.Descendant)
-				items = items.OrderByDescending((x) => x.GetType().GetRuntimeProperty(column.PropertyName).GetValue(x)).ToList();
+				items = items.OrderByDescending(x => ReflectionUtils.GetValueByPath(x, column.PropertyName)).ToList();
 			else
-				items = items.OrderBy((x) => x.GetType().GetRuntimeProperty(column.PropertyName).GetValue(x)).ToList();
+				items = items.OrderBy(x => ReflectionUtils.GetValueByPath(x, column.PropertyName)).ToList();
 
 			//Update sorting icon
 			if (changeOrder || column.SortingIcon.Source == null)
