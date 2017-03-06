@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Collections.ObjectModel;
-
-using Xamarin.Forms;
 using System.Collections;
 using System.Windows.Input;
 using System.Collections.Specialized;
+using Xamarin.Forms.DataGrid.Utils;
 
 namespace Xamarin.Forms.DataGrid
 {
@@ -73,6 +71,15 @@ namespace Xamarin.Forms.DataGrid
 
 						self.InternalItems = new List<object>(((IEnumerable)n).Cast<object>());
 					}
+         
+					if (self.NoDataView != null) 
+          {
+            if (self.ItemsSource == null || self.InternalItems.Count() == 0)
+						  self._noDataView.IsVisible = true;
+					  else if (self._noDataView.IsVisible)
+				      self._noDataView.IsVisible = false;
+          }
+          
 				});
 
 		void HandleItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -165,6 +172,14 @@ namespace Xamarin.Forms.DataGrid
 
 		public static readonly BindableProperty AscendingIconStyleProperty =
 			BindableProperty.Create(nameof(AscendingIconStyle), typeof(Style), typeof(DataGrid), null);
+
+		public static readonly BindableProperty NoDataViewProperty =
+			BindableProperty.Create(nameof(NoDataView), typeof(View), typeof(DataGrid),
+				propertyChanged: (b, o, n) =>
+				{
+					if (o != n)
+						(b as DataGrid)._noDataView.Content = n as View;
+				});
 		#endregion
 
 		#region properties
@@ -341,6 +356,12 @@ namespace Xamarin.Forms.DataGrid
 			get { return (Style)GetValue(DescendingIconStyleProperty); }
 			set { SetValue(DescendingIconStyleProperty, value); }
 		}
+
+		public View NoDataView
+		{
+			get { return (View)GetValue(NoDataViewProperty); }
+			set { SetValue(NoDataViewProperty, value); }
+		}
 		#endregion
 
 		#region fields
@@ -472,9 +493,9 @@ namespace Xamarin.Forms.DataGrid
 
 			//Sort
 			if (order == SortingOrder.Descendant)
-				items = items.OrderByDescending((x) => x.GetType().GetRuntimeProperty(column.PropertyName).GetValue(x)).ToList();
+				items = items.OrderByDescending(x => ReflectionUtils.GetValueByPath(x, column.PropertyName)).ToList();
 			else
-				items = items.OrderBy((x) => x.GetType().GetRuntimeProperty(column.PropertyName).GetValue(x)).ToList();
+				items = items.OrderBy(x => ReflectionUtils.GetValueByPath(x, column.PropertyName)).ToList();
 
 			//Update sorting icon
 			if (changeOrder || column.SortingIcon.Source == null)

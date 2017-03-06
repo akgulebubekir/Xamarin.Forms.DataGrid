@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace Xamarin.Forms.DataGrid
 {
@@ -17,7 +12,7 @@ namespace Xamarin.Forms.DataGrid
 		public static readonly BindableProperty TitleProperty =
 			BindableProperty.Create(nameof(Title), typeof(string), typeof(DataGridColumn), string.Empty);
 
-		public static readonly BindableProperty PopertyNameProperty =
+		public static readonly BindableProperty PropertyNameProperty =
 			BindableProperty.Create(nameof(PropertyName), typeof(string), typeof(DataGridColumn), null);
 
 		public static readonly BindableProperty StringFormatProperty =
@@ -61,8 +56,8 @@ namespace Xamarin.Forms.DataGrid
 
 		public string PropertyName
 		{
-			get { return (string)GetValue(PopertyNameProperty); }
-			set { SetValue(PopertyNameProperty, value); }
+			get { return (string)GetValue(PropertyNameProperty); }
+			set { SetValue(PropertyNameProperty, value); }
 		}
 
 		public string StringFormat
@@ -105,10 +100,6 @@ namespace Xamarin.Forms.DataGrid
 		}
 
 		#endregion
-
-		public DataGridColumn()
-		{
-		}
 
 		public event EventHandler SizeChanged;
 

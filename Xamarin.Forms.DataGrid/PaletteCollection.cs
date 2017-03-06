@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
+﻿using System.Collections.Generic;
 
 namespace Xamarin.Forms.DataGrid
 {
-	public class PaletteCollection : List<Color>
+	public sealed class PaletteCollection : List<Color>
 	{
 	}
 }

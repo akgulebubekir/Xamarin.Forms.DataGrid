@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 
 namespace Xamarin.Forms.DataGrid
@@ -25,10 +20,10 @@ namespace Xamarin.Forms.DataGrid
 			var items = dataGrid.InternalItems;
 
 			_dataGridRowTemplate.SetValue(DataGridViewCell.DataGridProperty, dataGrid);
+      _dataGridRowTemplate.SetValue(DataGridViewCell.RowContextProperty, item);
 
 			if (items != null)
 				_dataGridRowTemplate.SetValue(DataGridViewCell.IndexProperty, items.IndexOf(item));
-
 
 			return _dataGridRowTemplate;
 		}
