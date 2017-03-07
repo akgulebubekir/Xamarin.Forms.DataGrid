@@ -59,25 +59,33 @@ namespace Xamarin.Forms.DataGrid
 				{
 					DataGrid self = b as DataGrid;
 
-					if (self.NoDataView != null && (self.ItemsSource == null || self.ItemsSource.Cast<object>().Count() == 0))
-						self._noDataView.IsVisible = true;
-					else if (self._noDataView.IsVisible)
-						self._noDataView.IsVisible = false;
-
 					//ObservableCollection Tracking 
-					if (n is INotifyCollectionChanged)
-						(n as INotifyCollectionChanged).CollectionChanged += (list, arg) =>
-						{
-							if (list == (b as DataGrid).ItemsSource && self._listView.ItemsSource != list)
-								self.SortItems(self.SortedColumnIndex, false);
-						};
-					else
+					if (o != null && o is INotifyCollectionChanged)
+						(o as INotifyCollectionChanged).CollectionChanged -= self.HandleItemsSourceCollectionChanged;
+
+					if (n != null)
 					{
-						self._listView.ItemsSource = n as IEnumerable;
-						if (self.IsSortable && self.SortedColumnIndex >= 0)
-							self.SortItems(self.SortedColumnIndex, false);
+						if (n is INotifyCollectionChanged)
+							(n as INotifyCollectionChanged).CollectionChanged += self.HandleItemsSourceCollectionChanged;
+
+
+						self.InternalItems = new List<object>(((IEnumerable)n).Cast<object>());
 					}
+         
+					if (self.NoDataView != null) 
+          {
+            if (self.ItemsSource == null || self.InternalItems.Count() == 0)
+						  self._noDataView.IsVisible = true;
+					  else if (self._noDataView.IsVisible)
+				      self._noDataView.IsVisible = false;
+          }
+          
 				});
+
+		void HandleItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			InternalItems = new List<object>(((IEnumerable)sender).Cast<object>());
+		}
 
 		public static readonly BindableProperty RowHeightProperty =
 			BindableProperty.Create(nameof(RowHeight), typeof(int), typeof(DataGrid), 40);
@@ -216,6 +224,22 @@ namespace Xamarin.Forms.DataGrid
 		{
 			get { return (IEnumerable)GetValue(ItemsSourceProperty); }
 			set { SetValue(ItemsSourceProperty, value); }
+		}
+
+		IList<object> _internalItems;
+
+		internal IList<object> InternalItems
+		{
+			get { return _internalItems; }
+			set
+			{
+				_internalItems = value;
+
+				if (IsSortable && SortedColumnIndex >= 0)
+					SortItems(SortedColumnIndex, false);
+				else
+					_listView.ItemsSource = _internalItems;
+			}
 		}
 
 		public ColumnCollection Columns
@@ -450,7 +474,7 @@ namespace Xamarin.Forms.DataGrid
 		#region Sorting methods
 		private void SortItems(int propertyIndex, bool changeOrder = true)
 		{
-			if (ItemsSource == null || Columns.Count < propertyIndex || !Columns[propertyIndex].SortingEnabled)
+			if (InternalItems == null || Columns.Count < propertyIndex || !Columns[propertyIndex].SortingEnabled)
 				return;
 
 			if (!IsSortable)
@@ -458,7 +482,7 @@ namespace Xamarin.Forms.DataGrid
 			else if (Columns[propertyIndex].PropertyName == null)
 				throw new InvalidOperationException("Please set the PropertyName property of Column");
 
-			var items = ItemsSource.Cast<object>();
+			var items = InternalItems;
 			var column = Columns[propertyIndex];
 			SortingOrder order = _sortingOrders[propertyIndex];
 
@@ -499,10 +523,12 @@ namespace Xamarin.Forms.DataGrid
 				}
 			}
 
-			_listView.ItemsSource = items;
+			_internalItems = items;
 
 			_sortingOrders[propertyIndex] = order;
 			SortedColumnIndex = propertyIndex;
+
+			_listView.ItemsSource = _internalItems;
 		}
 		#endregion
 	}
