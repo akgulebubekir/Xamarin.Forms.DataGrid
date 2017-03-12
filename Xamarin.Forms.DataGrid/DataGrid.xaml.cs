@@ -6,6 +6,7 @@ using System.Collections;
 using System.Windows.Input;
 using System.Collections.Specialized;
 using Xamarin.Forms.DataGrid.Utils;
+using System.Globalization;
 
 namespace Xamarin.Forms.DataGrid
 {
@@ -19,27 +20,11 @@ namespace Xamarin.Forms.DataGrid
 		public static readonly BindableProperty ActiveRowColorProperty =
 			BindableProperty.Create(nameof(ActiveRowColor), typeof(Color), typeof(DataGrid), Color.FromRgb(128, 144, 160));
 
-		public static readonly BindableProperty HeaderBackgroundProperty =
-			BindableProperty.Create(nameof(HeaderBackground), typeof(Color), typeof(DataGrid), Color.White,
-				propertyChanged: (b, o, n) =>
-				{
-					if ((b as DataGrid)._headerView == null)
-						return;
-					if (!(b as DataGrid).HeaderBordersVisible)
-						(b as DataGrid)._headerView.BackgroundColor = (Color)n;
-				});
-
 		public static readonly BindableProperty HeaderTextColorProperty =
 			BindableProperty.Create(nameof(HeaderTextColor), typeof(Color), typeof(DataGrid), Color.Black);
 
 		public static readonly BindableProperty BorderColorProperty =
-			BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(DataGrid), Color.Black,
-				propertyChanged: (b, o, n) =>
-				{
-					//TODO reload ListView
-					if ((b as DataGrid).HeaderBordersVisible)
-						(b as DataGrid)._headerView.BackgroundColor = (Color)n;
-				});
+			BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(DataGrid), Color.Black);
 
 		public static readonly BindableProperty RowsBackgroundColorPaletteProperty =
 			BindableProperty.Create(nameof(RowsBackgroundColorPalette), typeof(PaletteCollection), typeof(DataGrid), new PaletteCollection { Color.White });
@@ -71,15 +56,15 @@ namespace Xamarin.Forms.DataGrid
 
 						self.InternalItems = new List<object>(((IEnumerable)n).Cast<object>());
 					}
-         
-					if (self.NoDataView != null) 
-          {
-            if (self.ItemsSource == null || self.InternalItems.Count() == 0)
-						  self._noDataView.IsVisible = true;
-					  else if (self._noDataView.IsVisible)
-				      self._noDataView.IsVisible = false;
-          }
-          
+
+					if (self.NoDataView != null)
+					{
+						if (self.ItemsSource == null || self.InternalItems.Count() == 0)
+							self._noDataView.IsVisible = true;
+						else if (self._noDataView.IsVisible)
+							self._noDataView.IsVisible = false;
+					}
+
 				});
 
 		void HandleItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -139,16 +124,7 @@ namespace Xamarin.Forms.DataGrid
 				propertyChanged: (b, o, n) => (b as DataGrid)._listView.IsRefreshing = (bool)n);
 
 		public static readonly BindableProperty BorderThicknessProperty =
-			BindableProperty.Create(nameof(BorderThickness), typeof(Thickness), typeof(DataGrid), new Thickness(1),
-				propertyChanged: (b, o, n) =>
-				{
-					(b as DataGrid)._headerView.ColumnSpacing = ((Thickness)n).HorizontalThickness / 2;
-					(b as DataGrid)._headerView.Padding = ((Thickness)n).HorizontalThickness / 2;
-				});
-
-		public static readonly BindableProperty HeaderBordersVisibleProperty =
-			BindableProperty.Create(nameof(HeaderBordersVisible), typeof(bool), typeof(DataGrid), true,
-				propertyChanged: (b, o, n) => (b as DataGrid)._headerView.BackgroundColor = (bool)n ? (b as DataGrid).BorderColor : (b as DataGrid).HeaderBackground);
+			BindableProperty.Create(nameof(BorderThickness), typeof(Thickness), typeof(DataGrid), new Thickness(1));
 
 		public static readonly BindableProperty SortedColumnIndexProperty =
 			BindableProperty.Create(nameof(SortedColumnIndex), typeof(int), typeof(DataGrid), -1, BindingMode.TwoWay,
@@ -180,6 +156,15 @@ namespace Xamarin.Forms.DataGrid
 					if (o != n)
 						(b as DataGrid)._noDataView.Content = n as View;
 				});
+
+		public static readonly BindableProperty ColumnSeparatorWidthProperty =
+			BindableProperty.Create(nameof(ColumnSeparatorWidth), typeof(double), typeof(DataGrid), 1.0);
+
+		public static readonly BindableProperty RowSeparatorHeightProperty =
+			BindableProperty.Create(nameof(RowSeparatorHeight), typeof(double), typeof(DataGrid), 1.0);
+
+		public static readonly BindableProperty CellPaddingProperty =
+			BindableProperty.Create(nameof(CellPadding), typeof(Thickness), typeof(DataGrid), new Thickness(2));
 		#endregion
 
 		#region properties
@@ -187,12 +172,6 @@ namespace Xamarin.Forms.DataGrid
 		{
 			get { return (Color)GetValue(ActiveRowColorProperty); }
 			set { SetValue(ActiveRowColorProperty, value); }
-		}
-
-		public Color HeaderBackground
-		{
-			get { return (Color)GetValue(HeaderBackgroundProperty); }
-			set { SetValue(HeaderBackgroundProperty, value); }
 		}
 
 		[Obsolete("Please use HeaderLabelStyle")]
@@ -315,12 +294,6 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(BorderThicknessProperty, value); }
 		}
 
-		public bool HeaderBordersVisible
-		{
-			get { return (bool)GetValue(HeaderBordersVisibleProperty); }
-			set { SetValue(HeaderBordersVisibleProperty, value); }
-		}
-
 		public int SortedColumnIndex
 		{
 			get { return (int)GetValue(SortedColumnIndexProperty); }
@@ -361,6 +334,24 @@ namespace Xamarin.Forms.DataGrid
 		{
 			get { return (View)GetValue(NoDataViewProperty); }
 			set { SetValue(NoDataViewProperty, value); }
+		}
+
+		public double ColumnSeparatorWidth
+		{
+			get { return (double)GetValue(ColumnSeparatorWidthProperty); }
+			set { SetValue(ColumnSeparatorWidthProperty, value); }
+		}
+
+		public double RowSeparatorHeight
+		{
+			get { return (double)GetValue(RowSeparatorHeightProperty); }
+			set { SetValue(RowSeparatorHeightProperty, value); }
+		}
+
+		public Thickness CellPadding
+		{
+			get { return (Thickness)GetValue(CellPaddingProperty); }
+			set { SetValue(CellPaddingProperty, value); }
 		}
 		#endregion
 
@@ -414,8 +405,14 @@ namespace Xamarin.Forms.DataGrid
 
 			Grid grid = new Grid
 			{
+				BindingContext = column,
 				ColumnSpacing = 0,
 			};
+
+			grid.SetBinding(PaddingProperty,
+					new Binding(CellPaddingProperty.PropertyName, BindingMode.OneWay, source: this));
+			grid.SetBinding(BackgroundColorProperty,
+					new Binding(BackgroundColorProperty.PropertyName, BindingMode.OneWay, source: column.HeaderLabel));
 
 			grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 			grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) });
@@ -453,8 +450,13 @@ namespace Xamarin.Forms.DataGrid
 			_headerView.ColumnDefinitions.Clear();
 			_sortingOrders.Clear();
 
-			_headerView.Padding = new Thickness(BorderThickness.Left, BorderThickness.Top, BorderThickness.Right, 0);
-			_headerView.ColumnSpacing = BorderThickness.HorizontalThickness / 2;
+			_headerView.SetBinding(BackgroundColorProperty,
+						   new Binding(BorderColorProperty.PropertyName, BindingMode.OneWay, source: this));
+			_headerView.SetBinding(ColumnSpacingProperty,
+						   new Binding(ColumnSeparatorWidthProperty.PropertyName, BindingMode.OneWay, source: this));
+			_headerView.SetBinding(PaddingProperty,
+						   new Binding(RowSeparatorHeightProperty.PropertyName, BindingMode.OneWay, source: this,
+							   converter: RowSeparatorHeightToPaddingConverter.Instance));
 
 			foreach (var col in Columns)
 			{
@@ -531,5 +533,20 @@ namespace Xamarin.Forms.DataGrid
 			_listView.ItemsSource = _internalItems;
 		}
 		#endregion
+	}
+
+	internal sealed class RowSeparatorHeightToPaddingConverter : IValueConverter
+	{
+		internal static readonly RowSeparatorHeightToPaddingConverter Instance = new RowSeparatorHeightToPaddingConverter();
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return new Thickness(0, 0, 0, (double)value);
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -4,7 +4,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       xmlns:local="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
       x:Class="Xamarin.Forms.DataGrid.DataGrid"
-      Padding="0"
+      Padding="{Binding BorderThickness, Source={x:Reference self}}"
+	  BackgroundColor="{Binding BorderColor, Source={x:Reference self}}"
       RowSpacing="0">
 
 	<Grid.RowDefinitions>
@@ -19,13 +20,10 @@
 				<Style x:Key="HeaderDefaultStyle" TargetType="Label">
 					<Setter Property="FontSize" Value="{Binding HeaderFontSize, Source={x:Reference self}}"/>
 					<Setter Property="FontAttributes" Value="Bold"/>
-					<Setter Property="HorizontalOptions" Value="Center"/>
+					<Setter Property="HorizontalOptions" Value="{Binding HorizontalContentAlignment}"/>
 					<Setter Property="VerticalOptions" Value="Center"/>
 					<Setter Property="TextColor" Value="{Binding HeaderTextColor,Source={x:Reference self}}"/>
 					<Setter Property="LineBreakMode" Value="WordWrap"/>
-				</Style>
-				<Style TargetType="Grid">
-					<Setter Property="BackgroundColor" Value="{Binding HeaderBackground,Source={x:Reference self}}"/>
 				</Style>
 				<Style x:Key="ImageStyleBase" TargetType="Image">
 					<Setter Property="Aspect" Value="AspectFill"/>
@@ -47,8 +45,7 @@
 
 	<ListView x:Name="_listView" Grid.Row="1"
             CachingStrategy="RecycleElement"
-            SeparatorVisibility="Default"
-						SeparatorColor="{Binding BorderColor, Source={x:Reference self}}"
+            SeparatorVisibility="None"
             RowHeight="{Binding RowHeight, Source={x:Reference self}}">
 		<ListView.ItemTemplate>
 			<local:DataGridRowTemplateSelector/>

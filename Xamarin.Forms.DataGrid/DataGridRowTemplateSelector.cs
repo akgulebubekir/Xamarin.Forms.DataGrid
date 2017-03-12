@@ -20,7 +20,7 @@ namespace Xamarin.Forms.DataGrid
 			var items = dataGrid.InternalItems;
 
 			_dataGridRowTemplate.SetValue(DataGridViewCell.DataGridProperty, dataGrid);
-      _dataGridRowTemplate.SetValue(DataGridViewCell.RowContextProperty, item);
+			_dataGridRowTemplate.SetValue(DataGridViewCell.RowContextProperty, item);
 
 			if (items != null)
 				_dataGridRowTemplate.SetValue(DataGridViewCell.IndexProperty, items.IndexOf(item));

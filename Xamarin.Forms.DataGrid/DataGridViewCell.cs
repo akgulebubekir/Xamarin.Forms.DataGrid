@@ -17,12 +17,12 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(Index), typeof(int), typeof(DataGridViewCell), 0,
 				propertyChanged: (b, o, n) => (b as DataGridViewCell).UpdateBackgroundColor());
 
-        public static readonly BindableProperty RowContextProperty =
-            BindableProperty.Create(nameof(RowContext), typeof(object), typeof(DataGridViewCell), null);
-        #endregion
+		public static readonly BindableProperty RowContextProperty =
+			BindableProperty.Create(nameof(RowContext), typeof(object), typeof(DataGridViewCell), null);
+		#endregion
 
-        #region properties
-        protected override void OnBindingContextChanged()
+		#region properties
+		protected override void OnBindingContextChanged()
 		{
 			base.OnBindingContextChanged();
 			if (BindingContext != null)
@@ -41,15 +41,15 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(IndexProperty, value); }
 		}
 
-        public object RowContext
-        {
-            get { return GetValue(RowContextProperty); }
-            set { SetValue(RowContextProperty, value); }
-        }
-        #endregion
+		public object RowContext
+		{
+			get { return GetValue(RowContextProperty); }
+			set { SetValue(RowContextProperty, value); }
+		}
+		#endregion
 
-        #region Fields
-        static DataGridViewCell _previouslySelectedViewCell;
+		#region Fields
+		static DataGridViewCell _previouslySelectedViewCell;
 		static object _previouslySelectedBindingContext;
 
 		Grid _mainLayout;
@@ -80,12 +80,20 @@ namespace Xamarin.Forms.DataGrid
 
 			_mainLayout = new Grid()
 			{
-				BackgroundColor = DataGrid.BorderColor,
-				RowSpacing = 0,
-				ColumnSpacing = DataGrid.BorderThickness.HorizontalThickness / 2,
-				Padding = new Thickness(DataGrid.BorderThickness.HorizontalThickness / 2,
-										DataGrid.BorderThickness.VerticalThickness / 4),
+				RowSpacing = 0
 			};
+
+			//Bindings for Row style
+			_mainLayout.SetBinding(VisualElement.BackgroundColorProperty,
+						   new Binding(DataGrid.BorderColorProperty.PropertyName, BindingMode.OneWay,
+							   source: DataGrid));
+			_mainLayout.SetBinding(Grid.ColumnSpacingProperty,
+						   new Binding(DataGrid.ColumnSeparatorWidthProperty.PropertyName, BindingMode.OneWay,
+							   source: DataGrid));
+			_mainLayout.SetBinding(Layout.PaddingProperty,
+						   new Binding(DataGrid.RowSeparatorHeightProperty.PropertyName, BindingMode.OneWay,
+									   source: DataGrid, converter: RowSeparatorHeightToPaddingConverter.Instance));
+
 
 			foreach (var col in DataGrid.Columns)
 			{
@@ -93,14 +101,14 @@ namespace Xamarin.Forms.DataGrid
 				View cell;
 
 				if (col.CellTemplate != null)
-                {
-                    cell = new ContentView() { Content = col.CellTemplate.CreateContent() as View };
-                    if (col.PropertyName != null)
-                    {
-                        cell.SetBinding(BindableObject.BindingContextProperty, 
-                            new Binding(col.PropertyName, source: RowContext));
-                    }
-                }
+				{
+					cell = new ContentView() { Content = col.CellTemplate.CreateContent() as View };
+					if (col.PropertyName != null)
+					{
+						cell.SetBinding(BindableObject.BindingContextProperty,
+								new Binding(col.PropertyName, source: RowContext));
+					}
+				}
 				else
 				{
 					var text = new Label
@@ -110,19 +118,24 @@ namespace Xamarin.Forms.DataGrid
 						VerticalOptions = col.VerticalContentAlignment,
 						LineBreakMode = LineBreakMode.WordWrap,
 					};
-					text.SetBinding(Label.TextProperty, new Binding(col.PropertyName, BindingMode.Default, stringFormat: col.StringFormat));
-					text.SetBinding(Label.FontSizeProperty, new Binding(DataGrid.FontSizeProperty.PropertyName, BindingMode.Default, source: DataGrid));
-					text.SetBinding(Label.FontFamilyProperty, new Binding(DataGrid.FontFamilyProperty.PropertyName, BindingMode.Default, source: DataGrid));
+					text.SetBinding(Label.TextProperty,
+							new Binding(col.PropertyName, BindingMode.Default, stringFormat: col.StringFormat));
+					text.SetBinding(Label.FontSizeProperty,
+							new Binding(DataGrid.FontSizeProperty.PropertyName, BindingMode.Default, source: DataGrid));
+					text.SetBinding(Label.FontFamilyProperty,
+							new Binding(DataGrid.FontFamilyProperty.PropertyName, BindingMode.Default, source: DataGrid));
 
 					cell = new ContentView
 					{
-						Padding = 0,
 						BackgroundColor = _bgColor,
 						Content = text,
 					};
+
+					cell.SetBinding(Layout.PaddingProperty,
+							new Binding(DataGrid.CellPaddingProperty.PropertyName, BindingMode.OneWay, source: DataGrid));
 				}
 
-                _mainLayout.Children.Add(cell);
+				_mainLayout.Children.Add(cell);
 				Grid.SetColumn(cell, DataGrid.Columns.IndexOf(col));
 			}
 
@@ -133,7 +146,7 @@ namespace Xamarin.Forms.DataGrid
 		{
 			int index = Index;
 			var items = DataGrid?.InternalItems;
-			
+
 			if (items != null)
 				index = items.IndexOf(BindingContext);
 
@@ -157,4 +170,5 @@ namespace Xamarin.Forms.DataGrid
 		}
 		#endregion
 	}
+
 }
