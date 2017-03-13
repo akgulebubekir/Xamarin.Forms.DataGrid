@@ -173,6 +173,9 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(HeaderBordersVisible), typeof(bool), typeof(DataGrid), true,
 				propertyChanged: (b, o, n) => (b as DataGrid).UpdateBorders());
 
+		public static readonly BindableProperty HeaderBackgroundProperty =
+			BindableProperty.Create(nameof(HeaderBackground), typeof(Color), typeof(DataGrid), Color.White);
+
 		#endregion
 
 		#region properties
@@ -367,6 +370,12 @@ namespace Xamarin.Forms.DataGrid
 			get { return (bool)GetValue(HeaderBordersVisibleProperty); }
 			set { SetValue(HeaderBordersVisibleProperty, value); }
 		}
+
+		public Color HeaderBackground
+		{
+			get { return (Color)GetValue(HeaderBackgroundProperty); }
+			set { SetValue(HeaderBackgroundProperty, value); }
+		}
 		#endregion
 
 		#region fields
@@ -425,8 +434,20 @@ namespace Xamarin.Forms.DataGrid
 
 			grid.SetBinding(PaddingProperty,
 					new Binding(CellPaddingProperty.PropertyName, BindingMode.OneWay, source: this));
+
 			grid.SetBinding(BackgroundColorProperty,
 					new Binding(BackgroundColorProperty.PropertyName, BindingMode.OneWay, source: column.HeaderLabel));
+
+			grid.Triggers.Add(new DataTrigger(typeof(Grid))
+			{
+				Binding = new Binding(BackgroundColorProperty.PropertyName, BindingMode.OneWay, source: column.HeaderLabel),
+				Value = Color.Transparent,
+				Setters = { new Setter() {
+						Property = BackgroundColorProperty,
+						Value = HeaderBackground
+					}}
+			});
+
 
 			grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 			grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) });
