@@ -124,7 +124,8 @@ namespace Xamarin.Forms.DataGrid
 				propertyChanged: (b, o, n) => (b as DataGrid)._listView.IsRefreshing = (bool)n);
 
 		public static readonly BindableProperty BorderThicknessProperty =
-			BindableProperty.Create(nameof(BorderThickness), typeof(Thickness), typeof(DataGrid), new Thickness(1));
+			BindableProperty.Create(nameof(BorderThickness), typeof(Thickness), typeof(DataGrid), new Thickness(1),
+				propertyChanged: (b, n, o) => (b as DataGrid).UpdateBorders());
 
 		public static readonly BindableProperty SortedColumnIndexProperty =
 			BindableProperty.Create(nameof(SortedColumnIndex), typeof(int), typeof(DataGrid), -1, BindingMode.TwoWay,
@@ -158,13 +159,20 @@ namespace Xamarin.Forms.DataGrid
 				});
 
 		public static readonly BindableProperty ColumnSeparatorWidthProperty =
-			BindableProperty.Create(nameof(ColumnSeparatorWidth), typeof(double), typeof(DataGrid), 1.0);
+			BindableProperty.Create(nameof(ColumnSeparatorWidth), typeof(double), typeof(DataGrid), 1.0,
+				propertyChanged: (b, n, o) => (b as DataGrid).UpdateBorders());
 
 		public static readonly BindableProperty RowSeparatorHeightProperty =
-			BindableProperty.Create(nameof(RowSeparatorHeight), typeof(double), typeof(DataGrid), 1.0);
+			BindableProperty.Create(nameof(RowSeparatorHeight), typeof(double), typeof(DataGrid), 1.0,
+				propertyChanged: (b, n, o) => (b as DataGrid).UpdateBorders());
 
 		public static readonly BindableProperty CellPaddingProperty =
 			BindableProperty.Create(nameof(CellPadding), typeof(Thickness), typeof(DataGrid), new Thickness(2));
+
+		public static readonly BindableProperty HeaderBordersVisibleProperty =
+			BindableProperty.Create(nameof(HeaderBordersVisible), typeof(bool), typeof(DataGrid), true,
+				propertyChanged: (b, o, n) => (b as DataGrid).UpdateBorders());
+
 		#endregion
 
 		#region properties
@@ -353,6 +361,12 @@ namespace Xamarin.Forms.DataGrid
 			get { return (Thickness)GetValue(CellPaddingProperty); }
 			set { SetValue(CellPaddingProperty, value); }
 		}
+
+		public bool HeaderBordersVisible
+		{
+			get { return (bool)GetValue(HeaderBordersVisibleProperty); }
+			set { SetValue(HeaderBordersVisibleProperty, value); }
+		}
 		#endregion
 
 		#region fields
@@ -452,11 +466,8 @@ namespace Xamarin.Forms.DataGrid
 
 			_headerView.SetBinding(BackgroundColorProperty,
 						   new Binding(BorderColorProperty.PropertyName, BindingMode.OneWay, source: this));
-			_headerView.SetBinding(ColumnSpacingProperty,
-						   new Binding(ColumnSeparatorWidthProperty.PropertyName, BindingMode.OneWay, source: this));
-			_headerView.SetBinding(PaddingProperty,
-						   new Binding(RowSeparatorHeightProperty.PropertyName, BindingMode.OneWay, source: this,
-							   converter: RowSeparatorHeightToPaddingConverter.Instance));
+
+			UpdateBorders();
 
 			foreach (var col in Columns)
 			{
@@ -470,8 +481,26 @@ namespace Xamarin.Forms.DataGrid
 				_sortingOrders.Add(Columns.IndexOf(col), SortingOrder.None);
 			}
 		}
-
 		#endregion
+
+		#region Border methods
+		private void UpdateBorders()
+		{
+			if (HeaderBordersVisible)
+			{
+				_headerView.ColumnSpacing = ColumnSeparatorWidth;
+				_headerView.Margin = new Thickness(BorderThickness.Left, BorderThickness.Top, BorderThickness.Right, RowSeparatorHeight);
+			}
+			else
+			{
+				_headerView.ColumnSpacing = 0;
+				_headerView.Margin = new Thickness(0, 0, 0, RowSeparatorHeight);
+			}
+
+			_listView.Margin = new Thickness(BorderThickness.Left, 0, BorderThickness.Right, BorderThickness.Bottom);
+		}
+		#endregion
+
 
 		#region Sorting methods
 		private void SortItems(int propertyIndex, bool changeOrder = true)
