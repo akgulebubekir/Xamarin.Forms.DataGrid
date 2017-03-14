@@ -13,7 +13,7 @@
                  RowHeight="70" HeaderHeight="50" BorderColor="#CCCCCC" HeaderLabelStyle="{StaticResource HeaderStyle}"
                  PullToRefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}"
                  ActiveRowColor="#8899AA" ColumnSeparatorWidth="2.5" RowSeparatorHeight="1.5" 
-				 BorderThickness="4" CellPadding="8" HeaderBordersVisible="true">
+				 BorderThickness="2.5" CellPadding="8" HeaderBordersVisible="true">
             <dg:DataGrid.HeaderFontSize>
                 <OnIdiom  x:TypeArguments="x:Double">
                     <OnIdiom.Tablet>15</OnIdiom.Tablet>
