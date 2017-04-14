@@ -10,7 +10,12 @@ namespace Xamarin.Forms.DataGrid
 				propertyChanged: (b, o, n) => { if (o != n) (b as DataGridColumn).OnSizeChanged(); });
 
 		public static readonly BindableProperty TitleProperty =
-			BindableProperty.Create(nameof(Title), typeof(string), typeof(DataGridColumn), string.Empty);
+			BindableProperty.Create(nameof(Title), typeof(string), typeof(DataGridColumn), string.Empty,
+				propertyChanged: (b, o, n) => (b as DataGridColumn).HeaderLabel.Text = (string)n);
+
+		public static readonly BindableProperty FormattedTitleProperty =
+			BindableProperty.Create(nameof(FormattedTitle), typeof(FormattedString), typeof(DataGridColumn),
+				propertyChanged: (b, o, n) => (b as DataGridColumn).HeaderLabel.FormattedText = (FormattedString)n);
 
 		public static readonly BindableProperty PropertyNameProperty =
 			BindableProperty.Create(nameof(PropertyName), typeof(string), typeof(DataGridColumn), null);
@@ -54,6 +59,11 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(TitleProperty, value); }
 		}
 
+		public FormattedString FormattedTitle
+		{
+			get { return (string)GetValue(FormattedTitleProperty); }
+			set { SetValue(FormattedTitleProperty, value); }
+		}
 		public string PropertyName
 		{
 			get { return (string)GetValue(PropertyNameProperty); }
@@ -102,6 +112,12 @@ namespace Xamarin.Forms.DataGrid
 		#endregion
 
 		public event EventHandler SizeChanged;
+
+		public DataGridColumn()
+		{
+			HeaderLabel = new Label();
+			SortingIcon = new Image();
+		}
 
 		void OnSizeChanged()
 		{

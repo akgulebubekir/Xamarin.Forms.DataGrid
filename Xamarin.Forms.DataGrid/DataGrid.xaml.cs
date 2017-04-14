@@ -178,7 +178,7 @@ namespace Xamarin.Forms.DataGrid
 
 		#endregion
 
-		#region properties
+		#region Properties
 		public Color ActiveRowColor
 		{
 			get { return (Color)GetValue(ActiveRowColorProperty); }
@@ -378,7 +378,7 @@ namespace Xamarin.Forms.DataGrid
 		}
 		#endregion
 
-		#region fields
+		#region Fields
 
 		Dictionary<int, SortingOrder> _sortingOrders;
 
@@ -416,15 +416,11 @@ namespace Xamarin.Forms.DataGrid
 		}
 		#endregion
 
-		#region header creation methods
+		#region Header Creation Methods
 
 		private View GetHeaderViewForColumn(DataGridColumn column)
 		{
-			column.HeaderLabel = new Label
-			{
-				Text = column.Title,
-				Style = column.HeaderLabelStyle ?? this.HeaderLabelStyle ?? (Style)_headerView.Resources["HeaderDefaultStyle"]
-			};
+			column.HeaderLabel.Style = column.HeaderLabelStyle ?? this.HeaderLabelStyle ?? (Style)_headerView.Resources["HeaderDefaultStyle"];
 
 			Grid grid = new Grid
 			{
@@ -454,10 +450,7 @@ namespace Xamarin.Forms.DataGrid
 
 			if (IsSortable)
 			{
-				column.SortingIcon = new Image
-				{
-					Style = (Style)_headerView.Resources["ImageStyleBase"],
-				};
+				column.SortingIcon.Style = (Style)_headerView.Resources["ImageStyleBase"];
 
 				grid.Children.Add(column.SortingIcon);
 				Grid.SetColumn(column.SortingIcon, 1);
