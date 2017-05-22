@@ -151,11 +151,11 @@ namespace Xamarin.Forms.DataGrid
 				propertyChanged: (b, o, n) => (b as DataGrid)._headerView.BackgroundColor = (bool)n ? (b as DataGrid).BorderColor : (b as DataGrid).HeaderBackground);
 
 		public static readonly BindableProperty SortedColumnIndexProperty =
-			BindableProperty.Create(nameof(SortedColumnIndex), typeof(int), typeof(DataGrid), -1, BindingMode.TwoWay,
+			BindableProperty.Create(nameof(SortedColumnIndex), typeof(SortData), typeof(DataGrid), null, BindingMode.TwoWay,
 				propertyChanged: (b, o, n) =>
 				{
-					if (o != n && (int)n >= 0)
-						(b as DataGrid).SortItems((int)n);
+					if (o != n)
+						(b as DataGrid).SortItems((SortData)n);
 				});
 
 		public static readonly BindableProperty HeaderLabelStyleProperty =
@@ -235,8 +235,8 @@ namespace Xamarin.Forms.DataGrid
 			{
 				_internalItems = value;
 
-				if (IsSortable && SortedColumnIndex >= 0)
-					SortItems(SortedColumnIndex, false);
+				if (IsSortable && SortedColumnIndex != null)
+					SortItems(SortedColumnIndex);
 				else
 					_listView.ItemsSource = _internalItems;
 			}
@@ -321,9 +321,9 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(HeaderBordersVisibleProperty, value); }
 		}
 
-		public int SortedColumnIndex
+		public SortData SortedColumnIndex
 		{
-			get { return (int)GetValue(SortedColumnIndexProperty); }
+			get { return (SortData)GetValue(SortedColumnIndexProperty); }
 			set { SetValue(SortedColumnIndexProperty, value); }
 		}
 
@@ -427,10 +427,9 @@ namespace Xamarin.Forms.DataGrid
 				tgr.Tapped += (s, e) =>
 				{
 					int index = Columns.IndexOf(column);
-					if (index == SortedColumnIndex)
-						SortItems(index);
-					else
-						SortedColumnIndex = index;
+					SortingOrder order = _sortingOrders[index] == SortingOrder.Ascendant ? SortingOrder.Descendant : SortingOrder.Ascendant;
+
+					SortedColumnIndex = new SortData(index, order);
 				};
 				grid.GestureRecognizers.Add(tgr);
 			}
@@ -465,24 +464,19 @@ namespace Xamarin.Forms.DataGrid
 		#endregion
 
 		#region Sorting methods
-		private void SortItems(int propertyIndex, bool changeOrder = true)
+		private void SortItems(SortData sData)
 		{
-			if (InternalItems == null || Columns.Count < propertyIndex || !Columns[propertyIndex].SortingEnabled)
+			if (InternalItems == null || Columns.Count < sData.Index || !Columns[sData.Index].SortingEnabled)
 				return;
+
+			var items = InternalItems;
+			var column = Columns[sData.Index];
+			SortingOrder order = sData.Order;
 
 			if (!IsSortable)
 				throw new InvalidOperationException("This DataGrid is not sortable");
-			else if (Columns[propertyIndex].PropertyName == null)
+			else if (column.PropertyName == null)
 				throw new InvalidOperationException("Please set the PropertyName property of Column");
-
-			var items = InternalItems;
-			var column = Columns[propertyIndex];
-			SortingOrder order = _sortingOrders[propertyIndex];
-
-			if (changeOrder)
-				order = _sortingOrders[propertyIndex] == SortingOrder.Descendant ? SortingOrder.Ascendant : SortingOrder.Descendant;
-			else
-				order = _sortingOrders[propertyIndex] == SortingOrder.Descendant ? SortingOrder.Descendant : SortingOrder.Ascendant;
 
 			//Sort
 			if (order == SortingOrder.Descendant)
@@ -490,26 +484,22 @@ namespace Xamarin.Forms.DataGrid
 			else
 				items = items.OrderBy(x => ReflectionUtils.GetValueByPath(x, column.PropertyName)).ToList();
 
-			//Update sorting icon
-			if (changeOrder || column.SortingIcon.Source == null)
-			{
-				column.SortingIcon.Style = (order == SortingOrder.Descendant) ?
-					AscendingIconStyle ?? (Style)_headerView.Resources["DescendingIconStyle"] :
-					DescendingIconStyle ?? (Style)_headerView.Resources["AscendingIconStyle"];
+			column.SortingIcon.Style = (order == SortingOrder.Descendant) ?
+				AscendingIconStyle ?? (Style)_headerView.Resources["DescendingIconStyle"] :
+				DescendingIconStyle ?? (Style)_headerView.Resources["AscendingIconStyle"];
 
-				//Support DescendingIcon property (if setted)
-				if (!column.SortingIcon.Style.Setters.Any(x => x.Property == Image.SourceProperty))
-				{
-					if (order == SortingOrder.Descendant && DescendingIconProperty.DefaultValue != DescendingIcon)
-						column.SortingIcon.Source = DescendingIcon;
-					if (order == SortingOrder.Ascendant && AscendingIconProperty.DefaultValue != AscendingIcon)
-						column.SortingIcon.Source = AscendingIcon;
-				}
+			//Support DescendingIcon property (if setted)
+			if (!column.SortingIcon.Style.Setters.Any(x => x.Property == Image.SourceProperty))
+			{
+				if (order == SortingOrder.Descendant && DescendingIconProperty.DefaultValue != DescendingIcon)
+					column.SortingIcon.Source = DescendingIcon;
+				if (order == SortingOrder.Ascendant && AscendingIconProperty.DefaultValue != AscendingIcon)
+					column.SortingIcon.Source = AscendingIcon;
 			}
 
 			for (int i = 0; i < Columns.Count; i++)
 			{
-				if (i != propertyIndex)
+				if (i != sData.Index)
 				{
 					Columns[i].SortingIcon.Source = null;
 					_sortingOrders[i] = SortingOrder.None;
@@ -518,8 +508,8 @@ namespace Xamarin.Forms.DataGrid
 
 			_internalItems = items;
 
-			_sortingOrders[propertyIndex] = order;
-			SortedColumnIndex = propertyIndex;
+			_sortingOrders[sData.Index] = order;
+			SortedColumnIndex = sData;
 
 			_listView.ItemsSource = _internalItems;
 		}

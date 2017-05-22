@@ -1,6 +1,6 @@
 ﻿namespace Xamarin.Forms.DataGrid
 {
-	internal enum SortingOrder
+	public enum SortingOrder
 	{
 		None = 0,
 		Ascendant = 1,
