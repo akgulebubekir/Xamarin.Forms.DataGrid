@@ -466,7 +466,7 @@ namespace Xamarin.Forms.DataGrid
 		#region Sorting methods
 		private void SortItems(SortData sData)
 		{
-			if (InternalItems == null || Columns.Count < sData.Index || !Columns[sData.Index].SortingEnabled)
+			if (InternalItems == null || sData.Index >= Columns.Count || !Columns[sData.Index].SortingEnabled)
 				return;
 
 			var items = InternalItems;
