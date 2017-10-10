@@ -501,7 +501,10 @@ namespace Xamarin.Forms.DataGrid
 			{
 				if (i != sData.Index)
 				{
-					Columns[i].SortingIcon.Source = null;
+					if (Columns[i].SortingIcon.Style != null)
+						Columns[i].SortingIcon.Style = null;
+					if (Columns[i].SortingIcon.Source != null)
+						Columns[i].SortingIcon.Source = null;
 					_sortingOrders[i] = SortingOrder.None;
 				}
 			}
