@@ -151,7 +151,7 @@ namespace Xamarin.Forms.DataGrid
 				propertyChanged: (b, o, n) => (b as DataGrid)._headerView.BackgroundColor = (bool)n ? (b as DataGrid).BorderColor : (b as DataGrid).HeaderBackground);
 
 		public static readonly BindableProperty SortedColumnIndexProperty =
-			BindableProperty.Create(nameof(SortedColumnIndex), typeof(SortData), typeof(DataGrid), null, BindingMode.TwoWay,
+			BindableProperty.Create(nameof(SortedColumnIndex), typeof(SortData), typeof(DataGrid), null, BindingMode.Default,
 				propertyChanged: (b, o, n) =>
 				{
 					if (o != n)
