@@ -84,7 +84,7 @@ namespace Xamarin.Forms.DataGrid
 				RowSpacing = 0,
 				ColumnSpacing = DataGrid.BorderThickness.HorizontalThickness / 2,
 				Padding = new Thickness(DataGrid.BorderThickness.HorizontalThickness / 2,
-										DataGrid.BorderThickness.VerticalThickness / 4),
+										DataGrid.BorderThickness.VerticalThickness / 2),
 			};
 
 			foreach (var col in DataGrid.Columns)
