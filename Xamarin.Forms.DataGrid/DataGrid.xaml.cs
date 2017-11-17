@@ -42,10 +42,10 @@ namespace Xamarin.Forms.DataGrid
 				});
 
 		public static readonly BindableProperty RowsBackgroundColorPaletteProperty =
-			BindableProperty.Create(nameof(RowsBackgroundColorPalette), typeof(PaletteCollection), typeof(DataGrid), new PaletteCollection { Color.White });
+			BindableProperty.Create(nameof(RowsBackgroundColorPalette), typeof(IColorProvider), typeof(DataGrid), new PaletteCollection { Color.White });
 
 		public static readonly BindableProperty RowsTextColorPaletteProperty =
-			BindableProperty.Create(nameof(RowsTextColorPalette), typeof(PaletteCollection), typeof(DataGrid), new PaletteCollection { Color.Black });
+			BindableProperty.Create(nameof(RowsTextColorPalette), typeof(IColorProvider), typeof(DataGrid), new PaletteCollection { Color.Black });
 
 		public static readonly BindableProperty ColumnsProperty =
 			BindableProperty.Create(nameof(Columns), typeof(ColumnCollection), typeof(DataGrid),
@@ -208,15 +208,15 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(BorderColorProperty, value); }
 		}
 
-		public PaletteCollection RowsBackgroundColorPalette
+		public IColorProvider RowsBackgroundColorPalette
 		{
-			get { return (PaletteCollection)GetValue(RowsBackgroundColorPaletteProperty); }
+			get { return (IColorProvider)GetValue(RowsBackgroundColorPaletteProperty); }
 			set { SetValue(RowsBackgroundColorPaletteProperty, value); }
 		}
 
-		public PaletteCollection RowsTextColorPalette
+		public IColorProvider RowsTextColorPalette
 		{
-			get { return (PaletteCollection)GetValue(RowsTextColorPaletteProperty); }
+			get { return (IColorProvider)GetValue(RowsTextColorPaletteProperty); }
 			set { SetValue(RowsTextColorPaletteProperty, value); }
 		}
 

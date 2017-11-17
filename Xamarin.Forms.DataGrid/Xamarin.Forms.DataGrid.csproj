@@ -42,6 +42,7 @@
     <Compile Include="DataGridColumn.cs" />
     <Compile Include="DataGridComponent.cs" />
     <Compile Include="DataGridRowTemplateSelector.cs" />
+    <Compile Include="IColorProvider.cs" />
     <Compile Include="SortData.cs" />
     <Compile Include="SortDataTypeConverter.cs" />
     <Compile Include="SortingOrder.cs" />
