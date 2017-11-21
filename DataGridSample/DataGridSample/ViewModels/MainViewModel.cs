@@ -17,13 +17,34 @@ namespace DataGridSample.ViewModels
 		private List<Team> teams;
 		private Team selectedItem;
 		private bool isRefreshing;
-		#endregion
+	    private ChartTable chartTable;
+	    private ChartTableRow selectedRow;
 
-		#region Properties
-		public List<Team> Teams
+	    #endregion
+
+        #region Properties
+
+	    public ChartTable ChartTable
+	    {
+	        get { return chartTable; }
+	        set { chartTable = value; OnPropertyChanged(nameof(ChartTable)); }
+	    }
+
+        public List<Team> Teams
 		{
 			get { return teams; }
-			set { teams = value; OnPropertyChanged(nameof(Teams)); }
+			set { teams = value;
+                OnPropertyChanged(nameof(Teams)); }
+		}
+
+		public ChartTableRow SelectedRow
+        {
+			get { return selectedRow; }
+			set
+			{
+			    selectedRow = value;
+			    OnPropertyChanged(nameof(SelectedRow));
+            }
 		}
 
 		public Team SelectedTeam
@@ -48,7 +69,8 @@ namespace DataGridSample.ViewModels
 		public MainViewModel()
 		{
 			Teams = Utils.DummyDataProvider.GetTeams();
-			RefreshCommand = new Command(CmdRefresh);
+		    ChartTable = Utils.DummyDataProvider.GetChartTable();
+            RefreshCommand = new Command(CmdRefresh);
 		}
 
 		private async void CmdRefresh()
