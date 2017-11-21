@@ -93,15 +93,31 @@ namespace Xamarin.Forms.DataGrid
 				View cell;
 
 				if (col.CellTemplate != null)
-                {
-                    cell = new ContentView() { Content = col.CellTemplate.CreateContent() as View };
+				{
+				    View templateView;
+				    var templateContent = col.CellTemplate.CreateContent();
+				    var viewCell = templateContent as ViewCell;
+				    if (viewCell != null)
+				    {
+				        templateView = viewCell.View;
+				    }
+				    else
+				    {
+				        templateView = templateContent as View;
+				        if (templateView == null)
+				        {
+				            throw new Exception($"{nameof(DataGridColumn.CellTemplate)} must either be a {nameof(View)} or a {nameof(ViewCell)} ");
+				        }
+				    }
+
+                    cell = new ContentView { Content = templateView };
                     if (col.PropertyName != null)
                     {
-                        cell.SetBinding(BindableObject.BindingContextProperty, 
+                        cell.SetBinding(BindableObject.BindingContextProperty,
                             new Binding(col.PropertyName, source: RowContext));
                     }
                 }
-				else
+                else
 				{
 					var text = new Label
 					{
