@@ -32,7 +32,7 @@ namespace DataGridSample.ViewModels
 			set
 			{
 				selectedItem = value;
-				System.Diagnostics.Debug.WriteLine("Team Selected : " + value.Name);
+				System.Diagnostics.Debug.WriteLine("Team Selected : " + value?.Name);
 			}
 		}
 
