@@ -134,12 +134,10 @@ namespace Xamarin.Forms.DataGrid
 
 		private void UpdateBackgroundColor(bool isSelected = false)
 		{
-			int index = Index;
-			var items = DataGrid?.InternalItems;
+			int actualIndex = DataGrid?.InternalItems?.IndexOf(BindingContext) ?? -1;
 
-			if (Index>-1 && BindingContext!=null)
+			if (actualIndex > -1)
 			{
-				int actualIndex = DataGrid?.InternalItems?.IndexOf(BindingContext) ?? -1;
 
 				_bgColor = isSelected ?
 					DataGrid.ActiveRowColor :
