@@ -44,12 +44,6 @@
 			</ResourceDictionary>
 		</Grid.Resources>
 	</Grid>
-	<ListView x:Name="_listView" Grid.Row="1" BackgroundColor="Transparent"
-			  CachingStrategy="RecycleElement" SeparatorVisibility="None"
-			  RowHeight="{Binding RowHeight, Source={x:Reference self}}">
-		<ListView.ItemTemplate>
-			<local:DataGridRowTemplateSelector/>
-		</ListView.ItemTemplate>
-	</ListView>
+
 	<ContentView x:Name="_noDataView" Grid.RowSpan="2" IsVisible="False"/>
 </Grid>

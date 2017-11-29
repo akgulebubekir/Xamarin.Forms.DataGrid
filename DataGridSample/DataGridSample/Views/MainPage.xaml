@@ -13,6 +13,9 @@
 						 RowHeight="70" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8"
 						 PullToRefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}"
 						 ActiveRowColor="#8899AA">
+			<x:Arguments>
+				<ListViewCachingStrategy>RetainElement</ListViewCachingStrategy>
+			</x:Arguments>
 			<dg:DataGrid.HeaderFontSize>
 				<OnIdiom  x:TypeArguments="x:Double">
 					<OnIdiom.Tablet>15</OnIdiom.Tablet>

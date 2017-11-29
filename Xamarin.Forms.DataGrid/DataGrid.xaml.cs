@@ -365,17 +365,27 @@ namespace Xamarin.Forms.DataGrid
 		#endregion
 
 		#region Fields
-
 		Dictionary<int, SortingOrder> _sortingOrders;
-
+		ListView _listView;
 		#endregion
 
 		#region ctor
-		public DataGrid()
+
+		public DataGrid() : this(ListViewCachingStrategy.RecycleElement)
+		{
+		}
+
+		public DataGrid(ListViewCachingStrategy cachingStrategy)
 		{
 			InitializeComponent();
 
 			_sortingOrders = new Dictionary<int, SortingOrder>();
+
+			_listView = new ListView(cachingStrategy)
+			{
+				BackgroundColor = Color.Transparent,
+				ItemTemplate = new DataGridRowTemplateSelector(),
+			};
 
 			_listView.ItemSelected += (s, e) =>
 			{
@@ -391,6 +401,10 @@ namespace Xamarin.Forms.DataGrid
 			{
 				Refreshing?.Invoke(this, e);
 			};
+
+			_listView.SetBinding(ListView.RowHeightProperty, new Binding("RowHeight", source: this));
+			Grid.SetRow(_listView, 1);
+			Children.Add(_listView);
 		}
 		#endregion
 
