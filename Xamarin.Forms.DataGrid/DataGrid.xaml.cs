@@ -385,6 +385,7 @@ namespace Xamarin.Forms.DataGrid
 			{
 				BackgroundColor = Color.Transparent,
 				ItemTemplate = new DataGridRowTemplateSelector(),
+				SeparatorVisibility = SeparatorVisibility.None,
 			};
 
 			_listView.ItemSelected += (s, e) =>
