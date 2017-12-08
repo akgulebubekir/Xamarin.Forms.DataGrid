@@ -463,19 +463,21 @@ namespace Xamarin.Forms.DataGrid
 			_headerView.Padding = new Thickness(BorderThickness.Left, BorderThickness.Top, BorderThickness.Right, 0);
 			_headerView.ColumnSpacing = BorderThickness.HorizontalThickness / 2;
 
-			foreach (var col in Columns)
+			if (Columns != null)
 			{
-				_headerView.ColumnDefinitions.Add(new ColumnDefinition { Width = col.Width });
+				foreach (var col in Columns)
+				{
+					_headerView.ColumnDefinitions.Add(new ColumnDefinition { Width = col.Width });
 
-				var cell = GetHeaderViewForColumn(col);
+					var cell = GetHeaderViewForColumn(col);
 
-				_headerView.Children.Add(cell);
-				Grid.SetColumn(cell, Columns.IndexOf(col));
+					_headerView.Children.Add(cell);
+					Grid.SetColumn(cell, Columns.IndexOf(col));
 
-				_sortingOrders.Add(Columns.IndexOf(col), SortingOrder.None);
+					_sortingOrders.Add(Columns.IndexOf(col), SortingOrder.None);
+				}
 			}
 		}
-
 		#endregion
 
 		#region Sorting methods
