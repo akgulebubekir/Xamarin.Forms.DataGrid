@@ -162,10 +162,10 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(HeaderLabelStyle), typeof(Style), typeof(DataGrid));
 
 		public static readonly BindableProperty AscendingIconProperty =
-			BindableProperty.Create(nameof(AscendingIcon), typeof(ImageSource), typeof(DataGrid), ImageSource.FromResource("Xamarin.Forms.DataGrid.up.png"));
+			BindableProperty.Create(nameof(AscendingIcon), typeof(ImageSource), typeof(DataGrid), ImageSource.FromResource("Xamarin.Forms.DataGrid.up.png", typeof(DataGrid).GetTypeInfo().Assembly));
 
 		public static readonly BindableProperty DescendingIconProperty =
-			BindableProperty.Create(nameof(DescendingIcon), typeof(ImageSource), typeof(DataGrid), ImageSource.FromResource("Xamarin.Forms.DataGrid.down.png"));
+			BindableProperty.Create(nameof(DescendingIcon), typeof(ImageSource), typeof(DataGrid), ImageSource.FromResource("Xamarin.Forms.DataGrid.down.png", typeof(DataGrid).GetTypeInfo().Assembly));
 
 		public static readonly BindableProperty DescendingIconStyleProperty =
 			BindableProperty.Create(nameof(DescendingIconStyle), typeof(Style), typeof(DataGrid), null);
