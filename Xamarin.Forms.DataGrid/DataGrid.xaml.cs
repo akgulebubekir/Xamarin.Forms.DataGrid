@@ -29,9 +29,6 @@ namespace Xamarin.Forms.DataGrid
 						(b as DataGrid)._headerView.BackgroundColor = (Color)n;
 				});
 
-		public static readonly BindableProperty HeaderTextColorProperty =
-			BindableProperty.Create(nameof(HeaderTextColor), typeof(Color), typeof(DataGrid), Color.Black);
-
 		public static readonly BindableProperty BorderColorProperty =
 			BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(DataGrid), Color.Black,
 				propertyChanged: (b, o, n) =>
@@ -113,9 +110,6 @@ namespace Xamarin.Forms.DataGrid
 
 		public static readonly BindableProperty FontSizeProperty =
 			BindableProperty.Create(nameof(FontSize), typeof(double), typeof(DataGrid), 13.0);
-
-		public static readonly BindableProperty HeaderFontSizeProperty =
-			BindableProperty.Create(nameof(HeaderFontSize), typeof(double), typeof(DataGrid), 13.0);
 
 		public static readonly BindableProperty FontFamilyProperty =
 			BindableProperty.Create(nameof(FontFamily), typeof(string), typeof(DataGrid), Font.Default.FontFamily);
@@ -210,11 +204,10 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(HeaderBackgroundProperty, value); }
 		}
 
-		[Obsolete("Please use HeaderLabelStyle")]
+		[Obsolete("Please use HeaderLabelStyle",true)]
 		public Color HeaderTextColor
 		{
-			get { return (Color)GetValue(HeaderTextColorProperty); }
-			set { SetValue(HeaderTextColorProperty, value); }
+			get;set;
 		}
 
 		public Color BorderColor
@@ -269,11 +262,10 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(FontSizeProperty, value); }
 		}
 
-		[Obsolete("Please use HeaderLabelStyle")]
+		[Obsolete("Please use HeaderLabelStyle",true)]
 		public double HeaderFontSize
 		{
-			get { return (double)GetValue(HeaderFontSizeProperty); }
-			set { SetValue(HeaderFontSizeProperty, value); }
+			get;set;
 		}
 
 		public string FontFamily
