@@ -37,7 +37,8 @@ namespace Xamarin.Forms.DataGrid
 					if (self.HeaderBordersVisible)
 						self._headerView.BackgroundColor = (Color)n;
 
-					self.Reload();
+					if (self.Columns != null && self.ItemsSource != null)
+						self.Reload();
 				});
 
 		public static readonly BindableProperty RowsBackgroundColorPaletteProperty =
@@ -204,10 +205,10 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(HeaderBackgroundProperty, value); }
 		}
 
-		[Obsolete("Please use HeaderLabelStyle",true)]
+		[Obsolete("Please use HeaderLabelStyle", true)]
 		public Color HeaderTextColor
 		{
-			get;set;
+			get; set;
 		}
 
 		public Color BorderColor
@@ -262,10 +263,10 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(FontSizeProperty, value); }
 		}
 
-		[Obsolete("Please use HeaderLabelStyle",true)]
+		[Obsolete("Please use HeaderLabelStyle", true)]
 		public double HeaderFontSize
 		{
-			get;set;
+			get; set;
 		}
 
 		public string FontFamily
