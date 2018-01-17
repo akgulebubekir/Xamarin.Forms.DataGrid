@@ -36,16 +36,30 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(DataGrid), Color.Black,
 				propertyChanged: (b, o, n) =>
 				{
-					//TODO reload ListView
-					if ((b as DataGrid).HeaderBordersVisible)
-						(b as DataGrid)._headerView.BackgroundColor = (Color)n;
+					var self = b as DataGrid;
+					if (self.HeaderBordersVisible)
+						self._headerView.BackgroundColor = (Color)n;
+
+					self.Reload();
 				});
 
 		public static readonly BindableProperty RowsBackgroundColorPaletteProperty =
-			BindableProperty.Create(nameof(RowsBackgroundColorPalette), typeof(IColorProvider), typeof(DataGrid), new PaletteCollection { Color.White });
+			BindableProperty.Create(nameof(RowsBackgroundColorPalette), typeof(IColorProvider), typeof(DataGrid), new PaletteCollection { default(Color) },
+				propertyChanged: (b, o, n) =>
+				 {
+					 var self = b as DataGrid;
+					 if (self.Columns != null && self.ItemsSource != null)
+						 self.Reload();
+				 });
 
 		public static readonly BindableProperty RowsTextColorPaletteProperty =
-			BindableProperty.Create(nameof(RowsTextColorPalette), typeof(IColorProvider), typeof(DataGrid), new PaletteCollection { Color.Black });
+			BindableProperty.Create(nameof(RowsTextColorPalette), typeof(IColorProvider), typeof(DataGrid), new PaletteCollection { Color.Black },
+				propertyChanged: (b, o, n) =>
+				{
+					var self = b as DataGrid;
+					if (self.Columns != null && self.ItemsSource != null)
+						self.Reload();
+				});
 
 		public static readonly BindableProperty ColumnsProperty =
 			BindableProperty.Create(nameof(Columns), typeof(ColumnCollection), typeof(DataGrid),
@@ -122,15 +136,16 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(PullToRefreshCommand), typeof(ICommand), typeof(DataGrid), null,
 				propertyChanged: (b, o, n) =>
 				{
+					var self = b as DataGrid;
 					if (n == null)
 					{
-						(b as DataGrid)._listView.IsPullToRefreshEnabled = false;
-						(b as DataGrid)._listView.RefreshCommand = null;
+						self._listView.IsPullToRefreshEnabled = false;
+						self._listView.RefreshCommand = null;
 					}
 					else
 					{
-						(b as DataGrid)._listView.IsPullToRefreshEnabled = true;
-						(b as DataGrid)._listView.RefreshCommand = n as ICommand;
+						self._listView.IsPullToRefreshEnabled = true;
+						self._listView.RefreshCommand = n as ICommand;
 					}
 				});
 
@@ -414,6 +429,11 @@ namespace Xamarin.Forms.DataGrid
 		{
 			base.OnParentSet();
 			InitHeaderView();
+		}
+
+		private void Reload()
+		{
+			InternalItems = new List<object>(_internalItems);
 		}
 		#endregion
 
