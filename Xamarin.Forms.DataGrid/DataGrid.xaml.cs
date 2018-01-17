@@ -424,6 +424,12 @@ namespace Xamarin.Forms.DataGrid
 			InitHeaderView();
 		}
 
+		protected override void OnBindingContextChanged()
+		{
+			base.OnBindingContextChanged();
+			SetColumnsBindingContext();
+		}
+
 		private void Reload()
 		{
 			InternalItems = new List<object>(_internalItems);
@@ -469,6 +475,7 @@ namespace Xamarin.Forms.DataGrid
 
 		private void InitHeaderView()
 		{
+			SetColumnsBindingContext();
 			_headerView.Children.Clear();
 			_headerView.ColumnDefinitions.Clear();
 			_sortingOrders.Clear();
@@ -490,6 +497,13 @@ namespace Xamarin.Forms.DataGrid
 					_sortingOrders.Add(Columns.IndexOf(col), SortingOrder.None);
 				}
 			}
+		}
+
+		private void SetColumnsBindingContext()
+		{
+			if (Columns != null)
+				foreach (var c in Columns)
+					c.BindingContext = BindingContext;
 		}
 		#endregion
 
