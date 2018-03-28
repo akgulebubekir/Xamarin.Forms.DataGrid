@@ -17,8 +17,6 @@ Xamarin.Forms.DataGrid
   >- Android
   >- iOS
   >- UWP
-  >- Windows Store(WinRT)
-  >- Windows Phone
 
 #### <i class="icon-pencil"></i> Usage ([See all](https://github.com/akgulebubekir/Xamarin.Forms.DataGrid/blob/master/Samples.md))
 
