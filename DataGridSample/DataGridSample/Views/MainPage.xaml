@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DataGridSample.MainPage"
+	     xmlns:local="clr-namespace:DataGridSample.Views" 
              Title="DataGrid Test"
              xmlns:dg="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
              xmlns:conv="clr-namespace:DataGridSample.Views.Converters;assembly=DataGridSample"
