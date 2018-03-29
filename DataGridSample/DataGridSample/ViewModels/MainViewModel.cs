@@ -45,6 +45,14 @@ namespace DataGridSample.ViewModels
 		public ICommand RefreshCommand { get; set; }
 		#endregion
 
+
+		public void GridDoubleTapped(ItemTappedEventArgs e)
+        	{
+		    //ToDo
+		    var team = e.Item as Team;
+		    System.Diagnostics.Debug.WriteLine(team.Name);
+		 }
+		    
 		public MainViewModel()
 		{
 			Teams = Utils.DummyDataProvider.GetTeams();

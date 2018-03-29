@@ -14,6 +14,7 @@ namespace Xamarin.Forms.DataGrid
 	{
 		public event EventHandler Refreshing;
 		public event EventHandler<SelectedItemChangedEventArgs> ItemSelected;
+		public event EventHandler<ItemTappedEventArgs> ItemDoubleTapped;
 
 		#region Bindable properties
 		public static readonly BindableProperty ActiveRowColorProperty =
@@ -406,6 +407,11 @@ namespace Xamarin.Forms.DataGrid
 				ItemSelected?.Invoke(this, e);
 			};
 
+			 _listView.ItemTapped += (s, e) =>
+			 {
+				DataGrid_ItemTapped(s, e);
+			 };
+			 
 			_listView.Refreshing += (s, e) =>
 			{
 				Refreshing?.Invoke(this, e);
@@ -417,6 +423,27 @@ namespace Xamarin.Forms.DataGrid
 		}
 		#endregion
 
+		//2018.03.29, gwise@naver.com, Double Tap Function Add.
+		private int selectedCount = 0;
+		private ItemTappedEventArgs itemTappedEventArgs;
+		private void DataGrid_ItemTapped(object sender, ItemTappedEventArgs e)
+		{
+		    if (this.itemTappedEventArgs != null && e != null && this.itemTappedEventArgs.Item == e.Item)
+		    {
+			this.selectedCount += 1;
+			if (selectedCount == 2)
+			{
+			    ItemDoubleTapped?.Invoke(sender, e);
+			    selectedCount = 0;
+			}
+		    }
+		    else
+		    {
+			this.itemTappedEventArgs = e;
+			selectedCount = 1;
+		    }
+		}
+		
 		#region UI Methods
 		protected override void OnParentSet()
 		{
