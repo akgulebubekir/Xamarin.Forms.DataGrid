@@ -18,3 +18,5 @@
 >-~~ Customizable sorting icons : Use could able to customize sorting icon~~
 
 >- Highlight active row and add active row color as bindable property
+>- user should be able to set IsVisible Property in Image View
+
