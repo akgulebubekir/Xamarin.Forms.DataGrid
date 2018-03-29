@@ -12,6 +12,7 @@
 		<dg:DataGrid ItemsSource="{Binding Teams}" SelectionEnabled="True" SelectedItem="{Binding SelectedTeam}"
 						 RowHeight="70" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8"
 						 PullToRefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}"
+			                         ItemDoubleTapped="DataGrid_ItemDoubleTapped"
 						 ActiveRowColor="#8899AA">
 			<x:Arguments>
 				<ListViewCachingStrategy>RetainElement</ListViewCachingStrategy>
