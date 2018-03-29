@@ -43,7 +43,19 @@
 						</FormattedString>
 					</dg:DataGridColumn.FormattedTitle>
 				</dg:DataGridColumn>
-				<dg:DataGridColumn Title="Percentage" PropertyName="Percentage" StringFormat="{}{0:0.00}" />
+				<dg:DataGridColumn Title="Percentage" PropertyName="Percentage" StringFormat="{}{0:0.00}">
+				    <dg:DataGridColumn.CellTemplate>
+					<DataTemplate>
+					    <ContentView HorizontalOptions="Fill" VerticalOptions="Fill">
+						<Entry Text="{Binding}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black" FontSize="11" Focused="Entry_Focused">
+						    <Entry.Effects>
+							<local:FocusEffect />
+						    </Entry.Effects>
+						</Entry>
+					    </ContentView>
+					</DataTemplate>
+				    </dg:DataGridColumn.CellTemplate>
+				</dg:DataGridColumn>
 				<dg:DataGridColumn Title="Streak" PropertyName="Streak" Width="0.7*">
 					<dg:DataGridColumn.CellTemplate>
 						<DataTemplate>
