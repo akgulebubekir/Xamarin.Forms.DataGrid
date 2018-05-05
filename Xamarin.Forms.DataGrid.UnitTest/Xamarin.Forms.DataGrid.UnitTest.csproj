@@ -61,6 +61,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MockPlatform\MockDeserializer.cs" />
+    <Compile Include="MockPlatform\MockDeviceInfo.cs" />
+    <Compile Include="MockPlatform\MockForms.cs" />
+    <Compile Include="MockPlatform\MockPlatformServices.cs" />
+    <Compile Include="MockPlatform\MockResourcesProvider.cs" />
+    <Compile Include="MockPlatform\MockTicker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
