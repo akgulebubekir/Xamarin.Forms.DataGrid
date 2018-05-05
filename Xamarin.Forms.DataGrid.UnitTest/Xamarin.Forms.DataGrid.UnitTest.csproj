@@ -67,7 +67,9 @@
     <Compile Include="MockPlatform\MockPlatformServices.cs" />
     <Compile Include="MockPlatform\MockResourcesProvider.cs" />
     <Compile Include="MockPlatform\MockTicker.cs" />
+    <Compile Include="Models\Team.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VM\SingleVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
