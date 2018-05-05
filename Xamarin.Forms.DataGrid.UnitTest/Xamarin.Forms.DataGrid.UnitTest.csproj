@@ -61,6 +61,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Util.cs" />
+    <Compile Include="ItemsSourceTests.cs" />
     <Compile Include="MockPlatform\MockDeserializer.cs" />
     <Compile Include="MockPlatform\MockDeviceInfo.cs" />
     <Compile Include="MockPlatform\MockForms.cs" />
