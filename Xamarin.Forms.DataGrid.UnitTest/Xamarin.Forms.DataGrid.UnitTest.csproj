@@ -72,6 +72,7 @@
     <Compile Include="Models\Team.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectedItemTest.cs" />
+    <Compile Include="SortedColumnIndexTest.cs" />
     <Compile Include="VM\SingleVM.cs" />
   </ItemGroup>
   <ItemGroup>
