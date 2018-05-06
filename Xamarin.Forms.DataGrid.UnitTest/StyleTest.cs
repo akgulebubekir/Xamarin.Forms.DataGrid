@@ -12,6 +12,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			MockPlatform.MockForms.Init();
 		}
 
+		#region Tests
 		[TestMethod]
 		public void StyleWithoutAny()
 		{
@@ -195,9 +196,27 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			Assert.IsTrue(dg.BorderColor == Color.Orange);
 		}
 
+		[TestMethod]
 		public void StyleWithColumns()
 		{
-			Assert.Fail("Not implemented");
+			var cols = new ColumnCollection {
+				new DataGridColumn{Title="Col1", PropertyName="Col1",},
+				new DataGridColumn{Title="Col2", PropertyName="Col2",},
+				new DataGridColumn{Title="Col3", PropertyName="Col3",},
+			};
+
+			var dgStyle = new Style(typeof(DataGrid));
+			dgStyle.Setters.Add(new Setter { Property = DataGrid.ColumnsProperty, Value = new Binding(".", source: cols) });
+
+			var dg = new DataGrid {
+				Style = dgStyle
+			};
+
+			Assert.IsTrue(dg.Columns.Count == 3);
+			Assert.IsTrue(dg.Columns[0].Title == "Col1");
+			Assert.IsTrue(dg.Columns[1].Title == "Col2");
+			Assert.IsTrue(dg.Columns[2].Title == "Col3");
 		}
+		#endregion
 	}
 }
