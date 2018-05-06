@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xamarin.Forms.DataGrid.UnitTest.Common;
@@ -141,6 +142,33 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 
 			sVm.Item = teams.ElementAt(3);
 			Assert.IsTrue(dg.SelectedItem == teams.ElementAt(3));
+		}
+
+		[TestMethod]
+		public void SelectedItemWithoutSelectionEnabled()
+		{
+			var teams = Util.GetTeams();
+
+			var dg = new DataGrid {
+				SelectionEnabled = false,
+			};
+
+			Assert.ThrowsException<InvalidOperationException>(() => dg.SelectedItem = teams.First());
+		}
+
+		[TestMethod]
+		public void SelectedItemBindingWithoutSelectionEnabled()
+		{
+			var teams = Util.GetTeams();
+			var sVm = new SingleVM<Team> {
+				Item = teams.First()
+			};
+
+			var dg = new DataGrid {
+				SelectionEnabled = false,
+			};
+
+			Assert.ThrowsException<InvalidOperationException>(() => dg.SetBinding(DataGrid.SelectedItemProperty, new Binding("Item", source: sVm)));
 		}
 		#endregion
 	}

@@ -220,6 +220,28 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 
 			Assert.ThrowsException<InvalidOperationException>(() => dg.SortedColumnIndex = 1);
 		}
+
+		[TestMethod]
+		public void SortedColumnIndexWithUnsortableDGButSortableColumn()
+		{
+			var vm = new SingleVM<List<Team>> {
+				Item = Util.GetTeams(),
+			};
+
+			var dg = new DataGrid {
+				IsSortable = false,
+				Columns = new ColumnCollection {
+					new DataGridColumn{Title = "Name", PropertyName  = "Name", SortingEnabled = true},
+					new DataGridColumn{Title = "Logo",PropertyName = "Logo"}
+				}
+			};
+
+			dg.SetBinding(DataGrid.ItemsSourceProperty, new Binding("Item", source: vm));
+
+			Assert.ThrowsException<InvalidOperationException>(() => dg.SortedColumnIndex = 0);
+		}
+
+
 		#endregion
 	}
 }
