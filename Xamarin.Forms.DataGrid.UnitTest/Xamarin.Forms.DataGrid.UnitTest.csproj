@@ -70,6 +70,7 @@
     <Compile Include="FontFamilyTest.cs" />
     <Compile Include="FontSizeTest.cs" />
     <Compile Include="HeaderBackgroundColorTest.cs" />
+    <Compile Include="HeaderBordersVisibleTest.cs" />
     <Compile Include="HeaderHeightTest.cs" />
     <Compile Include="IsSortableTest.cs" />
     <Compile Include="ItemsSourceTests.cs" />
