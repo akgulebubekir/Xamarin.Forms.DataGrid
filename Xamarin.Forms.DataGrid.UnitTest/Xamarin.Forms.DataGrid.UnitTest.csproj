@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveRowColorTest.cs" />
     <Compile Include="ColumnTest.cs" />
     <Compile Include="Common\Util.cs" />
     <Compile Include="ItemsSourceTests.cs" />
