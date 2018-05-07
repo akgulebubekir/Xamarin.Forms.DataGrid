@@ -66,6 +66,7 @@
     <Compile Include="ColumnTest.cs" />
     <Compile Include="Common\PaletteProvider.cs" />
     <Compile Include="Common\Util.cs" />
+    <Compile Include="FontSizeTest.cs" />
     <Compile Include="HeaderBackgroundColorTest.cs" />
     <Compile Include="HeaderHeightTest.cs" />
     <Compile Include="IsSortableTest.cs" />
