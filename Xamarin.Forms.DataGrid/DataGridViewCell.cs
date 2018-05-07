@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using Xamarin.Forms;
-using Xamarin.Forms.DataGrid.Utils;
-
-namespace Xamarin.Forms.DataGrid
+﻿namespace Xamarin.Forms.DataGrid
 {
 	internal sealed class DataGridViewCell : ViewCell
 	{
@@ -62,7 +57,8 @@ namespace Xamarin.Forms.DataGrid
 		protected override void OnTapped()
 		{
 			base.OnTapped();
-			if (!DataGrid.IsEnabled || !DataGrid.SelectionEnabled) return;
+			if (!DataGrid.IsEnabled || !DataGrid.SelectionEnabled)
+				return;
 
 			_previouslySelectedViewCell?.UpdateBackgroundColor();
 
@@ -81,8 +77,7 @@ namespace Xamarin.Forms.DataGrid
 				_textColor = DataGrid.RowsTextColorPalette.GetColor(Index, BindingContext);
 			}
 
-			_mainLayout = new Grid()
-			{
+			_mainLayout = new Grid() {
 				BackgroundColor = DataGrid.BorderColor,
 				RowSpacing = 0,
 				ColumnSpacing = DataGrid.BorderThickness.HorizontalThickness / 2,
@@ -106,8 +101,7 @@ namespace Xamarin.Forms.DataGrid
 				}
 				else
 				{
-					var text = new Label
-					{
+					var text = new Label {
 						TextColor = _textColor,
 						HorizontalOptions = col.HorizontalContentAlignment,
 						VerticalOptions = col.VerticalContentAlignment,
@@ -117,8 +111,7 @@ namespace Xamarin.Forms.DataGrid
 					text.SetBinding(Label.FontSizeProperty, new Binding(DataGrid.FontSizeProperty.PropertyName, BindingMode.Default, source: DataGrid));
 					text.SetBinding(Label.FontFamilyProperty, new Binding(DataGrid.FontFamilyProperty.PropertyName, BindingMode.Default, source: DataGrid));
 
-					cell = new ContentView
-					{
+					cell = new ContentView {
 						Padding = 0,
 						BackgroundColor = _bgColor,
 						Content = text,

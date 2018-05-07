@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Xamarin.Forms.DataGrid
 {
@@ -32,8 +28,7 @@ namespace Xamarin.Forms.DataGrid
 
 		public static implicit operator SortData(int index)
 		{
-			return new SortData
-			{
+			return new SortData {
 				Index = Math.Abs(index),
 				Order = index < 0 ? SortingOrder.Descendant : SortingOrder.Ascendant
 			};
