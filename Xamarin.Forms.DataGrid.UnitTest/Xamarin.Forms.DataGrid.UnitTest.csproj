@@ -64,6 +64,7 @@
     <Compile Include="ActiveRowColorTest.cs" />
     <Compile Include="ColumnTest.cs" />
     <Compile Include="Common\Util.cs" />
+    <Compile Include="HeaderBackgroundColorTest.cs" />
     <Compile Include="ItemsSourceTests.cs" />
     <Compile Include="MockPlatform\MockDeserializer.cs" />
     <Compile Include="MockPlatform\MockDeviceInfo.cs" />
