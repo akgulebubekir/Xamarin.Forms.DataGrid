@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xamarin.Forms.DataGrid.UnitTest.Models;
-using Xamarin.Forms.DataGrid.UnitTest.Common;
-using Xamarin.Forms.DataGrid.UnitTest.VM;
 using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xamarin.Forms.DataGrid.UnitTest.Common;
+using Xamarin.Forms.DataGrid.UnitTest.Models;
+using Xamarin.Forms.DataGrid.UnitTest.VM;
 
 namespace Xamarin.Forms.DataGrid.UnitTest
 {
@@ -35,7 +35,14 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 				Item = new SortData(2, SortingOrder.Ascendant),
 			};
 
-			var dg = new DataGrid();
+			var dg = new DataGrid {
+				Columns = new ColumnCollection {
+				new DataGridColumn{Title = "C1", PropertyName="c1"},
+				new DataGridColumn{Title = "C2", PropertyName="c2"},
+				new DataGridColumn{Title = "C3", PropertyName="c3"},
+				}
+			};
+
 			dg.SetBinding(DataGrid.ItemsSourceProperty, new Binding("Item", source: vm));
 			dg.SetBinding(DataGrid.SortedColumnIndexProperty, new Binding("Item", source: sDataVm));
 
@@ -53,7 +60,14 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 				Item = 2
 			};
 
-			var dg = new DataGrid();
+			var dg = new DataGrid {
+				Columns = new ColumnCollection {
+				new DataGridColumn{Title = "C1", PropertyName="c1"},
+				new DataGridColumn{Title = "C2", PropertyName="c2"},
+				new DataGridColumn{Title = "C3", PropertyName="c3"},
+				}
+			};
+
 			dg.SetBinding(DataGrid.ItemsSourceProperty, new Binding("Item", source: vm));
 			dg.SetBinding(DataGrid.SortedColumnIndexProperty, new Binding("Item", source: scVM));
 
@@ -72,17 +86,24 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 				Item = new SortData(2, SortingOrder.Ascendant)
 			};
 
-			var dg = new DataGrid();
+			var dg = new DataGrid {
+				Columns = new ColumnCollection {
+				new DataGridColumn{Title = "C1", PropertyName="c1"},
+				new DataGridColumn{Title = "C2", PropertyName="c2"},
+				new DataGridColumn{Title = "C3", PropertyName="c3"},
+				}
+			};
+
 			dg.SetBinding(DataGrid.ItemsSourceProperty, new Binding("Item", source: vm));
 			dg.SetBinding(DataGrid.SortedColumnIndexProperty, new Binding("Item", mode: BindingMode.TwoWay, source: sVm));
 
 			Assert.IsTrue(dg.SortedColumnIndex.Index == 2 && dg.SortedColumnIndex.Order == SortingOrder.Ascendant);
 
-			dg.SortedColumnIndex = new SortData(4, SortingOrder.Descendant);
-			Assert.IsTrue(sVm.Item.Index == 4 && sVm.Item.Order == SortingOrder.Descendant);
+			dg.SortedColumnIndex = new SortData(1, SortingOrder.Descendant);
+			Assert.IsTrue(sVm.Item.Index == 1 && sVm.Item.Order == SortingOrder.Descendant);
 
-			sVm.Item = new SortData(1, SortingOrder.Ascendant);
-			Assert.IsTrue(dg.SortedColumnIndex.Index == 1 && dg.SortedColumnIndex.Order == SortingOrder.Ascendant);
+			sVm.Item = new SortData(0, SortingOrder.Ascendant);
+			Assert.IsTrue(dg.SortedColumnIndex.Index == 0 && dg.SortedColumnIndex.Order == SortingOrder.Ascendant);
 		}
 
 		[TestMethod]
@@ -96,17 +117,24 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 				Item = 2,
 			};
 
-			var dg = new DataGrid();
+			var dg = new DataGrid {
+				Columns = new ColumnCollection {
+				new DataGridColumn{Title = "C1", PropertyName="c1"},
+				new DataGridColumn{Title = "C2", PropertyName="c2"},
+				new DataGridColumn{Title = "C3", PropertyName="c3"},
+				}
+			};
+
 			dg.SetBinding(DataGrid.ItemsSourceProperty, new Binding("Item", source: vm));
 			dg.SetBinding(DataGrid.SortedColumnIndexProperty, new Binding("Item", mode: BindingMode.TwoWay, source: sVm));
 
 			Assert.IsTrue(dg.SortedColumnIndex.Index == 2 && dg.SortedColumnIndex.Order == SortingOrder.Ascendant);
 
-			dg.SortedColumnIndex = 4;
-			Assert.IsTrue(sVm.Item == 4);
+			dg.SortedColumnIndex = 1;
+			Assert.IsTrue(sVm.Item == 1);
 
-			sVm.Item = -2;
-			Assert.IsTrue(dg.SortedColumnIndex.Index == 2 && dg.SortedColumnIndex.Order == SortingOrder.Descendant);
+			sVm.Item = 0;
+			Assert.IsTrue(dg.SortedColumnIndex.Index == 0);
 		}
 
 		[TestMethod]
@@ -120,10 +148,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 				}
 			};
 
-			dg.SortedColumnIndex = 5;
-
-			Assert.IsTrue(dg.SortedColumnIndex == null);
-
+			Assert.ThrowsException<InvalidOperationException>(() => dg.SortedColumnIndex = 5);
 		}
 
 		[TestMethod]
@@ -134,7 +159,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			};
 
 			var scVm = new SingleVM<SortData> {
-				Item = new SortData(3, SortingOrder.Ascendant),
+				Item = new SortData(1, SortingOrder.Ascendant),
 			};
 
 			var dg = new DataGrid {
@@ -147,7 +172,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			dg.SetBinding(DataGrid.ItemsSourceProperty, new Binding("Item", source: vm));
 			dg.SetBinding(DataGrid.SortedColumnIndexProperty, new Binding("Item", source: scVm));
 
-			Assert.IsTrue(dg.SortedColumnIndex == null);
+			Assert.ThrowsException<InvalidOperationException>(() => scVm.Item = new SortData(5, SortingOrder.Ascendant));
 		}
 
 		[TestMethod]
@@ -158,7 +183,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			};
 
 			var scVm = new SingleVM<int> {
-				Item = 4,
+				Item = 1,
 			};
 
 			var dg = new DataGrid {
@@ -171,7 +196,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			dg.SetBinding(DataGrid.ItemsSourceProperty, new Binding("Item", source: vm));
 			dg.SetBinding(DataGrid.SortedColumnIndexProperty, new Binding("Item", source: scVm));
 
-			Assert.IsTrue(dg.SortedColumnIndex == null);
+			Assert.ThrowsException<InvalidOperationException>(() => scVm.Item = 4);
 		}
 
 		[TestMethod]

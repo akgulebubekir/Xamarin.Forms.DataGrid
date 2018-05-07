@@ -23,7 +23,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 		{
 			var dg = new DataGrid();
 
-			Assert.IsTrue(dg.SelectedItem == null);
+			Assert.IsNull(dg.SelectedItem);
 		}
 
 		[TestMethod]
@@ -34,7 +34,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			var dg = new DataGrid();
 			dg.SelectedItem = teams.First();
 
-			Assert.IsTrue(dg.SelectedItem == null);
+			Assert.IsNull(dg.SelectedItem);
 		}
 
 		[TestMethod]
@@ -49,7 +49,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			dg.ItemsSource = teams.Skip(1);
 
 			Assert.IsTrue(dg.ItemsSource.Cast<Team>().Count() == 14);
-			Assert.IsTrue(dg.SelectedItem == null);
+			Assert.IsNull(dg.SelectedItem);
 
 		}
 
@@ -94,7 +94,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			Assert.IsTrue(dg.SelectedItem == teams.First());
 
 			sVm.Item = null;
-			Assert.IsTrue(dg.SelectedItem == null);
+			Assert.IsNull(dg.SelectedItem);
 
 		}
 
@@ -118,7 +118,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			Assert.IsTrue(dg.SelectedItem == teams.First());
 
 			vm.Item = teams.Skip(1).ToList();
-			Assert.IsTrue(dg.SelectedItem == null);
+			Assert.IsNull(dg.SelectedItem);
 		}
 
 		[TestMethod]
@@ -169,6 +169,24 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			};
 
 			Assert.ThrowsException<InvalidOperationException>(() => dg.SetBinding(DataGrid.SelectedItemProperty, new Binding("Item", source: sVm)));
+		}
+
+		[TestMethod]
+		public void SelectedItemDisablingSelectionAfterSetting()
+		{
+			var teams = Util.GetTeams();
+
+			var dg = new DataGrid {
+				ItemsSource = teams,
+				SelectedItem = teams.First()
+			};
+
+			Assert.IsTrue(dg.SelectedItem == teams.First());
+
+			dg.SelectionEnabled = false;
+			Assert.IsNull(dg.SelectedItem);
+
+
 		}
 		#endregion
 	}
