@@ -81,6 +81,7 @@
     <Compile Include="MockPlatform\MockResourcesProvider.cs" />
     <Compile Include="MockPlatform\MockTicker.cs" />
     <Compile Include="Models\Team.cs" />
+    <Compile Include="NoDataViewTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RowHeightTest.cs" />
     <Compile Include="RowsBackgroundColorTest.cs" />
