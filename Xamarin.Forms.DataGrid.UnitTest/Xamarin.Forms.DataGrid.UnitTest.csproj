@@ -64,6 +64,7 @@
     <Compile Include="ActiveRowColorTest.cs" />
     <Compile Include="BorderColorTest.cs" />
     <Compile Include="ColumnTest.cs" />
+    <Compile Include="Common\PaletteProvider.cs" />
     <Compile Include="Common\Util.cs" />
     <Compile Include="HeaderBackgroundColorTest.cs" />
     <Compile Include="ItemsSourceTests.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="MockPlatform\MockTicker.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RowsBackgroundColorTest.cs" />
     <Compile Include="SelectedItemTest.cs" />
     <Compile Include="SortedColumnIndexTest.cs" />
     <Compile Include="StyleTest.cs" />
