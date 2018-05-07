@@ -68,6 +68,7 @@
     <Compile Include="Common\Util.cs" />
     <Compile Include="HeaderBackgroundColorTest.cs" />
     <Compile Include="HeaderHeightTest.cs" />
+    <Compile Include="IsSortableTest.cs" />
     <Compile Include="ItemsSourceTests.cs" />
     <Compile Include="MockPlatform\MockDeserializer.cs" />
     <Compile Include="MockPlatform\MockDeviceInfo.cs" />
