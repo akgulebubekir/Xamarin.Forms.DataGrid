@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="ActiveRowColorTest.cs" />
     <Compile Include="BorderColorTest.cs" />
+    <Compile Include="BorderThicknessTest.cs" />
     <Compile Include="ColumnTest.cs" />
     <Compile Include="Common\PaletteProvider.cs" />
     <Compile Include="Common\Util.cs" />
