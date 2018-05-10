@@ -101,7 +101,12 @@ namespace Xamarin.Forms.DataGrid
 		}
 
 		public static readonly BindableProperty RowHeightProperty =
-			BindableProperty.Create(nameof(RowHeight), typeof(int), typeof(DataGrid), 40);
+			BindableProperty.Create(nameof(RowHeight), typeof(int), typeof(DataGrid), 40,
+				propertyChanged: (b, o, n) => {
+					var self = b as DataGrid;
+					self._listView.RowHeight = (int)n;
+				});
+
 
 		public static readonly BindableProperty HeaderHeightProperty =
 			BindableProperty.Create(nameof(HeaderHeight), typeof(int), typeof(DataGrid), 40,
