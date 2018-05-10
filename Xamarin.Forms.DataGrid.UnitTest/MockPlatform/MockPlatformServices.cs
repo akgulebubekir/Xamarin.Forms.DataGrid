@@ -109,5 +109,10 @@ namespace Xamarin.Forms.DataGrid.UnitTest.MockPlatform
 		{
 			throw new NotImplementedException();
 		}
+
+		public void QuitApplication()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

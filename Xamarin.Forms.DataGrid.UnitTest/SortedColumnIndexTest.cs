@@ -113,7 +113,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 				Item = Util.GetTeams(),
 			};
 
-			var sVm = new SingleVM<int> {
+			var sVm = new SingleVM<SortData> {
 				Item = 2,
 			};
 
@@ -131,7 +131,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			Assert.IsTrue(dg.SortedColumnIndex.Index == 2 && dg.SortedColumnIndex.Order == SortingOrder.Ascendant);
 
 			dg.SortedColumnIndex = 1;
-			Assert.IsTrue(sVm.Item == 1);
+			Assert.IsTrue(sVm.Item.Index == 1);
 
 			sVm.Item = 0;
 			Assert.IsTrue(dg.SortedColumnIndex.Index == 0);
