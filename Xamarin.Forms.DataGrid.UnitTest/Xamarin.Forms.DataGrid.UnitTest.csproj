@@ -95,6 +95,7 @@
     <Compile Include="SelectedItemTest.cs" />
     <Compile Include="SelectionEnabledTest.cs" />
     <Compile Include="SortedColumnIndexTest.cs" />
+    <Compile Include="SortingIconTest.cs" />
     <Compile Include="StyleTest.cs" />
     <Compile Include="VM\SingleVM.cs" />
   </ItemGroup>

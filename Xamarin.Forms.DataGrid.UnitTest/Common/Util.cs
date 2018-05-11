@@ -16,5 +16,17 @@ namespace Xamarin.Forms.DataGrid.UnitTest.Common
 			Assert.IsTrue(teams.Count == 15);
 			return teams;
 		}
+
+		internal static ColumnCollection CreateColumns()
+		{
+			return new ColumnCollection {
+				new DataGridColumn{PropertyName ="Name", Title = "Name"},
+				new DataGridColumn{PropertyName ="Logo", Title = "Logo"},
+				new DataGridColumn{PropertyName ="Win", Title = "Win"},
+				new DataGridColumn{PropertyName ="Percentage", Title = "Percentage"},
+				new DataGridColumn{PropertyName ="Div", Title = "Div"},
+				new DataGridColumn{PropertyName ="Name", Title = "Name"},
+			};
+		}
 	}
 }
