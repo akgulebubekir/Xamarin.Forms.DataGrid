@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms.DataGrid.Utils;
 
+[assembly: InternalsVisibleTo("Xamarin.Forms.DataGrid.UnitTest")]
 namespace Xamarin.Forms.DataGrid
 {
 	[Xaml.XamlCompilation(Xaml.XamlCompilationOptions.Compile)]
@@ -562,7 +564,7 @@ namespace Xamarin.Forms.DataGrid
 		#endregion
 
 		#region Sorting methods
-		private void SortItems(SortData sData)
+		internal void SortItems(SortData sData)
 		{
 			if (InternalItems == null || sData.Index >= Columns.Count || !Columns[sData.Index].SortingEnabled)
 				return;
