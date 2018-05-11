@@ -2,28 +2,14 @@
 {
 	internal sealed class DataGridViewCell : ViewCell
 	{
-
-		#region Bindable Properties
-		public static readonly BindableProperty DataGridProperty =
-			BindableProperty.Create(nameof(DataGrid), typeof(DataGrid), typeof(DataGridViewCell), null,
-				propertyChanged: (b, o, n) => (b as DataGridViewCell).CreateView());
-
-		public static readonly BindableProperty IndexProperty =
-			BindableProperty.Create(nameof(Index), typeof(int), typeof(DataGridViewCell), 0,
-				propertyChanged: (b, o, n) => (b as DataGridViewCell).UpdateBackgroundColor());
-
-		public static readonly BindableProperty RowContextProperty =
-			BindableProperty.Create(nameof(RowContext), typeof(object), typeof(DataGridViewCell), null);
+		#region Fields
+		Grid _mainLayout;
+		Color _bgColor;
+		Color _textColor;
+		bool _hasSelected;
 		#endregion
 
 		#region properties
-		protected override void OnBindingContextChanged()
-		{
-			base.OnBindingContextChanged();
-			if (BindingContext != null)
-				UpdateBackgroundColor(BindingContext.Equals(_previouslySelectedBindingContext));
-		}
-
 		public DataGrid DataGrid
 		{
 			get { return (DataGrid)GetValue(DataGridProperty); }
@@ -43,37 +29,27 @@
 		}
 		#endregion
 
-		#region Fields
-		static DataGridViewCell _previouslySelectedViewCell;
-		static object _previouslySelectedBindingContext;
+		#region Bindable Properties
+		public static readonly BindableProperty DataGridProperty =
+			BindableProperty.Create(nameof(DataGrid), typeof(DataGrid), typeof(DataGridViewCell), null,
+				propertyChanged: (b, o, n) => (b as DataGridViewCell).CreateView());
 
-		Grid _mainLayout;
-		Color _bgColor;
-		Color _textColor;
+		public static readonly BindableProperty IndexProperty =
+			BindableProperty.Create(nameof(Index), typeof(int), typeof(DataGridViewCell), 0,
+				propertyChanged: (b, o, n) => (b as DataGridViewCell).UpdateBackgroundColor());
 
+		public static readonly BindableProperty RowContextProperty =
+			BindableProperty.Create(nameof(RowContext), typeof(object), typeof(DataGridViewCell),
+				propertyChanged: (b, o, n) => (b as DataGridViewCell).UpdateBackgroundColor());
 		#endregion
 
-		#region UIMethods
-		protected override void OnTapped()
-		{
-			base.OnTapped();
-			if (!DataGrid.IsEnabled || !DataGrid.SelectionEnabled)
-				return;
-
-			_previouslySelectedViewCell?.UpdateBackgroundColor();
-
-			_bgColor = DataGrid.ActiveRowColor;
-			ChangeColor(_bgColor);
-
-			_previouslySelectedViewCell = this;
-			_previouslySelectedBindingContext = BindingContext;
-		}
-
+		#region Methods
 		private void CreateView()
 		{
 			if (Index > -1 && BindingContext != null)
 			{
-				_bgColor = DataGrid.RowsBackgroundColorPalette.GetColor(Index, BindingContext);
+				_bgColor = (DataGrid.SelectionEnabled && DataGrid.SelectedItem == RowContext) ?
+					DataGrid.ActiveRowColor : DataGrid.RowsBackgroundColorPalette.GetColor(Index, BindingContext);
 				_textColor = DataGrid.RowsTextColorPalette.GetColor(Index, BindingContext);
 			}
 
@@ -95,7 +71,7 @@
 					cell = new ContentView() { Content = col.CellTemplate.CreateContent() as View };
 					if (col.PropertyName != null)
 					{
-						cell.SetBinding(BindableObject.BindingContextProperty,
+						cell.SetBinding(BindingContextProperty,
 							new Binding(col.PropertyName, source: RowContext));
 					}
 				}
@@ -127,14 +103,12 @@
 
 		private void UpdateBackgroundColor(bool isSelected = false)
 		{
+			_hasSelected = DataGrid.SelectedItem == RowContext;
 			int actualIndex = DataGrid?.InternalItems?.IndexOf(BindingContext) ?? -1;
-
 			if (actualIndex > -1)
 			{
-
-				_bgColor = isSelected ?
-					DataGrid.ActiveRowColor :
-					DataGrid.RowsBackgroundColorPalette.GetColor(actualIndex, BindingContext);
+				_bgColor = (DataGrid.SelectionEnabled && DataGrid.SelectedItem == RowContext) ?
+					DataGrid.ActiveRowColor : DataGrid.RowsBackgroundColorPalette.GetColor(Index, BindingContext);
 				_textColor = DataGrid.RowsTextColorPalette.GetColor(actualIndex, BindingContext);
 
 				ChangeColor(_bgColor);
@@ -149,6 +123,29 @@
 				var contentView = v as ContentView;
 				if (contentView?.Content is Label)
 					((Label)contentView.Content).TextColor = _textColor;
+			}
+		}
+
+		protected override void OnBindingContextChanged()
+		{
+			base.OnBindingContextChanged();
+			UpdateBackgroundColor(DataGrid.SelectedItem != null && DataGrid.SelectedItem == RowContext);
+		}
+
+		protected override void OnParentSet()
+		{
+			base.OnParentSet();
+			if (Parent != null)
+				DataGrid.ItemSelected += DataGrid_ItemSelected;
+			else
+				DataGrid.ItemSelected -= DataGrid_ItemSelected;
+		}
+
+		private void DataGrid_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			if (DataGrid.SelectionEnabled && (e.SelectedItem == RowContext || _hasSelected))
+			{
+				UpdateBackgroundColor(e.SelectedItem == RowContext);
 			}
 		}
 		#endregion
