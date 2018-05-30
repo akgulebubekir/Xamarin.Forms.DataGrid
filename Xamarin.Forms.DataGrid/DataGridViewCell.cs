@@ -46,14 +46,10 @@
 		#region Methods
 		private void CreateView()
 		{
-			if (Index > -1 && BindingContext != null)
-			{
-				_bgColor = (DataGrid.SelectionEnabled && DataGrid.SelectedItem == RowContext) ?
-					DataGrid.ActiveRowColor : DataGrid.RowsBackgroundColorPalette.GetColor(Index, BindingContext);
-				_textColor = DataGrid.RowsTextColorPalette.GetColor(Index, BindingContext);
-			}
+			UpdateBackgroundColor();
 
-			_mainLayout = new Grid() {
+			_mainLayout = new Grid()
+			{
 				BackgroundColor = DataGrid.BorderColor,
 				RowSpacing = 0,
 				ColumnSpacing = DataGrid.BorderThickness.HorizontalThickness / 2,
@@ -77,7 +73,8 @@
 				}
 				else
 				{
-					var text = new Label {
+					var text = new Label
+					{
 						TextColor = _textColor,
 						HorizontalOptions = col.HorizontalContentAlignment,
 						VerticalOptions = col.VerticalContentAlignment,
@@ -87,7 +84,8 @@
 					text.SetBinding(Label.FontSizeProperty, new Binding(DataGrid.FontSizeProperty.PropertyName, BindingMode.Default, source: DataGrid));
 					text.SetBinding(Label.FontFamilyProperty, new Binding(DataGrid.FontFamilyProperty.PropertyName, BindingMode.Default, source: DataGrid));
 
-					cell = new ContentView {
+					cell = new ContentView
+					{
 						Padding = 0,
 						BackgroundColor = _bgColor,
 						Content = text,
@@ -101,13 +99,13 @@
 			View = _mainLayout;
 		}
 
-		private void UpdateBackgroundColor(bool isSelected = false)
+		private void UpdateBackgroundColor()
 		{
 			_hasSelected = DataGrid.SelectedItem == RowContext;
 			int actualIndex = DataGrid?.InternalItems?.IndexOf(BindingContext) ?? -1;
 			if (actualIndex > -1)
 			{
-				_bgColor = (DataGrid.SelectionEnabled && DataGrid.SelectedItem == RowContext) ?
+				_bgColor = (DataGrid.SelectionEnabled && DataGrid.SelectedItem != null && DataGrid.SelectedItem == RowContext) ?
 					DataGrid.ActiveRowColor : DataGrid.RowsBackgroundColorPalette.GetColor(Index, BindingContext);
 				_textColor = DataGrid.RowsTextColorPalette.GetColor(actualIndex, BindingContext);
 
@@ -129,7 +127,7 @@
 		protected override void OnBindingContextChanged()
 		{
 			base.OnBindingContextChanged();
-			UpdateBackgroundColor(DataGrid.SelectedItem != null && DataGrid.SelectedItem == RowContext);
+			UpdateBackgroundColor();
 		}
 
 		protected override void OnParentSet()
@@ -145,7 +143,7 @@
 		{
 			if (DataGrid.SelectionEnabled && (e.SelectedItem == RowContext || _hasSelected))
 			{
-				UpdateBackgroundColor(e.SelectedItem == RowContext);
+				UpdateBackgroundColor();
 			}
 		}
 		#endregion
