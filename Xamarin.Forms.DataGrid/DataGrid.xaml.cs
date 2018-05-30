@@ -187,7 +187,7 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(SortedColumnIndex), typeof(SortData), typeof(DataGrid), null, BindingMode.TwoWay,
 				coerceValue: (b, v) => {
 					var self = b as DataGrid;
-					if (((SortData)v).Index > self.Columns.Count)
+					if (self.Columns != null && self.Columns.Count > 0 && ((SortData)v).Index > self.Columns.Count)
 						throw new InvalidOperationException("SortedColumnIndex cannot be greather than Columns count");
 					return v;
 				},
