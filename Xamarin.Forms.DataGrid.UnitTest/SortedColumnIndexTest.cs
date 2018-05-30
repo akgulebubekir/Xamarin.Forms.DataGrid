@@ -288,6 +288,26 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 
 			Assert.IsTrue(dg.SortedColumnIndex == vm.Item);
 		}
+
+		[TestMethod]
+		public void SortedColumnIndexBindToNull()
+		{
+			var vm = new SingleVM<SortData> {
+				Item = null
+			};
+
+			var dg = new DataGrid {
+				Columns = new ColumnCollection {
+					new DataGridColumn{Title = "C1", PropertyName="c1"},
+					new DataGridColumn{Title = "C2", PropertyName="c2"},
+					new DataGridColumn{Title = "C3", PropertyName="c3"},
+				}
+			};
+
+			dg.SetBinding(DataGrid.SortedColumnIndexProperty, new Binding("Item", source: vm));
+
+			Assert.IsTrue(dg.SortedColumnIndex == null);
+		}
 		#endregion
 	}
 }
