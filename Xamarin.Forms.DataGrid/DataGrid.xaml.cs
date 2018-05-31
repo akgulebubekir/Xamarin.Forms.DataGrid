@@ -185,11 +185,15 @@ namespace Xamarin.Forms.DataGrid
 
 		public static readonly BindableProperty SortedColumnIndexProperty =
 			BindableProperty.Create(nameof(SortedColumnIndex), typeof(SortData), typeof(DataGrid), null, BindingMode.TwoWay,
-				coerceValue: (b, v) => {
+				validateValue: (b, v) => {
 					var self = b as DataGrid;
-					if (v != null && self.Columns != null && self.Columns.Count > 0 && ((SortData)v).Index > self.Columns.Count)
-						throw new InvalidOperationException("SortedColumnIndex cannot be greather than Columns count");
-					return v;
+					var sData = (SortData)v;
+
+					return
+						sData == null || //setted to null
+						self.Columns == null || // Columns binded but not setted
+						self.Columns.Count == 0 || //columns not setted yet
+						(sData.Index < self.Columns.Count && self.Columns.ElementAt(sData.Index).SortingEnabled);
 				},
 				propertyChanged: (b, o, n) => {
 					var self = b as DataGrid;
@@ -519,7 +523,8 @@ namespace Xamarin.Forms.DataGrid
 					int index = Columns.IndexOf(column);
 					SortingOrder order = _sortingOrders[index] == SortingOrder.Ascendant ? SortingOrder.Descendant : SortingOrder.Ascendant;
 
-					SortedColumnIndex = new SortData(index, order);
+					if (Columns.ElementAt(index).SortingEnabled)
+						SortedColumnIndex = new SortData(index, order);
 				};
 				grid.GestureRecognizers.Add(tgr);
 			}

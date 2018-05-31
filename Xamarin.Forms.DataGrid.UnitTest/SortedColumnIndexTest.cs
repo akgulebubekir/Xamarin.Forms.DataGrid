@@ -148,7 +148,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 				}
 			};
 
-			Assert.ThrowsException<InvalidOperationException>(() => dg.SortedColumnIndex = 5);
+			Assert.ThrowsException<ArgumentException>(() => dg.SortedColumnIndex = 5);
 		}
 
 		[TestMethod]
@@ -172,7 +172,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			dg.SetBinding(DataGrid.ItemsSourceProperty, new Binding("Item", source: vm));
 			dg.SetBinding(DataGrid.SortedColumnIndexProperty, new Binding("Item", source: scVm));
 
-			Assert.ThrowsException<InvalidOperationException>(() => scVm.Item = new SortData(5, SortingOrder.Ascendant));
+			Assert.ThrowsException<ArgumentException>(() => scVm.Item = new SortData(5, SortingOrder.Ascendant));
 		}
 
 		[TestMethod]
@@ -196,7 +196,7 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			dg.SetBinding(DataGrid.ItemsSourceProperty, new Binding("Item", source: vm));
 			dg.SetBinding(DataGrid.SortedColumnIndexProperty, new Binding("Item", source: scVm));
 
-			Assert.ThrowsException<InvalidOperationException>(() => scVm.Item = 4);
+			Assert.ThrowsException<ArgumentException>(() => scVm.Item = 4);
 		}
 
 		[TestMethod]
@@ -307,6 +307,20 @@ namespace Xamarin.Forms.DataGrid.UnitTest
 			dg.SetBinding(DataGrid.SortedColumnIndexProperty, new Binding("Item", source: vm));
 
 			Assert.IsTrue(dg.SortedColumnIndex == null);
+		}
+
+		[TestMethod]
+		public void SortedColumnIndexTryToSetUnsortableColumn()
+		{
+			var dg = new DataGrid {
+				Columns = new ColumnCollection {
+					new DataGridColumn{Title = "C1", PropertyName="c1"},
+					new DataGridColumn{Title = "C2", PropertyName="c2",SortingEnabled = false},
+					new DataGridColumn{Title = "C3", PropertyName="c3"},
+				},
+			};
+
+			Assert.ThrowsException<ArgumentException>(() => dg.SortedColumnIndex= 1);
 		}
 		#endregion
 	}
