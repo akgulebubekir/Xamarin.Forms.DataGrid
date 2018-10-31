@@ -101,8 +101,14 @@ namespace Xamarin.Forms.DataGrid
 			if (SelectedItem != null && !InternalItems.Contains(SelectedItem))
 				SelectedItem = null;
 		}
+        public static readonly BindableProperty HasUnevenRowsProperty =
+            BindableProperty.Create(nameof(HasUnevenRows), typeof(bool), typeof(DataGrid), false,
+                propertyChanged: (b, o, n) => {
+                    var self = b as DataGrid;
+                    self._listView.HasUnevenRows = (bool)n;
+                });
 
-		public static readonly BindableProperty RowHeightProperty =
+        public static readonly BindableProperty RowHeightProperty =
 			BindableProperty.Create(nameof(RowHeight), typeof(int), typeof(DataGrid), 40,
 				propertyChanged: (b, o, n) => {
 					var self = b as DataGrid;
@@ -339,8 +345,13 @@ namespace Xamarin.Forms.DataGrid
 			get { return (string)GetValue(FontFamilyProperty); }
 			set { SetValue(FontFamilyProperty, value); }
 		}
+        public bool HasUnevenRows
+        {
+            get { return (bool)GetValue(HasUnevenRowsProperty); }
+            set { SetValue(HasUnevenRowsProperty, value); }
+        }
 
-		public int RowHeight
+        public int RowHeight
 		{
 			get { return (int)GetValue(RowHeightProperty); }
 			set { SetValue(RowHeightProperty, value); }
@@ -458,6 +469,7 @@ namespace Xamarin.Forms.DataGrid
 				BackgroundColor = Color.Transparent,
 				ItemTemplate = new DataGridRowTemplateSelector(),
 				SeparatorVisibility = SeparatorVisibility.None,
+                HasUnevenRows = HasUnevenRows
 			};
 
 			_listView.ItemSelected += (s, e) => {
