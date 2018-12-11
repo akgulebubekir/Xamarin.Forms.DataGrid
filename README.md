@@ -2,7 +2,7 @@
 Xamarin.Forms.DataGrid
 ======================
 
-[![Build Status](https://www.bitrise.io/app/e72afbfab5432e1d/status.svg?token=Sxj77MEd-bke8RUGugsR2Q)](https://www.bitrise.io/app/e72afbfab5432e1d)    [![NuGet](https://img.shields.io/badge/nuget-v2.0.0-blue.svg?style=plastic)](https://www.nuget.org/packages/Xamarin.Forms.DataGrid)    [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=plastic)](https://gitter.im/Xamarin-Forms-DataGrid/Lobby)
+[![Build Status](https://app.bitrise.io/app/e72afbfab5432e1d/status.svg?token=Sxj77MEd-bke8RUGugsR2Q&branch=master)](https://app.bitrise.io/app/e72afbfab5432e1d)    [![NuGet](https://img.shields.io/badge/nuget-v3.1.0-blue.svg?style=plastic)](https://www.nuget.org/packages/Xamarin.Forms.DataGrid)    [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=plastic)](https://gitter.im/Xamarin-Forms-DataGrid/Lobby)
 
 
  DataGrid library for Xamarin.Forms Application.
