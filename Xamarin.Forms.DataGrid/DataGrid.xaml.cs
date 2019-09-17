@@ -580,8 +580,8 @@ namespace Xamarin.Forms.DataGrid
 
 			if (!IsSortable)
 				throw new InvalidOperationException("This DataGrid is not sortable");
-			else if (column.PropertyName == null)
-				throw new InvalidOperationException("Please set the PropertyName property of Column");
+			else if (column.PropertyName == null && column.SortingPropertyName == null)
+				throw new InvalidOperationException("Please set the PropertyName or SortingPropertyName property of Column");
 
             //Sort
             if (column.SortingPropertyName != null) {  // SortingProperty is defined
