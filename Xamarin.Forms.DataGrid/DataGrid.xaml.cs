@@ -583,11 +583,18 @@ namespace Xamarin.Forms.DataGrid
 			else if (column.PropertyName == null)
 				throw new InvalidOperationException("Please set the PropertyName property of Column");
 
-			//Sort
-			if (order == SortingOrder.Descendant)
-				items = items.OrderByDescending(x => ReflectionUtils.GetValueByPath(x, column.PropertyName)).ToList();
-			else
-				items = items.OrderBy(x => ReflectionUtils.GetValueByPath(x, column.PropertyName)).ToList();
+            //Sort
+            if (column.SortingPropertyName != null) {  // SortingProperty is defined
+                if (order == SortingOrder.Descendant)
+                    items = items.OrderByDescending(x => ReflectionUtils.GetValueByPath(x, column.SortingPropertyName)).ToList();
+                else
+                    items = items.OrderBy(x => ReflectionUtils.GetValueByPath(x, column.SortingPropertyName)).ToList();
+            } else { // SortingProperty is not defined, so go the default route, using PropertyName
+			    if (order == SortingOrder.Descendant)
+				    items = items.OrderByDescending(x => ReflectionUtils.GetValueByPath(x, column.PropertyName)).ToList();
+			    else
+				    items = items.OrderBy(x => ReflectionUtils.GetValueByPath(x, column.PropertyName)).ToList();
+            }
 
 			column.SortingIcon.Style = (order == SortingOrder.Descendant) ?
 				AscendingIconStyle ?? (Style)_headerView.Resources["DescendingIconStyle"] :
