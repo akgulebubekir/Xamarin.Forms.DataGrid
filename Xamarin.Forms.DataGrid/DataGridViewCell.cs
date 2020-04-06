@@ -106,7 +106,7 @@
 			if (actualIndex > -1)
 			{
 				_bgColor = (DataGrid.SelectionEnabled && DataGrid.SelectedItem != null && DataGrid.SelectedItem == RowContext) ?
-					DataGrid.ActiveRowColor : DataGrid.RowsBackgroundColorPalette.GetColor(Index, BindingContext);
+					DataGrid.ActiveRowColor : DataGrid.RowsBackgroundColorPalette.GetColor(actualIndex, BindingContext);
 				_textColor = DataGrid.RowsTextColorPalette.GetColor(actualIndex, BindingContext);
 
 				ChangeColor(_bgColor);
