@@ -48,16 +48,16 @@
 		{
 			UpdateBackgroundColor();
 
-			_mainLayout = new Grid()
-			{
-				BackgroundColor = DataGrid.BorderColor,
-				RowSpacing = 0,
-				ColumnSpacing = DataGrid.BorderThickness.HorizontalThickness / 2,
-				Padding = new Thickness(DataGrid.BorderThickness.HorizontalThickness / 2,
-										DataGrid.BorderThickness.VerticalThickness / 2),
-			};
+            _mainLayout = new Grid()
+            {
+                BackgroundColor = DataGrid.BorderColor,
+                RowSpacing = 0,
+                ColumnSpacing = DataGrid.BorderThickness.HorizontalThickness / 2,
+                Padding = new Thickness(DataGrid.BorderThickness.HorizontalThickness / 2,
+                                        DataGrid.BorderThickness.VerticalThickness / 2),
+            };
 
-			foreach (var col in DataGrid.Columns)
+            foreach (var col in DataGrid.Columns)
 			{
 				_mainLayout.ColumnDefinitions.Add(new ColumnDefinition() { Width = col.Width });
 				View cell;
@@ -75,10 +75,12 @@
 				{
 					var text = new Label
 					{
-						TextColor = _textColor,
+						TextColor = Color.Red,
 						HorizontalOptions = col.HorizontalContentAlignment,
 						VerticalOptions = col.VerticalContentAlignment,
 						LineBreakMode = LineBreakMode.WordWrap,
+                        HorizontalTextAlignment = TextAlignment.Center,
+                        VerticalTextAlignment = TextAlignment.Center,
 					};
 					text.SetBinding(Label.TextProperty, new Binding(col.PropertyName, BindingMode.Default, stringFormat: col.StringFormat));
 					text.SetBinding(Label.FontSizeProperty, new Binding(DataGrid.FontSizeProperty.PropertyName, BindingMode.Default, source: DataGrid));

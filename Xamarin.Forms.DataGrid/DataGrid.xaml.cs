@@ -102,7 +102,14 @@ namespace Xamarin.Forms.DataGrid
 				SelectedItem = null;
 		}
 
-		public static readonly BindableProperty RowHeightProperty =
+        public static readonly BindableProperty HasUnevenRowsProperty =
+            BindableProperty.Create(nameof(HasUnevenRows), typeof(bool), typeof(DataGrid), false,
+                propertyChanged: (b, o, n) => {
+                    var self = b as DataGrid;
+                    self._listView.HasUnevenRows = (bool)n;
+                });
+
+        public static readonly BindableProperty RowHeightProperty =
 			BindableProperty.Create(nameof(RowHeight), typeof(int), typeof(DataGrid), 40,
 				propertyChanged: (b, o, n) => {
 					var self = b as DataGrid;
@@ -339,8 +346,13 @@ namespace Xamarin.Forms.DataGrid
 			get { return (string)GetValue(FontFamilyProperty); }
 			set { SetValue(FontFamilyProperty, value); }
 		}
+        public bool HasUnevenRows
+        {
+            get { return (bool)GetValue(HasUnevenRowsProperty); }
+            set { SetValue(HasUnevenRowsProperty, value); }
+        }
 
-		public int RowHeight
+        public int RowHeight
 		{
 			get { return (int)GetValue(RowHeightProperty); }
 			set { SetValue(RowHeightProperty, value); }
@@ -444,7 +456,7 @@ namespace Xamarin.Forms.DataGrid
 
 		#region ctor
 
-		public DataGrid() : this(ListViewCachingStrategy.RecycleElement)
+		public DataGrid() : this(ListViewCachingStrategy.RetainElement)
 		{
 		}
 
@@ -458,6 +470,7 @@ namespace Xamarin.Forms.DataGrid
 				BackgroundColor = Color.Transparent,
 				ItemTemplate = new DataGridRowTemplateSelector(),
 				SeparatorVisibility = SeparatorVisibility.None,
+                //HasUnevenRows = HasUnevenRows,
 			};
 
 			_listView.ItemSelected += (s, e) => {
@@ -473,8 +486,9 @@ namespace Xamarin.Forms.DataGrid
 				Refreshing?.Invoke(this, e);
 			};
 
-			_listView.SetBinding(ListView.RowHeightProperty, new Binding("RowHeight", source: this));
-			Grid.SetRow(_listView, 1);
+            //if(HasUnevenRows)
+            //    _listView.SetBinding(ListView.RowHeightProperty, new Binding("RowHeight", source: this));
+            Grid.SetRow(_listView, 1);
 			Children.Add(_listView);
 		}
 		#endregion
@@ -483,10 +497,13 @@ namespace Xamarin.Forms.DataGrid
 		protected override void OnParentSet()
 		{
 			base.OnParentSet();
-			InitHeaderView();
-		}
+            //InitHeaderView();
+        }
 
-		protected override void OnBindingContextChanged()
+
+
+
+        protected override void OnBindingContextChanged()
 		{
 			base.OnBindingContextChanged();
 			SetColumnsBindingContext();
@@ -536,28 +553,32 @@ namespace Xamarin.Forms.DataGrid
 
 		private void InitHeaderView()
 		{
-			SetColumnsBindingContext();
-			_headerView.Children.Clear();
-			_headerView.ColumnDefinitions.Clear();
-			_sortingOrders.Clear();
+            if(_headerView?.Children.Count == 0)
+            {
+                SetColumnsBindingContext();
+                _headerView.Children.Clear();
+                _headerView.ColumnDefinitions.Clear();
+                _sortingOrders?.Clear();
 
-			_headerView.Padding = new Thickness(BorderThickness.Left, BorderThickness.Top, BorderThickness.Right, 0);
-			_headerView.ColumnSpacing = BorderThickness.HorizontalThickness / 2;
+                _headerView.Padding = new Thickness(BorderThickness.Left, BorderThickness.Top, BorderThickness.Right, 0);
+                _headerView.ColumnSpacing = BorderThickness.HorizontalThickness / 2;
 
-			if (Columns != null)
-			{
-				foreach (var col in Columns)
-				{
-					_headerView.ColumnDefinitions.Add(new ColumnDefinition { Width = col.Width });
+                if (Columns != null)
+                {
+                    foreach (var col in Columns)
+                    {
+                        _headerView.ColumnDefinitions.Add(new ColumnDefinition { Width = col.Width });
 
-					var cell = GetHeaderViewForColumn(col);
+                        var cell = GetHeaderViewForColumn(col);
 
-					_headerView.Children.Add(cell);
-					Grid.SetColumn(cell, Columns.IndexOf(col));
+                        _headerView.Children.Add(cell);
+                        Grid.SetColumn(cell, Columns.IndexOf(col));
 
-					_sortingOrders.Add(Columns.IndexOf(col), SortingOrder.None);
-				}
-			}
+                        _sortingOrders?.Add(Columns.IndexOf(col), SortingOrder.None);
+                    }
+                }
+            }
+			
 		}
 
 		private void SetColumnsBindingContext()
