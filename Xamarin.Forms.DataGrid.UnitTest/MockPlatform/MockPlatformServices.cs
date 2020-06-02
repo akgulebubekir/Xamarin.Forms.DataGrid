@@ -53,7 +53,12 @@ namespace Xamarin.Forms.DataGrid.UnitTest.MockPlatform
 			}
 		}
 
-		public void OpenUriAction(Uri uri)
+    public Color GetNamedColor(string name)
+    {
+      return Color.Black;
+    }
+
+    public void OpenUriAction(Uri uri)
 		{
 			if (_openUriAction != null)
 				_openUriAction(uri);
@@ -61,12 +66,16 @@ namespace Xamarin.Forms.DataGrid.UnitTest.MockPlatform
 				throw new NotImplementedException();
 		}
 
-		public bool IsInvokeRequired
-		{
-			get { return false; }
-		}
+    public SizeRequest GetNativeSize(VisualElement view, double widthConstraint, double heightConstraint)
+    {
+      throw new NotImplementedException();
+    }
 
-		public string RuntimePlatform { get; set; }
+    public bool IsInvokeRequired => false;
+
+    public OSAppTheme RequestedTheme => OSAppTheme.Unspecified;
+
+    public string RuntimePlatform { get; set; }
 
 		public void BeginInvokeOnMainThread(Action action)
 		{
