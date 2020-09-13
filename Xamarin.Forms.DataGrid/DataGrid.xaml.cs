@@ -621,6 +621,13 @@ namespace Xamarin.Forms.DataGrid
 
 			_listView.ItemsSource = _internalItems;
 		}
-		#endregion
-	}
+        #endregion
+
+        #region Methods
+        public void ScrollTo(object item, ScrollToPosition position, bool animated = true)
+        {
+			_listView.ScrollTo(item, position, animated);
+        }
+        #endregion
+    }
 }
