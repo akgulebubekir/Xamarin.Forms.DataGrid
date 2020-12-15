@@ -23,7 +23,12 @@ namespace Xamarin.Forms.DataGrid.UnitTest.MockPlatform
 			_getStreamAsync = getStreamAsync;
 		}
 
-		public string GetMD5Hash(string input)
+    public string GetHash(string input)
+    {
+      throw new NotImplementedException();
+    }
+
+    public string GetMD5Hash(string input)
 		{
 			throw new NotImplementedException();
 		}
