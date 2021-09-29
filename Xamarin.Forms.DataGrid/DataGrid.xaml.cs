@@ -111,6 +111,12 @@ namespace Xamarin.Forms.DataGrid
 					self._listView.RowHeight = (int)n;
 				});
 
+		public static readonly BindableProperty HasUnevenRowsProperty =
+			BindableProperty.Create(nameof(HasUnevenRows), typeof(bool), typeof(DataGrid), false,
+				propertyChanged: (b, o, n) => {
+					var self = b as DataGrid;
+					self._listView.HasUnevenRows = (bool)n;
+		});
 
 		public static readonly BindableProperty HeaderHeightProperty =
 			BindableProperty.Create(nameof(HeaderHeight), typeof(int), typeof(DataGrid), 40,
@@ -348,6 +354,12 @@ namespace Xamarin.Forms.DataGrid
 			set { SetValue(RowHeightProperty, value); }
 		}
 
+		public bool HasUnevenRows
+		{
+			get { return (bool)GetValue(HasUnevenRowsProperty); }
+			set { SetValue(HasUnevenRowsProperty, value); }
+		}
+
 		public int HeaderHeight
 		{
 			get { return (int)GetValue(HeaderHeightProperty); }
@@ -484,6 +496,7 @@ namespace Xamarin.Forms.DataGrid
 			};
 
 			_listView.SetBinding(ListView.RowHeightProperty, new Binding("RowHeight", source: this));
+			_listView.SetBinding(ListView.HasUnevenRowsProperty, new Binding("HasUnevenRows", source: this));
 			Grid.SetRow(_listView, 1);
 			Children.Add(_listView);
 		}
