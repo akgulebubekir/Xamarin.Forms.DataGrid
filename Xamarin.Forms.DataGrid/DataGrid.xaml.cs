@@ -18,6 +18,7 @@ namespace Xamarin.Forms.DataGrid
 		public event EventHandler<SelectedItemChangedEventArgs> ItemSelected;
 		public event EventHandler<ItemVisibilityEventArgs> ItemAppearing;
 		public event EventHandler<ItemVisibilityEventArgs> ItemDisappearing;
+		public event EventHandler<ScrolledEventArgs> Scrolled;
 
 		#region Bindable properties
 		public static readonly BindableProperty ActiveRowColorProperty =
@@ -493,6 +494,10 @@ namespace Xamarin.Forms.DataGrid
 
 			_listView.ItemDisappearing += (s, e) => {
 				ItemDisappearing?.Invoke(this, e);
+			};
+
+			_listView.Scrolled += (s, e) => {
+				Scrolled?.Invoke(this, e);
 			};
 
 			_listView.SetBinding(ListView.RowHeightProperty, new Binding("RowHeight", source: this));
