@@ -7,20 +7,10 @@
 			 Title="DataGrid Test">
 	<ContentView BackgroundColor="White" Padding="20">
 
-
 		<dg:DataGrid ItemsSource="{Binding Teams}" SelectionEnabled="True" SelectedItem="{Binding SelectedTeam}"
 						 RowHeight="70" HeaderHeight="50" BorderColor="#CCCCCC" HeaderBackground="#E0E6F8"
 						 PullToRefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}"
 						 ActiveRowColor="#8899AA">
-			<x:Arguments>
-				<ListViewCachingStrategy>RetainElement</ListViewCachingStrategy>
-			</x:Arguments>
-			<dg:DataGrid.HeaderFontSize>
-				<OnIdiom  x:TypeArguments="x:Double">
-					<OnIdiom.Tablet>15</OnIdiom.Tablet>
-					<OnIdiom.Phone>12</OnIdiom.Phone>
-				</OnIdiom>
-			</dg:DataGrid.HeaderFontSize>
 			<dg:DataGrid.Columns>
 				<dg:DataGridColumn Title="Logo" PropertyName="Logo" Width="100" SortingEnabled="False">
 					<dg:DataGridColumn.CellTemplate>

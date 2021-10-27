@@ -19,13 +19,13 @@ namespace DataGridSample.ViewModels
 		#region Properties
 		public List<Team> Teams
 		{
-			get { return teams; }
+			get => teams;
 			set { teams = value; OnPropertyChanged(nameof(Teams)); }
 		}
 
 		public Team SelectedTeam
 		{
-			get { return selectedItem; }
+			get => selectedItem;
 			set
 			{
 				selectedItem = value;
@@ -35,7 +35,7 @@ namespace DataGridSample.ViewModels
 
 		public bool IsRefreshing
 		{
-			get { return isRefreshing; }
+			get => isRefreshing;
 			set { isRefreshing = value; OnPropertyChanged(nameof(IsRefreshing)); }
 		}
 
@@ -61,8 +61,7 @@ namespace DataGridSample.ViewModels
 
 		private void OnPropertyChanged(string property)
 		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(property));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 		}
 
 		#endregion

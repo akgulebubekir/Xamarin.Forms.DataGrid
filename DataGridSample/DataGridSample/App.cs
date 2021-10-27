@@ -9,7 +9,7 @@ namespace DataGridSample
 			//Load the assembly
 			Xamarin.Forms.DataGrid.DataGridComponent.Init();
 
-			MainPage = new MainPage() { BindingContext = new ViewModels.MainViewModel() };
+			MainPage = new MainPage { BindingContext = new ViewModels.MainViewModel() };
 		}
 
 		#region App Lifecycle

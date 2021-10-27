@@ -36,14 +36,12 @@ namespace Xamarin.Forms.DataGrid
 
 		public override bool Equals(object obj)
 		{
-			if (obj is SortData)
+			if (obj is SortData other)
 			{
-				SortData other = obj as SortData;
 				return other.Index == Index && other.Order == Order;
 			}
-			else
-				return false;
-		}
 
+			return false;
+		}
 	}
 }

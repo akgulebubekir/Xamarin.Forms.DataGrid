@@ -16,14 +16,13 @@ namespace DataGridSample.Views.Converters
 			if (value == null)
 				return Color.Transparent;
 
-			string val = value.ToString();
+			var val = value.ToString();
 
 			var tokens = val.Split(' ');
 			if (tokens.Length != 2)
 				throw new ArgumentException("incorrect streak format");
 
-			int numStreak;
-			if (!int.TryParse(tokens[1], out numStreak))
+			if (!int.TryParse(tokens[1], out var numStreak))
 				throw new ArgumentException("incorrect streak format");
 
 			if (tokens.First() == "W")

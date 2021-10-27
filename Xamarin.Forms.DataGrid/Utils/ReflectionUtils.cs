@@ -12,7 +12,7 @@ namespace Xamarin.Forms.DataGrid.Utils
 
 		public static object GetValueByPath(object obj, string path)
 		{
-			object result = obj;
+			var result = obj;
 			var tokens = path?.Split(IndexBeginOp, PropertyOfOp).ToList();
 			foreach (var token in tokens)
 			{
@@ -21,15 +21,12 @@ namespace Xamarin.Forms.DataGrid.Utils
 
 				//  Property
 				if (!token.Contains(IndexEndOp.ToString()))
-				{
 					result = GetPropertyValue(result, token);
-				}
 				// Index
 				else
-				{
 					result = GetIndexValue(result, token.Replace(IndexEndOp.ToString(), ""));
-				}
 			}
+
 			return result;
 		}
 
@@ -55,11 +52,11 @@ namespace Xamarin.Forms.DataGrid.Utils
 				// Looking up suitable index operator
 				foreach (var parameter in indexParameters)
 				{
-					bool isIndexOpWorked = true;
+					var isIndexOpWorked = true;
 					try
 					{
 						var indexVal = Convert.ChangeType(index, parameter.ParameterType);
-						result = indexOperator.GetValue(obj, new object[] { indexVal });
+						result = indexOperator.GetValue(obj, new[] {indexVal});
 					}
 					catch
 					{
@@ -71,6 +68,7 @@ namespace Xamarin.Forms.DataGrid.Utils
 						break;
 				}
 			}
+
 			return result;
 		}
 	}

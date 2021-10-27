@@ -6,17 +6,19 @@ using Newtonsoft.Json;
 
 namespace DataGridSample.Utils
 {
-	static class DummyDataProvider
+	internal static class DummyDataProvider
 	{
 		public static List<Team> GetTeams()
 		{
 			var assembly = typeof(DummyDataProvider).GetTypeInfo().Assembly;
-			Stream stream = assembly.GetManifestResourceStream("DataGridSample.teams.json");
-			string json = string.Empty;
+			string json;
 
-			using (var reader = new StreamReader(stream))
+			using (var stream = assembly.GetManifestResourceStream("DataGridSample.teams.json"))
 			{
-				json = reader.ReadToEnd();
+				using (var reader = new StreamReader(stream))
+				{
+					json = reader.ReadToEnd();
+				}
 			}
 
 			return JsonConvert.DeserializeObject<List<Team>>(json);
