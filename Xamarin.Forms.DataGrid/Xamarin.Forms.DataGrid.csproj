@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>Ebubekir Akgul</Authors>
-		<Version>4.8.0</Version>
+		<Version>5.0.0.2515</Version>
 		<Description>DataGrid component for Xamarin.Forms</Description>
 		<PackageLicenseUrl></PackageLicenseUrl>
 		<PackageProjectUrl>https://github.com/akgulebubekir/Xamarin.Forms.DataGrid</PackageProjectUrl>
@@ -35,7 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
+		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />
 	</ItemGroup>
 
 	<ItemGroup>
