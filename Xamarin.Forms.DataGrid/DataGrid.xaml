@@ -47,7 +47,7 @@
 		</Grid.Resources>
 	</Grid>
 	<RefreshView Grid.Row="1" x:Name="_refreshView" Grid.RowSpan="2" >
-		<CollectionView x:Name="_collectionView" ItemTemplate="{StaticResource RowTemplateSelector}" />
+		<CollectionView x:Name="_collectionView" ItemTemplate="{StaticResource RowTemplateSelector}" SelectionMode="Single" />
 	</RefreshView>
 
 </Grid>

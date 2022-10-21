@@ -141,7 +141,18 @@ namespace Xamarin.Forms.DataGrid
 			BindableProperty.Create(nameof(SelectionEnabled), typeof(bool), typeof(DataGrid), true,
 				propertyChanged: (b, o, n) => {
 					var self = (DataGrid)b;
-					if (!self.SelectionEnabled && self.SelectedItem != null)
+
+					// set selectionMode of collectionView
+                    if (self.SelectionEnabled)
+                    {
+                        if (self._collectionView.SelectionMode == SelectionMode.None)
+                            self._collectionView.SelectionMode = SelectionMode.Single;
+                    }
+                    else if (self._collectionView.SelectionMode != SelectionMode.None)
+                        self._collectionView.SelectionMode = SelectionMode.None;
+
+					// handle selected Item
+                    if (!self.SelectionEnabled && self.SelectedItem != null)
 						self.SelectedItem = null;
 				});
 
