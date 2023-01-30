@@ -10,7 +10,7 @@
 ---
 
 ### Custom Sorting Image ###
-> Note : Default sorting icon size is 9x5(w*h). If you need to use bigger icon you need to override `AscendingIconStyle` and `DescendingIconStyle` like below.
+> Note : Default sorting icon is  a polygon that visualizes itself at the right of the column. If you need to change icon style i.e: color, shape, stroke etc. you can override `SortIconStyle` like below.
 
 ```xaml
     xmlns:dg="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
@@ -18,8 +18,7 @@
 
 <dg:DataGrid ItemsSource="{Binding Teams}" RowHeight="70" HeaderHeight="50"
              BorderColor="#CCCCCC" HeaderBackground="#E0E6F8"
-             AscendingIconStyle="{StaticResource AscendingIconStyle}"
-             DescendingIconStyle="{StaticResource DescendingIconStyle}">
+             SortIconStyle="{StaticResource SortIconStyle}"
             <dg:DataGrid.HeaderFontSize>
                 <OnIdiom  x:TypeArguments="x:Double">
                     <OnIdiom.Tablet>15</OnIdiom.Tablet>
@@ -59,19 +58,9 @@
             <dg:DataGrid.Resources>
                 <ResourceDictionary>
                     <conv:StreakToColorConverter x:Key="StreakToColorConverter"/>
-                    <Style x:Key="SortingImageStyleBase" TargetType="Image">
-                        <Setter Property="Aspect" Value="AspectFit"/>
-                        <Setter Property="VerticalOptions" Value="Center"/>
-                        <Setter Property="HorizontalOptions" Value="Center"/>
-                        <Setter Property="HeightRequest" Value="15"/>
-                        <Setter Property="WidthRequest" Value="15"/>
-                        <Setter Property="Margin" Value="0,0,4,0"/>
-                    </Style>
-                    <Style x:Key="AscendingIconStyle" TargetType="Image" BasedOn="{StaticResource SortingImageStyleBase}">
-                        <Setter Property="Source" Value="arrow_down.png"/>
-                    </Style>
-                    <Style x:Key="DescendingIconStyle" TargetType="Image" BasedOn="{StaticResource SortingImageStyleBase}">
-                        <Setter Property="Source" Value="arrow_up.png"/>
+                    <Style x:Key="SortIconStyle" TargetType="Polygon">
+                        <Setter Property="Stroke" Value="Maroon"/>
+                        <Setter Property="Fill" Value="Orange"/>
                     </Style>
                 </ResourceDictionary>
             </dg:DataGrid.Resources>
