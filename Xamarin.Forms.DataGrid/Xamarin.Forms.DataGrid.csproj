@@ -22,17 +22,7 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <WarningLevel>5</WarningLevel>
-	</PropertyGroup> 
-	
-	<ItemGroup>
-		<None Remove="down.png" />
-		<None Remove="up.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Include="down.png" />
-		<EmbeddedResource Include="up.png" />
-	</ItemGroup>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />
